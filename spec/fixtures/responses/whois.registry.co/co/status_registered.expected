@@ -1,0 +1,11 @@
+#domain
+  %s == "google.co"
+
+#status
+  %s == ["clientTransferProhibited https://icann.org/epp#clientTransferProhibited"]
+
+#available?
+  %s == false
+
+#registered?
+  %s == true

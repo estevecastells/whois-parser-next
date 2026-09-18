@@ -1,0 +1,11 @@
+#domain
+  %s == "denic.de"
+
+#status
+  %s == :registered
+
+#available?
+  %s == false
+
+#registered?
+  %s == true

@@ -20,6 +20,10 @@ module Whois
     #
     class WhoisNicIo < BaseIcb
 
+      self.scanner = Scanners::BaseIcannCompliant, {
+          pattern_available: /^(?:NOT FOUND|Domain not found\.)/,
+      }
+
       property_supported :domain do
         if reserved?
           nil

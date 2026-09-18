@@ -1,0 +1,11 @@
+#status
+  %s == []
+
+#available?
+  %s == true
+
+#registered?
+  %s == false
+
+#reserved?
+  %s == false

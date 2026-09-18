@@ -1,0 +1,11 @@
+#domain
+  %s == "google.site"
+
+#status
+  %s == :registered
+
+#available?
+  %s == false
+
+#registered?
+  %s == true
