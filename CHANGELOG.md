@@ -3,6 +3,15 @@
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 
+#### Unreleased 0.1.0
+
+- CHANGED: Continued the project as `whois-parser-next`, with the original MIT
+  license, attribution, and Git history preserved.
+- CHANGED: Established Ruby 3.2 as the minimum supported version and refreshed
+  the maintained dependency range.
+- ADDED: Audits and regression fixtures for current registry responses.
+
+
 #### Release 2.0.0
 
 - CHANGED: Minimum Ruby version 2.6

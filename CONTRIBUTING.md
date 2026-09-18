@@ -5,7 +5,7 @@
 Fork, then clone the repo:
 
 ~~~shell
-git clone git@github.com:your-username/whois-parser.git
+git clone git@github.com:your-username/whois-parser-next.git
 ~~~
 
 Set up your machine:
@@ -44,7 +44,7 @@ Commit your changes:
 git commit -am 'Add some feature'
 ~~~
 
-Push to your fork and [submit a pull request](https://github.com/weppos/whois-parser/compare/).
+Push to your fork and [submit a pull request](https://github.com/estevecastells/whois-parser-next/compare/).
 
 
 ## Tests
