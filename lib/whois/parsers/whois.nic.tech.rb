@@ -19,6 +19,11 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisNicTech < WhoisCentralnicCom
+      # The Radix registry uses the standard availability sentence rather
+      # than the older CentralNic `DOMAIN NOT FOUND` response.
+      property_supported :available? do
+        super() || !!(content_for_scanner =~ /^>>> Domain .+ is available for registration/)
+      end
     end
 
   end

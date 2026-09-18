@@ -1,0 +1,9 @@
+Domain name: google.nl
+Status:      active
+
+Domain nameservers:
+   ns1.google.com
+   ns2.google.com
+
+Creation Date: 1999-05-27
+Updated Date: 2025-04-18

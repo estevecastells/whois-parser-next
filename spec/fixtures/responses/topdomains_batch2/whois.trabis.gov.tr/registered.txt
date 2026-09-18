@@ -1,0 +1,9 @@
+** Domain Name: google.com.tr
+Domain Status: Active
+** Domain Servers:
+ns4.google.com
+ns1.google.com
+
+** Additional Info:
+Created on..............: 2001-Aug-23.
+Expires on..............: 2027-Aug-22.

@@ -1,0 +1,3 @@
+Domain not found.
+>>> Last update of WHOIS database: 2026-09-18T22:50:08Z <<<
+Footer text is ignored after the last update marker.

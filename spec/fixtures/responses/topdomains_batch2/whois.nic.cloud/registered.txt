@@ -1,0 +1,10 @@
+Domain Name: google.cloud
+Registry Domain ID: DDDAA72F4F319486082E1B91922F2483D-ARI
+Updated Date: 2025-12-31T10:37:04.462Z
+Creation Date: 2016-01-27T01:19:35.486Z
+Registry Expiry Date: 2027-01-27T01:19:35.486Z
+Registrar: MarkMonitor Inc.
+Registrar IANA ID: 292
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Name Server: ns1.google.com
+Name Server: ns2.google.com

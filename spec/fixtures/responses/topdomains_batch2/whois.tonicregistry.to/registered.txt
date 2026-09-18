@@ -1,0 +1,8 @@
+Domain Name: go.to
+Registry Domain ID: DO_f31b43268de2f631057fedd91da3a476-TONIC
+Updated Date: 2024-07-15T23:54:47.000Z
+Creation Date: 2012-08-31T19:58:44.000Z
+Registry Expiry Date: 2027-08-31T19:58:44.000Z
+Registrar: Government of Kingdom of Tonga
+Domain Status: ok https://icann.org/epp#ok
+Name Server: ns-1074.awsdns-06.org

@@ -1,0 +1,10 @@
+Domain Name: google.co.in
+Registry Domain ID: D8357-IN
+Updated Date: 2026-05-27T10:24:48.840Z
+Creation Date: 2003-06-23T14:02:33.982Z
+Registry Expiry Date: 2027-06-23T14:02:33.027Z
+Registrar: MarkMonitor Inc.
+Registrar IANA ID: 292
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Name Server: ns1.google.com
+Name Server: ns2.google.com

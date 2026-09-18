@@ -44,6 +44,8 @@ module Whois
           case node("status", &:downcase)
           when "granted"
             :registered
+          when "registered"
+            :registered
           when "grace period"
             :registered
           else

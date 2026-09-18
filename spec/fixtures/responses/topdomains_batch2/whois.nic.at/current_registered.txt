@@ -1,0 +1,4 @@
+domain:         google.at
+changed:        20241113 19:36:02
+nserver:        ns1.google.com
+nserver:        ns2.google.com

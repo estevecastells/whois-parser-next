@@ -1,0 +1,11 @@
+Domain Name: google.com.au
+Registry Domain ID: 92bb371462a94cd584a36765406a795d-AU
+Registrar WHOIS Server: whois.auda.org.au
+Last Modified: 2026-08-15T21:50:56Z
+Registrar Name: MarkMonitor Corporate Services Inc
+Status: clientDeleteProhibited https://identitydigital.au/whois-status-codes#clientDeleteProhibited
+Name Server: ns1.google.com
+Name Server: ns2.google.com
+DNSSEC: unsigned
+>>> Last update of WHOIS database: 2026-09-18T22:50:08Z <<<
+Footer text is ignored after the last update marker.

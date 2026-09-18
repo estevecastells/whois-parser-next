@@ -31,14 +31,42 @@ module Whois
 
 
       property_supported :domain do
-        node("Domain name")
+        node("Domain name") || node("Domain Name")
       end
 
       property_not_supported :domain_id
 
 
       property_supported :status do
-        if content_for_scanner =~ /Domain status:\s+(.+?)\n/
+        status_value = node("Domain status") || node("Domain Status")
+
+        if status_value
+          case Array.wrap(status_value).map { |value| value.to_s.downcase.sub(/\s+https?:\/\/.*\z/, "") }
+          when ["registered"]
+            :registered
+          when ["redemption"]
+            :registered
+          when ["auto-renew grace"]
+            :registered
+          when ["to be released"]
+            :registered
+          when ["pending delete"]
+            :registered
+          when ["available"]
+            :available
+          when ["unavailable"]
+            :invalid
+          else
+            epp_statuses = Array.wrap(status_value).map { |value| value.to_s.downcase.sub(/\s+https?:\/\/.*\z/, "") }
+            if epp_statuses.all? { |value| value.match?(/\A(?:client|server)(?:delete|transfer|update|renew)prohibited\z/) }
+              :registered
+            else
+              Whois::Parser.bug!(ParserError, "Unknown status `#{epp_statuses.join(', ')}'.")
+            end
+          end
+        elsif content_for_scanner =~ /^Not found:\s+/i
+          :available
+        elsif content_for_scanner =~ /Domain status:\s+(.+?)\n/
           case node("Domain status", &:downcase)
           when "registered"
             :registered
@@ -72,25 +100,32 @@ module Whois
 
 
       property_supported :created_on do
-        node("Creation date") { |str| parse_time(str) }
+        value = node("Creation date") || node("Creation Date")
+        parse_time(value) if value
       end
 
       property_supported :updated_on do
-        node("Updated date") { |str| parse_time(str) }
+        value = node("Updated date") || node("Updated Date")
+        parse_time(value) if value
       end
 
       property_supported :expires_on do
-        node("Expiry date") { |str| parse_time(str) }
+        value = node("Expiry date") || node("Registry Expiry Date")
+        parse_time(value) if value
       end
 
 
       property_supported :registrar do
-        node("Registrar") do |hash|
-          Parser::Registrar.new(
-            id:           hash["Number"],
-            name:         hash["Name"],
-            organization: hash["Name"]
-          )
+        node("Registrar") do |value|
+          if value.is_a?(Hash)
+            Parser::Registrar.new(
+              id:           value["Number"],
+              name:         value["Name"],
+              organization: value["Name"]
+            )
+          else
+            Parser::Registrar.new(name: value, organization: value)
+          end
         end
       end
 
@@ -109,7 +144,7 @@ module Whois
 
 
       property_supported :nameservers do
-        Array.wrap(node("nserver")).map do |line|
+        Array.wrap(node("nserver") || node("Name Server") || node("field:nameservers")).map do |line|
           name, ipv4 = line.split(/\s+/)
           Parser::Nameserver.new(:name => name, :ipv4 => ipv4)
         end
@@ -125,7 +160,7 @@ module Whois
       #   ns2.google.com  216.239.34.10
       #
       property_supported :nameservers do
-        Array.wrap(node("field:nameservers")).map do |line|
+        Array.wrap(node("field:nameservers") || node("Name Server") || node("nserver")).map do |line|
           name, ipv4 = line.strip.split(/\s+/)
           Parser::Nameserver.new(:name => name, :ipv4 => ipv4)
         end

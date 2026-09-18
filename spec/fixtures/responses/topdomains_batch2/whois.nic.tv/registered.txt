@@ -1,0 +1,10 @@
+Domain Name: google.tv
+Registry Domain ID: REDACTED FOR PRIVACY
+Updated Date: 2026-07-06T10:13:54Z
+Creation Date: 2002-08-02T16:43:36Z
+Registry Expiry Date: 2027-08-02T16:43:36Z
+Registrar: MarkMonitor, Inc.
+Registrar IANA ID: 292
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Name Server: ns1.google.com
+Name Server: ns2.google.com

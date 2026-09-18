@@ -24,6 +24,10 @@ module Whois
     #
     class WhoisNicAt < Base
 
+      property_supported :domain do
+        content_for_scanner.slice(/^domain:\s+(.+)\n/i, 1)
+      end
+
       property_supported :status do
         if available?
           :available

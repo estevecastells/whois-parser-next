@@ -1,0 +1,7 @@
+Domain Name: google.ca
+Updated Date: 2026-04-28T04:05:31Z
+Creation Date: 2000-10-04T02:21:23Z
+Registry Expiry Date: 2027-04-28T04:00:00Z
+Registrar: MarkMonitor International Canada Ltd.
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Name Server: ns1.google.com

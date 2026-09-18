@@ -24,6 +24,10 @@ module Whois
     #
     class WhoisDomainRegistryNl < Base
 
+      property_supported :domain do
+        content_for_scanner.slice(/Domain name:\s+(.+?)\n/i, 1)
+      end
+
       # == Values for Status
       #
       # - free: the .nl domain name is still available for registration
@@ -64,13 +68,13 @@ module Whois
 
 
       property_supported :created_on do
-        if content_for_scanner =~ /Date registered:\s+(.+)\n/
+        if content_for_scanner =~ /(?:Date registered|Creation Date):\s+(.+)\n/i
           parse_time(::Regexp.last_match(1))
         end
       end
 
       property_supported :updated_on do
-        if content_for_scanner =~ /Record last updated:\s+(.+)\n/
+        if content_for_scanner =~ /(?:Record last updated|Updated Date):\s+(.+)\n/i
           parse_time(::Regexp.last_match(1))
         end
       end

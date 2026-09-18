@@ -1,0 +1,5 @@
+Domain Name: google.ms
+Domain Status: active https://icann.org/epp#active
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Creation Date: 1999-06-04T12:00:00Z
+Name Server: ns1.google.com
