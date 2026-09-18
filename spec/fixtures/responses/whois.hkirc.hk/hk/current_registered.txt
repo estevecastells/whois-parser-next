@@ -1,0 +1,8 @@
+Domain Name:  GOOGLE.HK
+Domain Name Commencement Date: 06-04-2004
+Expiry Date: 31-03-2027
+Domain Status: Active
+Name Servers Information:
+
+ns1.google.com
+ns2.google.com

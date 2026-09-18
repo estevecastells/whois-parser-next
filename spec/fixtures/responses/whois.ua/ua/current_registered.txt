@@ -1,0 +1,8 @@
+domain:           google.com.ua
+nserver:          ns1.google.com
+status:           clientDeleteProhibited
+status:           clientTransferProhibited
+created:          2002-12-04 00:00:00+02
+modified:         2025-11-02 12:12:28+02
+expires:          2026-12-04 00:00:00+02
+source:           UAEPP

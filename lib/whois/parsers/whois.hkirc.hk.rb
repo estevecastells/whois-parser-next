@@ -33,7 +33,8 @@ module Whois
       end
 
       property_supported :available? do
-        content_for_scanner.strip == 'The domain has not been registered.'
+        content_for_scanner.strip == 'The domain has not been registered.' ||
+          content_for_scanner.strip == 'CMM174'
       end
 
       property_supported :registered? do

@@ -32,7 +32,7 @@ module Whois
       # @see http://www.inwx.de/en/sk-domain.html
       #
       property_supported :status do
-        if content_for_scanner =~ /^Domain-status\s+(.+)\n/
+        if content_for_scanner =~ /^Domain(?:-|\s+)status:?\s+(.+)\n/i
           case ::Regexp.last_match(1).downcase
           # The domain is registered and paid.
           when  "dom_ok"
@@ -58,7 +58,10 @@ module Whois
           when  "dom_held"
             :redemption
           else
-            Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
+            # Current responses expose EPP status values instead of the
+            # historical DOM_* values. A status line still proves that the
+            # domain is registered.
+            :registered
           end
         else
           :available
@@ -66,7 +69,7 @@ module Whois
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /^Not found/)
+        !!(content_for_scanner =~ /^(?:Not found|Domain not found)\.?\s*$/i)
       end
 
       property_supported :registered? do
@@ -90,7 +93,7 @@ module Whois
 
 
       property_supported :nameservers do
-        content_for_scanner.scan(/dns_name\s+(.+)\n/).flatten.map do |name|
+        content_for_scanner.scan(/(?:dns_name|Nameserver:)\s+(.+)\n/i).flatten.map do |name|
           Parser::Nameserver.new(:name => name)
         end
       end

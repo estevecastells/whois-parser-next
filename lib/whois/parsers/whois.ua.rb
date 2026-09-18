@@ -29,6 +29,8 @@ module Whois
             case (s = ::Regexp.last_match(1).downcase)
             when "ok", "clienthold", "autorenewgraceperiod", "clienttransferprohibited"
               :registered
+            when /(?:prohibited|linked)\z/
+              :registered
             when "redemptionperiod", "pendingdelete"
               :redemption
             else

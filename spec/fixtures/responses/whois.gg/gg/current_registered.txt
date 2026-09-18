@@ -1,0 +1,15 @@
+Domain:
+     google.gg
+
+Domain Status:
+     Active
+
+Registrar:
+     MarkMonitor Inc. (http://www.markmonitor.com)
+
+Relevant dates:
+     Registered on 30th April 2003 at 00:00:00.000
+
+Name servers:
+     ns1.google.com
+     ns2.google.com

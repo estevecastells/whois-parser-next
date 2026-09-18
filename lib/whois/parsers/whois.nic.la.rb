@@ -19,6 +19,13 @@ module Whois
     # It aliases the whois.centralnic.com parser because
     # the .LA TLD is powered by Centralnic.
     class WhoisNicLa < WhoisCentralnicCom
+
+      # Current CentralNic responses prefix the availability marker with a
+      # sentence, while older responses started with the marker itself.
+      property_supported :available? do
+        !!(content_for_scanner =~ /^.*DOMAIN NOT FOUND\s*$/i)
+      end
+
     end
 
   end

@@ -1,0 +1,4 @@
+Domain Name:	google.im
+Domain Details
+Name Server:ns1.google.com.
+Name Server:ns2.google.com.

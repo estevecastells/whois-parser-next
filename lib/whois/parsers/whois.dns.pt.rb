@@ -25,9 +25,9 @@ module Whois
     class WhoisDnsPt < Base
 
       property_supported :status do
-        if content_for_scanner =~ %r{^Estado / Status:\s+(.+)\n}
+        if content_for_scanner =~ %r{^(?:Estado / Status|Domain Status):\s+(.+)$}i
           case ::Regexp.last_match(1).downcase
-          when "active"
+          when "active", "registered"
             :registered
           when "reserved"
             :reserved
@@ -42,7 +42,7 @@ module Whois
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /^.* no match$/)
+        !!(content_for_scanner =~ /^.* no match\s*$/i)
       end
 
       property_supported :registered? do
@@ -52,7 +52,9 @@ module Whois
 
       property_supported :created_on do
         if content_for_scanner =~ / Creation Date .+?:\s+(.+)\n/
-          Time.utc(*::Regexp.last_match(1).split("/").reverse)
+          parse_pt_date(::Regexp.last_match(1))
+        elsif content_for_scanner =~ /^Creation Date:\s+(.+)$/i
+          parse_pt_date(::Regexp.last_match(1))
         end
       end
 
@@ -60,15 +62,28 @@ module Whois
 
       property_supported :expires_on do
         if content_for_scanner =~ / Expiration Date .+?:\s+(.+)\n/
-          Time.utc(*::Regexp.last_match(1).split("/").reverse)
+          parse_pt_date(::Regexp.last_match(1))
+        elsif content_for_scanner =~ /^Expiration Date:\s+(.+)$/i
+          parse_pt_date(::Regexp.last_match(1))
         end
       end
 
 
       property_supported :nameservers do
-        content_for_scanner.scan(/Nameserver:\s+(?:.*)\s+NS\s+(.+?)\.\n/).flatten.map do |name|
+        names = content_for_scanner.scan(/^\s*Name Server:\s+([^\s|]+)/i).flatten
+        names = content_for_scanner.scan(/Nameserver:\s+(?:.*)\s+NS\s+(.+?)\.\n/).flatten if names.empty?
+        names.map do |name|
           Parser::Nameserver.new(:name => name)
         end
+      end
+
+      private
+
+      def parse_pt_date(value)
+        date, time = value.strip.split(/\s+/, 2)
+        day, month, year = date.split("/").map(&:to_i)
+        hour, minute, second = (time || "00:00:00").split(":").map(&:to_i)
+        Time.utc(year, month, day, hour, minute, second)
       end
 
     end

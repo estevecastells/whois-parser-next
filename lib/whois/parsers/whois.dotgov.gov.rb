@@ -25,20 +25,17 @@ module Whois
     class WhoisDotgovGov < Base
 
       property_supported :status do
-        if content_for_scanner =~ /Status:\s+(.+?)\n/
-          case ::Regexp.last_match(1).downcase
-          when "active"
-            :registered
-          else
-            Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
-          end
-        else
+        if available?
           :available
+        elsif content_for_scanner =~ /Domain Name:\s+/i
+          :registered
+        else
+          :unknown
         end
       end
 
       property_supported :available? do
-        !registered?
+        !!(content_for_scanner =~ /^(?:Domain not found\.|No match for)/i)
       end
 
       property_supported :registered? do

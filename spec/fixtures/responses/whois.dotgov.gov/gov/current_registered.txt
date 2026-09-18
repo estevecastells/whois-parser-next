@@ -1,0 +1,6 @@
+Domain Name: gsa.gov
+Updated Date: 2026-08-14T17:08:14Z
+Creation Date: 1997-10-02T01:29:24Z
+Registry Expiry Date: 2027-09-02T12:26:47Z
+Domain Status: serverTransferProhibited https://icann.org/epp#serverTransferProhibited
+Name Server: dns.gsa.gov

@@ -1,0 +1,12 @@
+Domain Name: google.online
+Registry Domain ID: D9566483-CNIC
+Registrar WHOIS Server: whois.markmonitor.com
+Registrar URL: https://www.markmonitor.com/
+Updated Date: 2026-07-23T10:20:57.533Z
+Creation Date: 2015-08-19T11:27:00.000Z
+Registry Expiry Date: 2027-08-19T23:59:59.000Z
+Registrar: MarkMonitor Inc.
+Registrar IANA ID: 292
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Name Server: ns1.googledomains.com
+Name Server: ns2.googledomains.com

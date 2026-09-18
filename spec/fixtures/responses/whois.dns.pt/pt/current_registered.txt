@@ -1,0 +1,6 @@
+Domain: google.pt
+Domain Status: Registered
+Creation Date: 09/01/2003 00:00:00
+Expiration Date: 28/02/2027 23:59:00
+Name Server: ns3.google.com | IPv4:  and IPv6:
+Name Server: ns4.google.com | IPv4:  and IPv6:

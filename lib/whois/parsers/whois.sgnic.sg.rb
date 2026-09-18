@@ -27,11 +27,11 @@ module Whois
     class WhoisSgnicSg < Base
 
       property_supported :status do
-        content_for_scanner.scan(/^\s+Domain Status:\s+(.+?)\n/).flatten
+        content_for_scanner.scan(/^\s*Domain Status:\s+(.+?)\s*$/).flatten
       end
 
       property_supported :available? do
-        !!(content_for_scanner.strip == "Domain Not Found")
+        !!(content_for_scanner.strip =~ /\ADomain Not Found\z|\ANot found(?::|\z)/i)
       end
 
       property_supported :registered? do
@@ -40,7 +40,7 @@ module Whois
 
 
       property_supported :created_on do
-        if content_for_scanner =~ /^\s+Creation Date:\s+(.*)\n/
+        if content_for_scanner =~ /^\s*Creation Date:\s+(.*)$/
           parse_time(::Regexp.last_match(1))
         end
       end
@@ -48,14 +48,15 @@ module Whois
       property_not_supported :updated_on
 
       property_supported :expires_on do
-        if content_for_scanner =~ /^\s+Expiration Date:\s+(.*)\n/
+        if content_for_scanner =~ /^\s*Expiration Date:\s+(.*)$/
           parse_time(::Regexp.last_match(1))
         end
       end
 
 
       property_supported :nameservers do
-        if content_for_scanner =~ /Name Servers:\n((.+\n)+)\n/
+        current = content_for_scanner.scan(/^\s*Name Server:\s+(.+?)\s*$/).flatten
+        if current.empty? && content_for_scanner =~ /Name Servers:\n((.+\n)+)\n/
           values = case value = ::Regexp.last_match(1).downcase
                    # schema-1
                    when /^(?:\s+([\w.-]+)\n){2,}/
@@ -78,6 +79,8 @@ module Whois
           values.map do |params|
             Parser::Nameserver.new(params)
           end
+        else
+          current.map { |name| Parser::Nameserver.new(name: name) }
         end
       end
 

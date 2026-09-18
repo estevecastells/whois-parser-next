@@ -1,0 +1,7 @@
+Domain:                       google.sk
+Created:                      2003-07-24
+Valid Until:                  2027-07-24
+Updated:                      2026-06-22
+Domain Status:                clientTransferProhibited, clientUpdateProhibited, clientDeleteProhibited
+Nameserver:                   ns1.google.com
+Nameserver:                   ns2.google.com
