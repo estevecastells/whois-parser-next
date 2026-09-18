@@ -60,6 +60,12 @@ module Whois
         !available?
       end
 
+      # The IEDR daily limit response contains no domain evidence and must not
+      # fall through to the parser's default registered result.
+      def response_throttled?
+        content_for_scanner.match?(/(?:reached|exceeded).{0,30}daily limit/i)
+      end
+
 
       property_supported :created_on do
         node("registration") { |value| parse_time(value) }

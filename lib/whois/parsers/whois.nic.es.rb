@@ -45,6 +45,15 @@ module Whois
         !available?
       end
 
+      # nic.es returns the same authorization notice for registered and
+      # unregistered domains when the querying IP is not allowlisted. Treat the
+      # response as unusable instead of allowing the fallback status methods to
+      # report a false registration result.
+      def response_unavailable?
+        content_for_scanner.match?(/IP.{0,30}not authori[sz]ed/i) ||
+          content_for_scanner.match?(/request access to the service/i)
+      end
+
 
       property_supported :created_on do
         if content_for_scanner =~ /Creation Date:\s+(.+)\n/
