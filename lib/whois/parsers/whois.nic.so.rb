@@ -31,7 +31,8 @@ module Whois
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /^Not found: (.+?)$/)
+        !!(content_for_scanner =~ /^Not found: (.+?)$/ ||
+           content_for_scanner =~ /^The queried object does not exist: No Object Found$/)
       end
 
       property_supported :registered? do

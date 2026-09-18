@@ -1,0 +1,4 @@
+Domain Name: google.link
+Registry Domain ID: DO_159f3492e62c5930d69efdc6d0a0a8ab-UR
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Name Server: ns1.googledomains.com

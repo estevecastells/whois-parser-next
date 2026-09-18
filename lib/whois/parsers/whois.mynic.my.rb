@@ -32,7 +32,8 @@ module Whois
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /Domain Name [^ ]+ does not exist in database/)
+        !!(content_for_scanner =~ /Domain Name [^ ]+ does not exist in database/ ||
+           content_for_scanner =~ /^>>> Domain .+ is available for registration$/)
       end
 
       property_supported :registered? do

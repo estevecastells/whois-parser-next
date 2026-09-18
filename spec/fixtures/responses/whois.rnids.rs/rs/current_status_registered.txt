@@ -1,0 +1,3 @@
+Domain name: google.rs
+Domain status: Active https://www.rnids.rs/en/domain-name-status-codes#Active
+Domain status: clientUpdateProhibited https://www.rnids.rs/en/domain-name-status-codes#ClientUpdateProhibited

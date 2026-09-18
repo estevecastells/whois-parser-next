@@ -26,8 +26,8 @@ module Whois
 
       property_supported :status do
         if content_for_scanner =~ /Status:\s+(.+?)\n/
-          case ::Regexp.last_match(1).downcase
-          when "ok" then :registered
+          case ::Regexp.last_match(1).strip.downcase
+          when "ok", "clientdeleteprohibited", "clientupdateprohibited" then :registered
           else
             Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
           end
@@ -37,7 +37,8 @@ module Whois
       end
 
       property_supported :available? do
-        content_for_scanner.strip == "No Data Found"
+        content_for_scanner.strip == "No Data Found" ||
+          content_for_scanner.strip.casecmp("Domain not found.").zero?
       end
 
       property_supported :registered? do

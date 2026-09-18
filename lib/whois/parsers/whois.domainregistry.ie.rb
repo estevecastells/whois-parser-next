@@ -42,7 +42,7 @@ module Whois
         when /^active/
           :registered
         when nil
-          if node("status:pending")
+          if node("status:pending") || content_for_scanner.match?(/^Domain Status:\s+/i)
             :registered
           else
             :available

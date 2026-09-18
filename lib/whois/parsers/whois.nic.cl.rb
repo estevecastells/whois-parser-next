@@ -35,7 +35,8 @@ module Whois
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /^(.+?): no existe$/)
+        !!(content_for_scanner =~ /^(.+?): no existe$/i ||
+           content_for_scanner =~ /^.+:\s+no entries found\.$/i)
       end
 
       property_supported :registered? do
@@ -61,6 +62,10 @@ module Whois
             line.strip!
             line =~ /(.+) \((.+)\)/
             Parser::Nameserver.new(:name => ::Regexp.last_match(1), :ipv4 => ::Regexp.last_match(2))
+          end
+        else
+          content_for_scanner.scan(/^Name server:\s+(.+)$/i).flatten.map do |name|
+            Parser::Nameserver.new(name: name.strip)
           end
         end
       end

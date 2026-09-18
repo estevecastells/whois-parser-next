@@ -1,0 +1,4 @@
+Domain Name: google.co.nz
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Name Server: ns1.google.com
+Name Server: ns2.google.com

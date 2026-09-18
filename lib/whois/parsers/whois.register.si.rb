@@ -27,7 +27,7 @@ module Whois
       property_supported :status do
         if content_for_scanner =~ /status:\s+(.+)\n/
           statuses = ::Regexp.last_match(1).downcase.split(",").map(&:strip)
-          if statuses.include?("server_update_prohibited")
+          if (statuses & %w[server_update_prohibited client_delete_prohibited client_update_prohibited]).any?
             :registered
           else
             Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")

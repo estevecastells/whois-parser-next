@@ -10,15 +10,20 @@ module Whois
           :skip_empty_line,
           :scan_disclaimer,
           :scan_contact,
-          :scan_keyvalue,
           :scan_available,
+          :scan_keyvalue,
           :skip_application_pending,
+          :skip_comment,
       ]
 
       tokenizer :scan_available do
-        if @input.skip(/^% Not Registered - .+\n/)
+        if @input.skip(/^% Not Registered - .+\n/) || @input.skip(/^Not found: .+\n/)
           @ast["status:available"] = true
         end
+      end
+
+      tokenizer :skip_comment do
+        @input.skip(/^%.*\n/)
       end
 
       tokenizer :scan_disclaimer do

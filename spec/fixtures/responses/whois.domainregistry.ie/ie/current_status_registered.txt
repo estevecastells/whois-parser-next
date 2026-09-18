@@ -1,0 +1,2 @@
+Domain Name: google.ie
+Domain Status: serverDeleteProhibited https://icann.org/epp#serverDeleteProhibited

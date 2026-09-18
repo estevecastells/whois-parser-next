@@ -28,7 +28,7 @@ module Whois
 
       property_supported :status do
         if content_for_scanner =~ /Status: (.+?)\n/
-          case ::Regexp.last_match(1).downcase
+          case ::Regexp.last_match(1).strip.downcase
           when "active"
             :registered
           else
@@ -40,7 +40,8 @@ module Whois
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /^% No match for/)
+        !!(content_for_scanner =~ /^% No match for/ ||
+           content_for_scanner =~ /^% No match found\.$/)
       end
 
       property_supported :registered? do

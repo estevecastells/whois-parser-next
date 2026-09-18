@@ -36,17 +36,18 @@ module Whois
 
 
       property_supported :status do
-        case node("Domain status", &:downcase)
-        when nil
+        statuses = Array.wrap(node("Domain status")).map { |value| value.to_s.downcase.split.first }
+        case
+        when statuses.empty?
           :available
-        when 'active'
-          :registered
-        when 'locked'
-          :registered
-        when 'in transfer'
-          :registered
-        when 'expired'
+        when statuses.include?('expired')
           :expired
+        when (statuses & %w[
+          active locked in clientupdateprohibited clienttransferprohibited
+          clientdeleteprohibited serverupdateprohibited servertransferprohibited
+          serverdeleteprohibited
+        ]).any?
+          :registered
         else
           Whois::Parser.bug!(ParserError, "Unknown status `#{node('Domain status')}'.")
         end

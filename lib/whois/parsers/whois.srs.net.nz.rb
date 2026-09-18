@@ -26,7 +26,7 @@ module Whois
 
 
       property_supported :domain do
-        node("domain_name")
+        node("domain_name") || content_for_scanner[/^Domain Name:\s*(.+)$/i, 1]
       end
 
       property_not_supported :domain_id
@@ -34,7 +34,14 @@ module Whois
 
       # @see http://dnc.org.nz/content/srs-whois-spec-1.0.html
       property_supported :status do
-        node("query_status") do |value|
+        value = node("query_status")
+        value ||= if content_for_scanner.match?(/^Not found:\s/i)
+                     "220 Available"
+                   elsif content_for_scanner.match?(/^Domain Name:\s/i)
+                     "200 Active"
+                   end
+
+        if value
           case value.downcase
           when "200 active"
             :registered
@@ -51,7 +58,9 @@ module Whois
           else
             Whois::Parser.bug!(ParserError, "Unknown status `#{value}'.")
           end
-        end || Whois::Parser.bug!(ParserError, "Unable to parse status.")
+        else
+          Whois::Parser.bug!(ParserError, "Unable to parse status.")
+        end
       end
 
       property_supported :available? do
@@ -98,9 +107,17 @@ module Whois
 
 
       property_supported :nameservers do
-        (1..4).map do |i|
+        nameservers = (1..4).map do |i|
           node("ns_name_0#{i}") { |value| Parser::Nameserver.new(name: value) }
         end.compact
+
+        if nameservers.empty?
+          content_for_scanner.scan(/^Name Server:\s*(.+)$/i).map do |name|
+            Parser::Nameserver.new(name: name)
+          end
+        else
+          nameservers
+        end
       end
 
 

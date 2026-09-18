@@ -26,7 +26,7 @@ module Whois
 
       property_supported :status do
         if content_for_scanner =~ /Status:\s+(.+?)\n/
-          case ::Regexp.last_match(1).downcase
+          case ::Regexp.last_match(1).strip.downcase
           when "active"
             :registered
           # NEWSTATUS suspended (https://github.com/weppos/whois/issues/5)
@@ -34,11 +34,22 @@ module Whois
             :registered
           when "not registered"
             :available
+          when "no object found"
+            :available
           when "inactive"
             :inactive
           else
-            Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
+            current_statuses = %w[clientdeleteprohibited clienttransferprohibited clientupdateprohibited]
+            if current_statuses.include?(::Regexp.last_match(1).strip.downcase)
+              :registered
+            else
+              Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
+            end
           end
+        elsif content_for_scanner =~ /^Domain Status:\s+No Object Found\s*$/i
+          :available
+        elsif content_for_scanner.match?(/^Domain Status:\s+/i)
+          :registered
         else
           Whois::Parser.bug!(ParserError, "Unable to parse status.")
         end

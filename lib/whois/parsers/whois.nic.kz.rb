@@ -26,6 +26,8 @@ module Whois
       property_supported :status do
         if content_for_scanner =~ /Domain status : ((.+\n)+)\s+\n/
           ::Regexp.last_match(1).split("\n").map { |value| value.split("-").first.strip }
+        elsif content_for_scanner =~ /^Domain status\.+:\s*(.+)$/i
+          [::Regexp.last_match(1).split("-").first.strip]
         else
           nil
         end
@@ -41,13 +43,13 @@ module Whois
 
 
       property_supported :created_on do
-        if content_for_scanner =~ /Domain created: (.+)\n/
+        if content_for_scanner =~ /Domain created(?:\.+|):\s*(.+)\n/i
           parse_time(::Regexp.last_match(1))
         end
       end
 
       property_supported :updated_on do
-        if content_for_scanner =~ /Last modified : (.+)\n/ && !(value = ::Regexp.last_match(1)).empty?
+        if content_for_scanner =~ /Last modified(?:\.+|)\s*:\s*(.+)\n/i && !(value = ::Regexp.last_match(1)).empty?
           parse_time(value)
         end
       end
@@ -56,7 +58,7 @@ module Whois
 
 
       property_supported :nameservers do
-        content_for_scanner.scan(/^\w+ server\.+:\s(.*)\n/).flatten.map do |name|
+        content_for_scanner.scan(/^(?:\w+ server|Name Server)\.+:\s*(.*)\n/i).flatten.map do |name|
           Parser::Nameserver.new(:name => name)
         end
       end

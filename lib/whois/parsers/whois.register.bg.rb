@@ -25,10 +25,12 @@ module Whois
     class WhoisRegisterBg < Base
 
       property_supported :status do
-        if content_for_scanner =~ /registration status:\s+(.+?)\n/
-          case ::Regexp.last_match(1).downcase
-          when "registered"
+        if content_for_scanner =~ /registration status:\s+(.+?)\n/i
+          case ::Regexp.last_match(1).strip.downcase
+          when "registered", "busy, active"
             :registered
+          when "available"
+            :available
           else
             Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
           end
@@ -38,7 +40,8 @@ module Whois
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /Domain name (.+?) does not exist/)
+        !!(content_for_scanner =~ /Domain name (.+?) does not exist/ ||
+           content_for_scanner =~ /registration status:\s+available\b/i)
       end
 
       property_supported :registered? do

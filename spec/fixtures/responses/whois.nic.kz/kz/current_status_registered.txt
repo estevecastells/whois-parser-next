@@ -1,0 +1,5 @@
+Domain status..........: ok - Normal state.
+Domain created.........: 1999-06-07 14:01:43 (GMT+0:00)
+Last modified..........: 2012-11-28 04:16:59 (GMT+0:00)
+Name Server............: ns1.google.com
+Name Server............: ns2.google.com

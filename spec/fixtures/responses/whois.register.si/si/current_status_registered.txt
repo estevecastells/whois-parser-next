@@ -1,0 +1,2 @@
+domain:          google.si
+status:          client_delete_prohibited,client_update_prohibited
