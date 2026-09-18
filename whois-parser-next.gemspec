@@ -14,8 +14,10 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.2"
 
   spec.require_paths = %w[lib]
-  spec.files = `git ls-files -z`.split("\x0").select { |file| File.file?(file) }
-  spec.extra_rdoc_files = %w[LICENSE.txt .yardopts]
+  spec.files = `git ls-files -z -- lib README.md CHANGELOG.md LICENSE.txt`
+               .split("\x0")
+               .select { |file| File.file?(file) }
+  spec.extra_rdoc_files = %w[README.md CHANGELOG.md LICENSE.txt]
 
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/estevecastells/whois-parser-next/issues",
