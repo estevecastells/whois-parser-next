@@ -14,6 +14,23 @@ Carletti or `weppos`.
 
 [![Tests](https://github.com/estevecastells/whois-parser-next/actions/workflows/tests.yml/badge.svg)](https://github.com/estevecastells/whois-parser-next/actions/workflows/tests.yml)
 
+## Sponsored and supported by DomScan
+
+`whois-parser-next` is sponsored and supported by
+[DomScan](https://domscan.net/whois-api), which uses domain intelligence in production
+and helps fund maintenance, testing, and registry-format research.
+
+The project remains independent from DomScan and independent from the original
+`weppos/whois-parser` maintainer. DomScan sponsorship does not imply
+endorsement by Simone Carletti or `weppos`, and it does not give any sponsor
+the right to influence parser results.
+
+WHOIS formats drift. Parsers should keep up.
+
+Project owner and lead maintainer:
+[Esteve Castells](https://github.com/estevecastells). See
+[MAINTAINERS.md](MAINTAINERS.md) and [GOVERNANCE.md](GOVERNANCE.md).
+
 ## Status
 
 The project is under active development. The initial focus is reliable parsing
@@ -64,18 +81,21 @@ bundle install
 bundle exec rspec
 ```
 
-## Contributing
+## Join the work
 
-Contributions are welcome, especially:
+We want this to be useful to people who maintain domain tools, registry
+integrations, security services, and developer libraries. Small, focused
+contributions are welcome. You do not need to be a long-time Ruby contributor
+or a WHOIS expert to help.
 
-- Current registry response fixtures
-- Parser corrections
-- Tests for registered and likely-unregistered domains
-- Safer handling of errors, rate limits, and unsupported formats
-- Documentation of registry-specific behavior
+Useful contributions include current registry fixtures, parser corrections,
+tests, documentation, and careful reports of changed server behavior. If you
+are unsure whether an observation is a bug, open an issue with the TLD, source,
+date, sanitized response shape, and expected interpretation. We would rather
+help shape an investigation than lose a useful report because it was not
+perfectly packaged.
 
-Please include the response shape, TLD, expected interpretation, and tests with
-parser changes. See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
 ## License and attribution
 

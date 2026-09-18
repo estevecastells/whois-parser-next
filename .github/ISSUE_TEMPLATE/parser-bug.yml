@@ -1,0 +1,102 @@
+name: Parser bug
+description: Report incorrect, missing, or unsafe WHOIS parsing behavior
+title: "[Parser bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a parser problem.
+
+        Do not include credentials, access tokens, private endpoints, or personal
+        registrant data. Report suspected vulnerabilities privately through SECURITY.md.
+
+  - type: input
+    id: tld
+    attributes:
+      label: TLD
+      description: The TLD involved in the response.
+      placeholder: ".com"
+    validations:
+      required: true
+
+  - type: input
+    id: whois_server
+    attributes:
+      label: WHOIS server
+      description: The server hostname observed in the test.
+      placeholder: "whois.example"
+    validations:
+      required: true
+
+  - type: input
+    id: observed_date
+    attributes:
+      label: Observed date
+      description: Use YYYY-MM-DD. Include the timezone if relevant.
+      placeholder: "2026-09-19"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: case_type
+    attributes:
+      label: Case
+      description: Which test case showed the problem?
+      options:
+        - Registered
+        - Likely-unregistered
+        - Both
+        - Unknown
+    validations:
+      required: true
+
+  - type: textarea
+    id: raw_response
+    attributes:
+      label: Sanitized exact raw response
+      description: Paste the current response with personal data and secrets removed.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected behavior
+      description: Describe the expected parser result and why the evidence supports it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual_behavior
+    attributes:
+      label: Actual behavior
+      description: Describe the returned result, error, or misclassification.
+    validations:
+      required: true
+
+  - type: textarea
+    id: tests_run
+    attributes:
+      label: Test confirmation
+      description: List focused tests and the full-suite command and result. If no tests were run, say so.
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional context
+      description: Include public documentation or a safe reproduction. Do not include private or paid-source data.
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy and safety confirmation
+      options:
+        - label: I confirm that this report contains no secrets, private endpoints, or personal registrant data.
+          required: true
+        - label: I understand that rate limits, blocks, timeouts, and ambiguous responses must remain unknown.
+          required: true

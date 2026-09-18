@@ -1,54 +1,80 @@
-# Contributing
+# Contributing to whois-parser-next
 
-## Workflow
+Thank you for helping maintain `whois-parser-next`. The project is sponsored
+and supported by [DomScan](https://domscan.net/whois-api), but it is an independent
+community project. Contributions are welcome from everyone who treats
+maintainers, users, and other contributors with respect.
 
-Fork, then clone the repo:
+WHOIS behavior changes over time. Reliable evidence and focused pull requests
+help us keep the parser useful.
 
-~~~shell
+## Getting started
+
+Fork and clone the repository, then install its dependencies:
+
+```shell
 git clone git@github.com:your-username/whois-parser-next.git
-~~~
+cd whois-parser-next
+bundle install
+```
 
-Set up your machine:
+Create a focused branch, add fixtures and tests with your change, then run:
 
-~~~shell
-bundle
-~~~
+```shell
+bundle exec rspec
+```
 
-Make sure the tests pass:
+Open a pull request against
+[`estevecastells/whois-parser-next`](https://github.com/estevecastells/whois-parser-next/compare/).
 
-~~~shell
-$ bundle exec rake
-~~~
+## Pull request rules
 
-To propose a change/feature/patch, create your feature branch:
+Please follow these rules for every behavior change:
 
-~~~shell
-git checkout -b my-new-feature
-~~~
+1. Keep one focused registry or server-family change per pull request.
+2. Add exact, current raw-response fixtures for registered and
+   likely-unregistered cases where applicable.
+3. Never include personal registrant data in fixtures. If a current response
+   contains personal data, provide a minimally redacted fixture that preserves
+   the parser-relevant structure and document the redaction.
+4. Never interpret rate limits, blocks, timeouts, malformed responses, or
+   ambiguous responses as either available or absent. Unknown must remain
+   unknown.
+5. Add tests for every behavior change, including successful parsing, expected
+   absence, errors, and important unknown states.
+6. Document the date of live verification and the source or server used.
+7. Do not add paid, private, authenticated, or otherwise inaccessible source
+   dependencies.
+8. Preserve the existing loading path and public API where possible. Discuss
+   proposed breaking changes in an issue before opening the implementation PR.
+9. Run the full test suite before requesting review and report the result in the
+   pull request.
+10. Keep changes understandable and avoid unrelated cleanup in a focused pull
+    request.
 
-Make your change. Add tests for your change. Make the tests pass:
+A parser result is not an availability guarantee. Registry policy, rate limits,
+server changes, and the distinction between WHOIS and RDAP all matter.
 
-~~~shell
-bundle exec rake
-~~~
+## Fixtures and privacy
 
-`utils/mkwhois.rb` can be used to quicky generate `status_available.txt` and `status_registered.txt` files for your tests
+Fixtures should represent current server behavior, not invented examples. Do
+not commit names, email addresses, telephone numbers, postal addresses, or
+other personal registrant information. Preserve the fields and response
+structure needed to reproduce the behavior while removing personal data.
 
-~~~shell
-ruby utils/mkwhois.rb google.com status_available
-~~~
+Never commit credentials, private endpoints, paid-service responses, or data
+that you are not allowed to redistribute.
 
-Commit your changes:
+## Licensing
 
-~~~shell
-git commit -am 'Add some feature'
-~~~
+Contributions are made under the MIT license. This project does not require a
+Contributor License Agreement. By submitting a contribution, you confirm that
+you have the right to submit it under those terms.
 
-Push to your fork and [submit a pull request](https://github.com/estevecastells/whois-parser-next/compare/).
+## Review
 
+Maintainers may request narrower scope, stronger evidence, additional fixtures,
+or clearer handling of unknown results. Review is about correctness, evidence,
+privacy, compatibility, and maintainability.
 
-## Tests
-
-To increase the chance that your pull request is accepted please **make sure to write tests**. Changes without corresponding tests will likely not be included as they will produce fragile code that can easily break whenever the registry changes the response format.
-
-Some examples: [84dbdde320f31c20184bcfe5e544e8fd3cd32862](https://github.com/weppos/whois/commit/84dbdde320f31c20184bcfe5e544e8fd3cd32862), [3b6688b95e6fadcf720cc777ef4bbd2cd644e62b](https://github.com/weppos/whois/commit/3b6688b95e6fadcf720cc777ef4bbd2cd644e62b)
+Please follow the project's [Code of Conduct](CODE_OF_CONDUCT.md).

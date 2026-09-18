@@ -1,0 +1,116 @@
+name: New parser or registry format
+description: Propose support for a TLD or current WHOIS server format
+title: "[New parser]: "
+labels:
+  - parser
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping keep the parser current.
+
+        Provide current evidence for registered and likely-unregistered cases
+        where applicable. Do not include credentials, private responses, or
+        personal registrant data. Do not propose paid or private dependencies.
+
+  - type: input
+    id: tld
+    attributes:
+      label: TLD
+      description: The TLD to support.
+      placeholder: ".example"
+    validations:
+      required: true
+
+  - type: input
+    id: whois_server
+    attributes:
+      label: WHOIS server
+      description: The current server hostname or server family.
+      placeholder: "whois.example"
+    validations:
+      required: true
+
+  - type: input
+    id: observed_date
+    attributes:
+      label: Observed date
+      description: Use YYYY-MM-DD and include the timezone if relevant.
+      placeholder: "2026-09-19"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: case_type
+    attributes:
+      label: Available test cases
+      description: Which cases are included?
+      options:
+        - Registered and likely-unregistered
+        - Registered only
+        - Likely-unregistered only
+        - The registry does not provide a dependable unregistered response
+    validations:
+      required: true
+
+  - type: textarea
+    id: registered_response
+    attributes:
+      label: Sanitized exact registered response
+      description: Paste the current raw response with personal data and secrets removed. If unavailable, explain why.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: unregistered_response
+    attributes:
+      label: Sanitized exact likely-unregistered response
+      description: Paste the current raw response with personal data and secrets removed. If unavailable, explain why.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected behavior
+      description: Describe the fields and classifications the parser should produce.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual_behavior
+    attributes:
+      label: Actual behavior
+      description: Describe the current result, including unsupported, malformed, or unknown behavior.
+    validations:
+      required: true
+
+  - type: input
+    id: public_source
+    attributes:
+      label: Public source or documentation
+      description: Link to public registry documentation if available. Do not provide private or paid-source links.
+
+  - type: textarea
+    id: tests_run
+    attributes:
+      label: Test confirmation
+      description: List planned or completed fixtures, focused tests, and the full-suite command and result.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: I have permission to share these sanitized fixtures.
+          required: true
+        - label: I have removed secrets and personal registrant data.
+          required: true
+        - label: This proposal does not require a paid, private, or authenticated source.
+          required: true
+        - label: I understand that ambiguous, blocked, rate-limited, or timed-out responses must remain unknown.
+          required: true

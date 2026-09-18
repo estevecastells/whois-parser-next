@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.name = "whois-parser-next"
   spec.version = Whois::Parser::VERSION
   spec.authors = ["Simone Carletti", "Esteve Castells"]
-  spec.homepage = "https://github.com/estevecastells/whois-parser-next"
+  spec.homepage = "https://domscan.net/whois-api"
   spec.summary = "A community-maintained Ruby WHOIS parser"
   spec.description = "A maintained successor to weppos/whois-parser that parses WHOIS responses into Ruby objects."
   spec.license = "MIT"
@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/estevecastells/whois-parser-next/issues",
     "changelog_uri" => "https://github.com/estevecastells/whois-parser-next/blob/main/CHANGELOG.md",
+    "homepage_uri" => "https://domscan.net/whois-api",
     "source_code_uri" => "https://github.com/estevecastells/whois-parser-next",
   }
 
@@ -27,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "ostruct", ">= 0.6", "< 1"
   spec.add_dependency "whois", ">= 6", "< 7"
 
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec"
-  spec.add_development_dependency "yard"
+  spec.add_development_dependency "rake", ">= 13.2", "< 14"
+  spec.add_development_dependency "rspec", ">= 3.13", "< 4"
+  spec.add_development_dependency "yard", ">= 0.9", "< 1"
 end
