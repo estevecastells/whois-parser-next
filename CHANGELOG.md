@@ -10,6 +10,10 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 - CHANGED: Established Ruby 3.2 as the minimum supported version and refreshed
   the maintained dependency range.
 - ADDED: Audits and regression fixtures for current registry responses.
+- ADDED: Documented the 2026-09-19 Top 100 audit, using the ICANN DNS
+  Magnitude snapshot dated 2026-09-12 and generated 2026-09-18, with `.arpa`
+  excluded.
+- TESTED: The combined audit suite passes 6,410 examples with 0 failures.
 
 
 #### Release 2.0.0
