@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
     "bug_tracker_uri" => "https://github.com/estevecastells/whois-parser-next/issues",
     "changelog_uri" => "https://github.com/estevecastells/whois-parser-next/blob/main/CHANGELOG.md",
     "homepage_uri" => "https://domscan.net/whois-api",
+    "rubygems_mfa_required" => "true",
     "source_code_uri" => "https://github.com/estevecastells/whois-parser-next",
   }
 
