@@ -1,0 +1,7 @@
+domain:       google.cr
+registrar:    MARKMONITOR
+registered:   02.03.2008 18:00:00
+changed:      25.02.2026 07:06:54
+expire:       03.03.2027
+nserver:      ns1.google.com
+nserver:      ns2.google.com

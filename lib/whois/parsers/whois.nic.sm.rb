@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -25,25 +26,32 @@ module Whois
     # and examples.
     #
     class WhoisNicSm < Base
+      include RegistryResponseSafety
 
       property_supported :status do
         if content_for_scanner =~ /Status:\s+(.+?)\n/
           case ::Regexp.last_match(1).downcase
           when "active" then :registered
           else
-            Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
+            :unknown
           end
-        else
+        elsif available?
           :available
+        else
+          :unknown
         end
       end
 
       property_supported :available? do
-        (content_for_scanner.strip == "No entries found.")
+        content_for_scanner.strip == "No entries found."
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
+      end
+
+      def response_unavailable?
+        super || content_for_scanner.match?(/\A%\s*Error:\s*service unavailable\s*\z/i)
       end
 
 

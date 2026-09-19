@@ -1,0 +1,10 @@
+Domain Name: google.asia
+Updated Date: 2026-08-11T23:15:09Z
+Creation Date: 2007-11-21T20:47:29Z
+Registry Expiry Date: 2026-11-21T20:47:29Z
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Name Server: ns3.googledomains.com
+Name Server: ns1.googledomains.com
+Name Server: ns2.googledomains.com
+Name Server: ns4.googledomains.com
+>>> Last update of WHOIS database: 2026-09-18T23:39:17Z <<<

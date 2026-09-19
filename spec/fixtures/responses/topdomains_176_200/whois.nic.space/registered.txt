@@ -1,0 +1,17 @@
+Domain Name: google.space
+Registry Domain ID: D6808321-CNIC
+Registrar WHOIS Server: whois.markmonitor.com
+Registrar URL: https://www.markmonitor.com/
+Updated Date: 2026-01-09T12:04:54.000Z
+Creation Date: 2015-01-19T11:57:06.000Z
+Registry Expiry Date: 2027-01-19T23:59:59.000Z
+Registrar: MarkMonitor Inc.
+Registrar IANA ID: 292
+Registrar Abuse Contact Email: REDACTED
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Name Server: ns1.google.com
+Name Server: ns2.google.com
+Name Server: ns3.google.com
+Name Server: ns4.google.com
+DNSSEC: unsigned

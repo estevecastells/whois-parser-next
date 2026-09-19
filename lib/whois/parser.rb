@@ -66,7 +66,7 @@ module Whois
     def self.bug!(error, message)
       raise error, message.dup          +
           " Please report the issue at" +
-          " http://github.com/weppos/whois-parser/issues"
+          " https://github.com/estevecastells/whois-parser-next/issues"
     end
 
     METHODS = [
@@ -342,35 +342,35 @@ module Whois
       PROPERTIES.include?(symbol) || METHODS.include?(symbol)
     end
 
-    def method_missing(method, *args, &block)
+    def method_missing(method, *, &)
       if PROPERTIES.include?(method)
         self.class.define_property_method(method)
-        send(method, *args, &block)
+        send(method, *, &)
       elsif METHODS.include?(method)
         self.class.define_method_method(method)
-        send(method, *args, &block)
+        send(method, *, &)
       else
         super
       end
     end
 
-    def delegate_property_to_parsers(method, *args, &block)
+    def delegate_property_to_parsers(method, *, &)
       if parsers.empty?
         raise ParserError, "Unable to select a parser because the Record is empty"
       elsif (parser = select_parser { |p| p.class.property_state?(method, PROPERTY_STATE_SUPPORTED) })
-        parser.send(method, *args, &block)
+        parser.send(method, *, &)
       elsif (parser = select_parser { |p| p.class.property_state?(method, PROPERTY_STATE_NOT_SUPPORTED) })
-        parser.send(method, *args, &block)
+        parser.send(method, *, &)
       else
         raise AttributeNotImplemented, "Unable to find a parser for property `#{method}'"
       end
     end
 
-    def delegate_method_to_parsers(method, *args, &block)
+    def delegate_method_to_parsers(method, *, &)
       if parsers.empty?
         raise ParserError, "Unable to select a parser because the Record is empty"
       elsif (parser = select_parser { |p| p.respond_to?(method) })
-        parser.send(method, *args, &block)
+        parser.send(method, *, &)
       else
         nil
       end

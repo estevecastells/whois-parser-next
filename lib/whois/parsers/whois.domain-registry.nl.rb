@@ -42,8 +42,14 @@ module Whois
       # @see https://www.sidn.nl/en/about-nl/whois/looking-up-a-domain-name/
       #
       property_supported :status do
-        if content_for_scanner =~ /Status:\s+(.+?)\n/
+        if content_for_scanner =~ /Status:\s+(.+?)\n/i
           case ::Regexp.last_match(1).downcase
+          when "free"
+            :available
+          when "withdrawn", "excluded"
+            :reserved
+          when "requested"
+            :registered
           when "active"
             :registered
           when "in quarantine"
@@ -104,9 +110,9 @@ module Whois
       #
       def response_throttled?
         case content_for_scanner
-        when /^#{Regexp.escape("whois.domain-registry.nl: only 1 request per second allowed, try again later")}/
+        when /^#{Regexp.escape('whois.domain-registry.nl: only 1 request per second allowed, try again later')}/
           true
-        when /^#{Regexp.escape("whois.domain-registry.nl: daily whois-limit exceeded")}/
+        when /^#{Regexp.escape('whois.domain-registry.nl: daily whois-limit exceeded')}/
           true
         else
           false

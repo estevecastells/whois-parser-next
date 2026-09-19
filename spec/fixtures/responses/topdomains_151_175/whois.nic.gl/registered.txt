@@ -1,0 +1,11 @@
+Domain Name: GOOGLE.GL
+Registry Domain ID: D327730546-CNIC
+Updated Date: 2026-01-01T16:02:36.0Z
+Creation Date: 2003-03-11T03:00:00.0Z
+Registry Expiry Date: 2027-01-01T23:59:59.0Z
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Name Server: NS1.GOOGLE.COM
+Name Server: NS2.GOOGLE.COM
+>>> Last update of Whois database: 2026-09-18T23:34:50.0Z <<<

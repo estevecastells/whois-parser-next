@@ -1,0 +1,19 @@
+%%
+%% This is the AFNIC Whois server.
+%%
+
+domain:                        google.re
+status:                        ACTIVE
+eppstatus:                     clientUpdateProhibited
+hold:                          NO
+registrar:                     MARKMONITOR Inc.
+Expiry Date:                   2027-08-02T23:15:21Z
+created:                       2008-11-19T09:40:52Z
+last-update:                   2026-07-06T10:15:35.970689Z
+source:                        FRNIC
+
+nserver:                       ns1.google.com
+nserver:                       ns2.google.com
+nserver:                       ns3.google.com
+nserver:                       ns4.google.com
+source:                        FRNIC

@@ -1,0 +1,10 @@
+Domain Name: google.win
+Registry Domain ID: REDACTED FOR PRIVACY
+Updated Date: 2026-04-07T12:03:36.0Z
+Creation Date: 2014-04-23T18:43:05.0Z
+Registry Expiry Date: 2027-04-22T23:59:59.0Z
+Registrar: MarkMonitor Inc.
+Registrar IANA ID: 292
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Name Server: ns1.markmonitor.com

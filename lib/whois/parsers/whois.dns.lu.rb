@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -23,17 +24,15 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisDnsLu < Base
+      include RegistryResponseSafety
 
       property_supported :status do
-        if content_for_scanner =~ /domaintype:\s+(.+)\n/
-          case ::Regexp.last_match(1).downcase
-          when "active"
-            :registered
-          else
-            Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
-          end
-        else
+        if content_for_scanner.match?(/domaintype:\s+active\s*$/i)
+          :registered
+        elsif available?
           :available
+        else
+          Whois::Parser.bug!(ParserError, "Unable to parse .lu response status.")
         end
       end
 
@@ -42,7 +41,7 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 

@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -23,22 +24,25 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisWebsiteWs < Base
+      include RegistryResponseSafety
 
       property_supported :status do
         if available?
           :available
-        else
+        elsif content_for_scanner.match?(/^\s+Domain Created:\s+/i)
           :registered
+        else
+          :unknown
         end
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /No match for/ ||
-           content_for_scanner =~ /^The queried object does not exist:/)
+        !!(content_for_scanner =~ /^No match for "\S+"\.$/ ||
+           content_for_scanner =~ /^The queried object does not exist: \S+\.$/)
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 

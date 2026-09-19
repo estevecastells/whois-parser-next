@@ -1,0 +1,17 @@
+%%
+%% This is the AFNIC Whois server.
+%%
+
+domain:                        google.wf
+status:                        ACTIVE
+eppstatus:                     clientUpdateProhibited
+hold:                          NO
+registrar:                     MARKMONITOR Inc.
+Expiry Date:                   2027-02-15T19:06:49Z
+created:                       2011-12-06T09:03:53Z
+last-update:                   2026-01-19T10:32:51.903254Z
+source:                        FRNIC
+
+nserver:                       ns1.markmonitor.com
+nserver:                       ns3.markmonitor.com
+source:                        FRNIC

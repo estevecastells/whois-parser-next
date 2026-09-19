@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 require 'whois/scanners/base_whoisd'
 
 
@@ -18,6 +19,7 @@ module Whois
     #
     # @abstract
     class BaseWhoisd < Base
+      include RegistryResponseSafety
       include Scanners::Scannable
 
       class_attribute :status_mapping
@@ -37,14 +39,17 @@ module Whois
 
 
       property_supported :status do
-        node('status') do |value|
-          values = Array.wrap(value)
-          status = values.each do |s|
-            v = self.class.status_mapping[s.downcase]
-            break v if v
-          end
-          status || Whois::Parser.bug!(ParserError, "Unknown status `#{string}'.")
-        end || :available
+        if available?
+          :available
+        elsif node('status')
+          values = Array.wrap(node('status'))
+          mapped_status = values.filter_map { |value| self.class.status_mapping[value.downcase] }.first
+          mapped_status || Whois::Parser.bug!(ParserError, "Unknown status `#{values.join(', ')}'.")
+        elsif node('domain') && [node('registered'), node('registrar'), node('expire')].any?(&:present?)
+          :registered
+        else
+          :unknown
+        end
       end
 
       property_supported :available? do
@@ -52,7 +57,7 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        [:registered, :expired].include?(status)
       end
 
 

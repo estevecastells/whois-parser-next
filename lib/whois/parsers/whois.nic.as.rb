@@ -23,17 +23,20 @@ module Whois
       property_supported :status do
         if available?
           :available
-        else
+        elsif registered_evidence?
           :registered
+        else
+          :unknown
         end
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /NOT FOUND/)
+        !!(content_for_scanner =~ /^NOT FOUND\s*$/i) ||
+          !!(content_for_scanner =~ /^The queried object does not exist: No Object Found\s*$/i)
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 
@@ -55,6 +58,13 @@ module Whois
             Parser::Nameserver.new(name: name, ipv4: ipv4, ipv6: ipv6)
           end
         end
+      end
+
+      private
+
+      def registered_evidence?
+        content_for_scanner.match?(/^Domain Name:\s+\S+/i) ||
+          content_for_scanner.match?(/^Domain:\s*\n\s*\S+/i)
       end
 
     end

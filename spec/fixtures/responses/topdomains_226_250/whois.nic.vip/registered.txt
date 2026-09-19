@@ -1,0 +1,15 @@
+Domain Name: google.vip
+Registry Domain ID: REDACTED FOR PRIVACY
+Updated Date: 2026-02-13T10:43:49Z
+Creation Date: 2016-03-12T00:40:52Z
+Registry Expiry Date: 2027-03-12T00:40:52Z
+Registrar: MarkMonitor, Inc.
+Registrar IANA ID: 292
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Name Server: ns2.googledomains.com
+Name Server: ns4.googledomains.com
+Name Server: ns3.googledomains.com
+Name Server: ns1.googledomains.com
+DNSSEC: unsigned

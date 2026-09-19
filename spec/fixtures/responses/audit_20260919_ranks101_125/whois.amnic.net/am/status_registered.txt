@@ -1,0 +1,3 @@
+   Domain name: example.am
+   Status:      active, registrar locked
+   Registered:  1999-06-05

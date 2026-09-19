@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -26,6 +27,13 @@ module Whois
     # @author Moritz Heidkamp <moritz.heidkamp@bevuta.com>
     #
     class WhoisCoUg < Base
+      include RegistryResponseSafety
+
+      property_supported :domain do
+        if content_for_scanner =~ /^\s*Domain name:\s+(.+)$/i
+          ::Regexp.last_match(1).strip.downcase
+        end
+      end
 
       property_supported :status do
         if content_for_scanner =~ /^Status:\s+(.+?)\n/
@@ -37,17 +45,20 @@ module Whois
           else
             Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
           end
-        else
+        elsif available?
           :available
+        else
+          :unknown
         end
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /^% No entries found for the selected source/)
+        !!(content_for_scanner =~ /^% No entries found for the selected source/ ||
+          content_for_scanner =~ /^\s*>>> Domain not Found$/i)
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 

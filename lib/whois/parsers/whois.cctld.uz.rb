@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -23,9 +24,12 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisCctldUz < Base
+      include RegistryResponseSafety
 
       property_supported :status do
-        if content_for_scanner =~ /^Status: (.+?)\n/
+        if available?
+          :available
+        elsif content_for_scanner =~ /^Status: (.+?)\n/
           case ::Regexp.last_match(1).downcase
           when "active" then :registered
           when "reserved" then :reserved
@@ -33,7 +37,7 @@ module Whois
             Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
           end
         else
-          :available
+          :unknown
         end
       end
 
@@ -42,7 +46,7 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        [:registered, :reserved].include?(status)
       end
 
 

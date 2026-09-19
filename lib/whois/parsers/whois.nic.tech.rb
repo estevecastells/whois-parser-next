@@ -22,7 +22,10 @@ module Whois
       # The Radix registry uses the standard availability sentence rather
       # than the older CentralNic `DOMAIN NOT FOUND` response.
       property_supported :available? do
-        super() || !!(content_for_scanner =~ /^>>> Domain .+ is available for registration/)
+        content = content_for_scanner.strip
+        content == 'DOMAIN NOT FOUND' ||
+          content == 'The queried object does not exist: DOMAIN NOT FOUND' ||
+          !!(content_for_scanner =~ /^>>> Domain \S+ is available for registration$/)
       end
     end
 

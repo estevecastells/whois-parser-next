@@ -41,8 +41,10 @@ module Whois
           :available
         when list.include?("ok")
           :registered
+        when list.any? { |value| value.match?(/\Aactive(?:\s|\z)/) }
+          :registered
         else
-          Whois::Parser.bug!(ParserError, "Unknown status `#{list.join(', ')}'.")
+          :unknown
         end
       end
 
@@ -51,7 +53,7 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 

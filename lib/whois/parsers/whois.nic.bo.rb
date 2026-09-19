@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -23,6 +24,7 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisNicBo < Base
+      include RegistryResponseSafety
 
       property_supported :domain do
         if content_for_scanner =~ /Dominio:(.*)\n/
@@ -34,19 +36,26 @@ module Whois
 
 
       property_supported :status do
-        if available?
-          :available
-        else
+        if domain
           :registered
+        else
+          Whois::Parser.bug!(ParserError, "Unable to parse .bo response status.")
         end
       end
 
       property_supported :available? do
-        domain.nil?
+        status == :available
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
+      end
+
+      def response_unavailable?
+        super || (
+          content_for_scanner.match?(/^whois\.nic\.bo solo acepta consultas con dominios \.bo\s*$/i) &&
+            !content_for_scanner.match?(/^Dominio:\s*\S+/i)
+        )
       end
 
 

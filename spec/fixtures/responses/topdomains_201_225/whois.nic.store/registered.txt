@@ -1,0 +1,14 @@
+Domain Name: google.store
+Registry Domain ID: D31356129-CNIC
+Updated Date: 2026-05-10T10:45:00.513Z
+Creation Date: 2016-06-06T13:33:19.000Z
+Registry Expiry Date: 2027-06-06T23:59:59.000Z
+Registrar: MarkMonitor Inc.
+Registrar IANA ID: 292
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Name Server: ns1.googledomains.com
+Name Server: ns2.googledomains.com
+Name Server: ns3.googledomains.com
+Name Server: ns4.googledomains.com
+>>> Last update of WHOIS database: 2026-09-18T23:39:32.408Z <<<

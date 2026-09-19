@@ -1,0 +1,12 @@
+Domain Name: google.ovh
+Registry Domain ID: REDACTED FOR PRIVACY
+Updated Date: 2026-05-01T04:47:28Z
+Creation Date: 2015-05-14T08:08:09Z
+Registrar Registration Expiration Date: 2026-05-14T10:08:09+02:00
+Registrar: OVH, SAS
+Registrar IANA ID: 433
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Name Server: dns15.ovh.net
+Name Server: ns15.ovh.net
+DNSSEC: unsigned

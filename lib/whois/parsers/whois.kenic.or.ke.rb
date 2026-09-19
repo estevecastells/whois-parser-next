@@ -26,27 +26,29 @@ module Whois
 
       property_supported :status do
         if content_for_scanner =~ /Status:\s+(.+?)\n/
-          case ::Regexp.last_match(1).downcase
-          when "active"
+          case ::Regexp.last_match(1).strip.downcase
+          when /\Aactive(?:\s|\z)/
             :registered
-          when "not registered"
+          when /\Anot registered\z/
             :available
           when "this whois server does not have any records for that zone."
             :invalid
           else
-            Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
+            :unknown
           end
+        elsif content_for_scanner.match?(/^The queried object does not exist: No Object Found\s*$/i)
+          :available
         else
-          Whois::Parser.bug!(ParserError, "Unable to parse status.")
+          :unknown
         end
       end
 
       property_supported :available? do
-        !invalid? && status == :available
+        status == :available
       end
 
       property_supported :registered? do
-        !invalid? && !available?
+        status == :registered
       end
 
 

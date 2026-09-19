@@ -1,0 +1,17 @@
+% Domain Information over Whois protocol
+%
+% MARnet whois proxy server
+% Timestamp: Sat Sep 19 2026 01:34:50
+
+domain:       google.mk
+registrant:   UNET-R11
+admin-c:      UNET-C12
+nsset:        UNET-NS191
+registrar:    UNET-REG
+registered:   13.05.2008 14:00:00
+changed:      17.04.2014 12:50:32
+expire:       13.05.2027
+
+nsset:        UNET-NS191
+nserver:      ns2.google.com
+nserver:      ns1.google.com

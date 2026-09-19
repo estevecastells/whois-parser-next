@@ -1,0 +1,14 @@
+% Whoisd Server Version: 3.15.0
+% Timestamp: Sat Sep 19 02:34:50 2026
+
+domain:       google.tz
+registrant:   GDA-ITFARM
+admin-c:      KP1-ITFARM
+nsset:        NS-GOOGLEDOMAINS-COM
+registrar:    REG-ITFARM
+registered:   05.03.2022 08:48:34
+expire:       05.03.2027
+
+nsset:        NS-GOOGLEDOMAINS-COM
+nserver:      ns1.googledomains.com
+nserver:      ns2.googledomains.com

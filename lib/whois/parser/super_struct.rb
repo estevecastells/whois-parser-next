@@ -1,6 +1,3 @@
-require 'ostruct'
-
-
 # SuperStruct is an enhanced version of the Ruby Standard library {Struct}.
 #
 # Compared with the original version, it provides the following additional features:

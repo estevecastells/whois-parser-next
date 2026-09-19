@@ -9,14 +9,19 @@ module Whois
       self.tokenizers += [
           :skip_empty_line,
           :scan_available,
+          :skip_comment,
           :scan_keyvalue,
       ]
 
 
       tokenizer :scan_available do
-        if @input.skip(/^%ERROR: no entries found\n/)
+        if @input.skip(/^%ERROR:\s*no entries found\s*\n/i)
           @ast["status:available"] = true
         end
+      end
+
+      tokenizer :skip_comment do
+        @input.skip(/^%.*\n/)
       end
 
     end

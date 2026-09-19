@@ -24,6 +24,12 @@ module Whois
         content_for_scanner == "\n"
       end
 
+      def response_unavailable?
+        return false if content_for_scanner == "\n"
+
+        super
+      end
+
     end
 
   end

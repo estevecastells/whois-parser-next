@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 require 'whois/scanners/whois.cctld.by.rb'
 
 
@@ -22,6 +23,7 @@ module Whois
     # @author Aliaksei Kliuchnikau <aliaksei.kliuchnikau@gmail.com>
     class WhoisCctldBy < Base
       include Scanners::Scannable
+      include RegistryResponseSafety
 
       self.scanner = Scanners::WhoisCctldBy
 
@@ -39,8 +41,10 @@ module Whois
       property_supported :status do
         if available?
           :available
-        else
+        elsif content_for_scanner.match?(/^Domain name:\s*\S+/i)
           :registered
+        else
+          Whois::Parser.bug!(ParserError, "Unable to parse .by response status.")
         end
       end
 
@@ -49,7 +53,7 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 

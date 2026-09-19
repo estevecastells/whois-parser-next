@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -22,21 +23,24 @@ module Whois
     # @see Whois::Parsers::Example
     #   The Example parser for the list of all available methods.
     class WhoisKg < Base
+      include RegistryResponseSafety
 
       property_supported :status do
         if available?
           :available
-        else
+        elsif content_for_scanner.match?(/^Record created:/i)
           :registered
+        else
+          :unknown
         end
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /This domain is available for registration/)
+        !!(content_for_scanner =~ /^Data not found\. This domain is available for registration\.\s*$/i)
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 

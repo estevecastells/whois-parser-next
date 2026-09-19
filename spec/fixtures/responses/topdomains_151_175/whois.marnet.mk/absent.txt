@@ -1,0 +1,8 @@
+% Domain Information over Whois protocol
+%
+% MARnet whois proxy server
+% Timestamp: Sat Sep 19 2026 01:34:50
+
+%ERROR:101: no entries found
+%
+% No entries found.

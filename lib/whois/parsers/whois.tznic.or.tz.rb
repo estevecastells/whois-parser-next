@@ -19,6 +19,17 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisTznicOrTz < BaseWhoisd
+      property_supported :status do
+        if node('status')
+          super()
+        elsif domain && [node('registered'), node('registrar'), node('expire')].any?(&:present?)
+          :registered
+        elsif available?
+          :available
+        else
+          :unknown
+        end
+      end
     end
 
   end

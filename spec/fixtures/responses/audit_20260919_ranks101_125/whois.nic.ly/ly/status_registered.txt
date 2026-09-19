@@ -1,0 +1,5 @@
+Domain Name: example.ly
+Registry Domain ID: REDACTED-CoCCA
+Created: 2003-03-07T05:00:00Z
+Updated: 2026-02-03T10:42:11Z
+Expired: 2027-03-07T05:00:00Z

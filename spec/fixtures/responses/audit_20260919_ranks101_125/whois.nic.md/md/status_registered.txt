@@ -1,0 +1,8 @@
+% © NIC.MD
+% Whois Server v2.8.1
+
+Domain  name:   example.md
+Domain state:   OK
+Registered on:  2006-05-02
+Expires on:     2027-05-02
+NameServer:     ns1.example.net

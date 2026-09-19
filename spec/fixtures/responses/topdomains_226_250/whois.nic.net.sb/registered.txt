@@ -1,0 +1,12 @@
+Domain Name: google.sb
+Registry Domain ID: 1168438-CoCCA
+Updated Date: 2025-10-28T10:21:13Z
+Creation Date: 2015-11-29T23:00:00Z
+Registry Expiry Date: 2026-11-29T23:00:00Z
+Registrar: MarkMonitor
+Domain Status: active https://icann.org/epp#active
+Name Server: ns1.google.com
+Name Server: ns2.google.com
+Name Server: ns3.google.com
+Name Server: ns4.google.com
+DNSSEC: unsigned

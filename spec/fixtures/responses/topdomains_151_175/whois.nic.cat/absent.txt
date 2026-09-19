@@ -1,0 +1,2 @@
+The queried object does not exist: no matching objects found
+>>> Last update of Whois database: 2026-09-18T23:33:49.930Z <<<

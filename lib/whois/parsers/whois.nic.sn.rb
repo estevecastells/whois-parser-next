@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -19,12 +20,13 @@ module Whois
     # Parser for the whois.nic.sn server.
     #
     class WhoisNicSn < Base
+      include RegistryResponseSafety
 
       property_not_supported :disclaimer
 
       property_supported :domain do
-        if registered? and content_for_scanner =~ /Domain:\s+(.+)\n/
-          ::Regexp.last_match(1)
+        if registered? && content_for_scanner =~ /(?:Domain|Nom de domaine):\s+(.+)\n/i
+          ::Regexp.last_match(1).strip
         elsif available? and content_for_scanner =~ /Domain (.+?) not found/
           ::Regexp.last_match(1)
         end
@@ -36,17 +38,21 @@ module Whois
       property_supported :status do
         if available?
           :available
-        else
+        elsif content_for_scanner.match?(/^(?:Domain|Nom de domaine):\s+\S+/i) &&
+              content_for_scanner.match?(/^(?:Created|Statut|Status):\s+\S+/i)
           :registered
+        else
+          :unknown
         end
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /Domain (.+?) not found/)
+        !!(content_for_scanner =~ /^Domain \S+ not found\s*$/i ||
+          content_for_scanner =~ /^%% NOT FOUND\s*$/i)
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 

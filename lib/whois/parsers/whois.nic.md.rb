@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -19,12 +20,13 @@ module Whois
     # Parser for the whois.nic.md server.
     #
     class WhoisNicMd < Base
+      include RegistryResponseSafety
 
       property_not_supported :disclaimer
 
 
       property_supported :domain do
-        if content_for_scanner =~ /Domain name:\s(.+?)\n/
+        if content_for_scanner =~ /Domain\s+name:\s+(.+?)\n/i
           ::Regexp.last_match(1)
         end
       end
@@ -35,17 +37,22 @@ module Whois
       property_supported :status do
         if available?
           :available
-        else
+        elsif content_for_scanner.match?(/^Domain\s+name:\s+\S+/i) &&
+              content_for_scanner.match?(/^(?:Domain state|Created):\s+\S+/i)
           :registered
+        else
+          :unknown
         end
       end
 
       property_supported :available? do
-        !!(content_for_scanner.strip == "No match for")
+        content = content_for_scanner.strip
+        content == "No match for" ||
+          content.match?(/^No entries found \[\s*No match for\s*\]\s*$/i)
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 

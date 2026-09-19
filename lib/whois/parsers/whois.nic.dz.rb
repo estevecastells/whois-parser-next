@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -18,28 +19,36 @@ module Whois
     #
     # Parser for the whois.nic.dz server.
     #
-    # NOTE: This parser is just a stub and provides only a few basic methods
-    # to check for domain availability and get domain status.
-    # Please consider to contribute implementing missing methods.
-    # See WhoisNicIt parser for an explanation of all available methods
-    # and examples.
+    # The registry returns a compact, non-key/value response. Keep the
+    # classifier deliberately narrow so transport errors and unrelated prose
+    # cannot be mistaken for an available domain.
     #
     class WhoisNicDz < Base
+      include RegistryResponseSafety
+
+      property_supported :domain do
+        content_for_scanner[/^Domain Name:\s*(\S+)/i, 1]&.downcase
+      end
 
       property_supported :status do
         if available?
           :available
-        else
+        elsif registered?
           :registered
+        else
+          :unknown
         end
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /^NO OBJECT FOUND!$/)
+        !!(content_for_scanner =~ /^%\s*No match for domain\s+'[^']+'\.\s*$/i ||
+          content_for_scanner =~ /^NO OBJECT FOUND!\s*$/i)
       end
 
       property_supported :registered? do
-        !available?
+        !available? &&
+          ((content_for_scanner.match?(/^Domain Name:\s*\S+/i) && content_for_scanner.match?(/^Registrar:\s*\S+/i)) ||
+            (content_for_scanner.match?(/^Nom de domaine#.*\S/i) && content_for_scanner.match?(/^Registrar#.*\S/i)))
       end
 
 

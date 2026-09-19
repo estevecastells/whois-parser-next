@@ -1,0 +1,9 @@
+Domain Name: example.one
+Registry Domain ID: REDACTED FOR PRIVACY
+Updated Date: 2026-04-11T11:17:07Z
+Creation Date: 2015-05-08T06:58:47Z
+Registry Expiry Date: 2027-05-08T06:58:47Z
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Name Server: ns1.example.net
+Name Server: ns2.example.net
+>>> Last update of WHOIS database: 2026-09-19T00:00:00Z <<<

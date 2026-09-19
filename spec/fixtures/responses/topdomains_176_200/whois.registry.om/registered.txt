@@ -1,0 +1,16 @@
+Domain Name: google.om
+Registry Domain ID: DED560AD32B46214E63695FACAA737125-OMREG
+Registrar WHOIS Server:
+Registrar URL:
+Registrar: Abu Ghazaleh Intellectual Property (AGIP)
+Registrar IANA ID: 700000001
+Registrar Abuse Contact Email:
+Registrant Name: Google LLC
+Registrant Organization: Google LLC
+Registrant Email: REDACTED
+Admin Organization: Abu-Ghazaleh Intellectual Property LLC
+Name Server: ns1.googledomains.com
+Name Server: ns2.googledomains.com
+Name Server: ns3.googledomains.com
+Name Server: ns4.googledomains.com
+URL of the ICANN Whois Inaccuracy Complaint Form: https://www.icann.org/wicf/

@@ -1,0 +1,15 @@
+Domain Name: google.fun
+Registry Domain ID: D46266754-CNIC
+Updated Date: 2026-03-06T12:00:41.000Z
+Creation Date: 2017-03-27T10:28:19.000Z
+Registry Expiry Date: 2027-03-27T23:59:59.000Z
+Registrar: MarkMonitor Inc.
+Registrar IANA ID: 292
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Name Server: ns1.googledomains.com
+Name Server: ns2.googledomains.com
+Name Server: ns3.googledomains.com
+Name Server: ns4.googledomains.com
+DNSSEC: unsigned

@@ -1,0 +1,10 @@
+Domain Name: google.tl
+Registry Domain ID: 19785-CoCCA
+Updated Date: 2026-04-21T10:45:24Z
+Creation Date: 2003-05-23T12:00:00Z
+Registry Expiry Date: 2027-05-23T12:00:00Z
+Registrar: MarkMonitor
+Domain Status: active https://icann.org/epp#active
+Name Server: ns1.google.com
+Name Server: ns2.google.com
+DNSSEC: unsigned

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+repository_root="$(cd "$(dirname "$0")/.." && pwd)"
+package_directory="$(mktemp -d)"
+package_path="$package_directory/whois-parser-next.gem"
+gem_home="$package_directory/gems"
+
+cleanup() {
+  rm -rf "$package_directory"
+}
+trap cleanup EXIT
+
+cd "$repository_root"
+ruby -S gem build whois-parser-next.gemspec --output "$package_path"
+ruby -S gem install "$package_path" --install-dir "$gem_home" --no-document
+
+GEM_HOME="$gem_home" GEM_PATH="$gem_home" ruby -e '
+  require "whois-parser"
+  spec = Gem.loaded_specs.fetch("whois-parser-next")
+  abort "wrong gem loaded: #{spec.name}" unless spec.name == "whois-parser-next"
+  abort "missing parser API" unless defined?(Whois::Parser)
+'

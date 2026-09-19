@@ -103,7 +103,7 @@ module Whois
 
 
       property_supported :nameservers do
-        content_for_scanner.scan(/Name Server \d{1}:\s+(.+)\n/).flatten.map do |name|
+        content_for_scanner.scan(/Name Server \d{1}:[ \t]+(\S[^\r\n]*)\r?\n/).flatten.map do |name|
           Parser::Nameserver.new(name: name)
         end
       end

@@ -81,6 +81,15 @@ bundle install
 bundle exec rspec
 ```
 
+## Coverage evidence
+
+The 2026-09-19 live audit covers the ICANN DNS Magnitude ordering through rank
+300. Start with the [Top 20 review](docs/audits/top-20-tlds-2026-09-19.md) and
+[Top 100 audit](docs/audits/top-100-tlds-2026-09-19.md); the same directory
+contains the contiguous 25-TLD reports for ranks 101 through 300. Each report
+separates verified parsing from unavailable, retired, restricted, web-only,
+and unresolved WHOIS paths.
+
 ## Join the work
 
 We want this to be useful to people who maintain domain tools, registry
@@ -96,6 +105,10 @@ help shape an investigation than lose a useful report because it was not
 perfectly packaged.
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
+The [public roadmap](ROADMAP.md) lists current priorities, non-goals, and the
+evidence gate for any optional Rust work.
+Maintainers should also follow [RELEASING.md](RELEASING.md), including the
+package smoke test and trusted-publishing checks.
 
 ## License and attribution
 

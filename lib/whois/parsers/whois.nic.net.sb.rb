@@ -21,8 +21,12 @@ module Whois
     class WhoisNicNetSb < BaseCocca2
 
       property_supported :status do
-        list = Array.wrap(node("Domain Status")).map(&:downcase)
-        list.include?("available") ? :available : super()
+        if content_for_scanner.match?(/^The queried object does not exist: No Object Found\s*$/i)
+          :available
+        else
+          list = Array.wrap(node("Domain Status")).map(&:downcase)
+          list.include?("available") ? :available : super()
+        end
       end
 
     end

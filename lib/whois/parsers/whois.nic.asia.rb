@@ -21,6 +21,7 @@ module Whois
     class WhoisNicAsia < BaseAfilias
 
       self.scanner = Scanners::BaseAfilias, {
+          pattern_disclaimer: /^DotAsia WHOIS LEGAL STATEMENT AND TERMS & CONDITIONS:/,
           pattern_reserved: /^Reserved by DotAsia\n/,
       }
 
@@ -63,9 +64,13 @@ module Whois
 
 
       property_supported :nameservers do
-        Array.wrap(node("Nameservers")).reject(&:empty?).map do |name|
+        Array.wrap(node("Nameservers") || node("Name Server")).reject(&:empty?).map do |name|
           Parser::Nameserver.new(:name => name.downcase)
         end
+      end
+
+      property_supported :registered? do
+        !available? && !Array.wrap(status).empty?
       end
 
 

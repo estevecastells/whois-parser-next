@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -25,17 +26,18 @@ module Whois
     # and examples.
     #
     class WhoisSgnicSg < Base
+      include RegistryResponseSafety
 
       property_supported :status do
         content_for_scanner.scan(/^\s*Domain Status:\s+(.+?)\s*$/).flatten
       end
 
       property_supported :available? do
-        !!(content_for_scanner.strip =~ /\ADomain Not Found\z|\ANot found(?::|\z)/i)
+        !!(content_for_scanner.strip =~ /\ADomain Not Found\z|\ANot found: \S+\z/i)
       end
 
       property_supported :registered? do
-        !available?
+        !available? && !status.empty?
       end
 
 

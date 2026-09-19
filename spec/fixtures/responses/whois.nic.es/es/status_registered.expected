@@ -51,7 +51,7 @@
 
 #nameservers
   %s %CLASS{array}
-  %s %SIZE{4}
+  %s %SIZE{2}
   %s[0] %CLASS{nameserver}
   %s[0].name == "ns2.google.com"
   %s[1] %CLASS{nameserver}

@@ -1,0 +1,13 @@
+**********************************************************
+*            The UG ccTLD Registry Database              *
+**********************************************************
+
+Domain name:                    google.ug
+Status:                         ACTIVE
+Locked:                         Yes
+Expires On:                     2027-03-18
+Registered On:                  2004-08-03
+Renewed On:                     2026-03-03
+Nameserver:                     ns1.google.com
+Nameserver:                     ns2.google.com
+Nameserver:                     ns3.google.com

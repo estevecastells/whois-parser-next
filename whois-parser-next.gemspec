@@ -14,10 +14,22 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.2"
 
   spec.require_paths = %w[lib]
-  spec.files = `git ls-files -z -- lib README.md CHANGELOG.md LICENSE.txt`
+  documentation_files = %w[
+    CHANGELOG.md
+    CODE_OF_CONDUCT.md
+    CONTRIBUTING.md
+    GOVERNANCE.md
+    LICENSE.txt
+    MAINTAINERS.md
+    README.md
+    RELEASING.md
+    ROADMAP.md
+    SECURITY.md
+  ]
+  spec.files = `git ls-files -z -- lib #{documentation_files.join(' ')}`
                .split("\x0")
                .select { |file| File.file?(file) }
-  spec.extra_rdoc_files = %w[README.md CHANGELOG.md LICENSE.txt]
+  spec.extra_rdoc_files = documentation_files
 
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/estevecastells/whois-parser-next/issues",
@@ -28,7 +40,6 @@ Gem::Specification.new do |spec|
   }
 
   spec.add_dependency "activesupport", ">= 7.1", "< 9"
-  spec.add_dependency "ostruct", ">= 0.6", "< 1"
   spec.add_dependency "whois", ">= 6", "< 7"
 
   spec.add_development_dependency "rake", ">= 13.2", "< 14"

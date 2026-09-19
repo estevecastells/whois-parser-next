@@ -6,6 +6,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -13,6 +14,7 @@ module Whois
 
     # Parser for the whois.nic.site server.
     class WhoisNicSite < Base
+      include RegistryResponseSafety
 
       property_supported :domain do
         content_for_scanner[/^Domain Name:\s*(\S+)/, 1]&.downcase
@@ -23,8 +25,10 @@ module Whois
           :available
         elsif reserved?
           :reserved
-        else
+        elsif content_for_scanner.match?(/^Domain Name:\s*\S+/i)
           :registered
+        else
+          :unknown
         end
       end
 
@@ -33,7 +37,19 @@ module Whois
       end
 
       property_supported :registered? do
-        !available? && !reserved?
+        [:registered, :reserved].include?(status)
+      end
+
+      # A rate-limit or client-denial response has no domain record. Keep it
+      # out of the parser's registered fallback.
+      def response_throttled?
+        super || content_for_scanner.match?(/^(?:\s*(?:%|#)\s*)?(?:whois\s+)?query\s+(?:rate\s+)?limit\s+exceeded\b/i) ||
+          content_for_scanner.match?(/^(?:\s*(?:%|#)\s*)?maximum\s+query\s+rate\s+reached\b/i) ||
+          content_for_scanner.match?(/^(?:\s*(?:%|#)\s*)?excessive\s+querying\b/i)
+      end
+
+      def response_unavailable?
+        super || content_for_scanner.match?(/^(?:\s*(?:%|#)\s*)?(?:requests of this client are not permitted|access to the whois service is denied)\b/i)
       end
 
       def reserved?

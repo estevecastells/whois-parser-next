@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 require 'whois/scanners/whois.ati.tn.rb'
 
 
@@ -21,6 +22,7 @@ module Whois
     #
     class WhoisAtiTn < Base
       include Scanners::Scannable
+      include RegistryResponseSafety
 
       self.scanner = Scanners::WhoisAtiTn
 
@@ -40,17 +42,19 @@ module Whois
       property_supported :status do
         if available?
           :available
-        else
+        elsif content_for_scanner.match?(/^Domain(?:\s+name)?\s*\.*\s*:/i)
           :registered
+        else
+          Whois::Parser.bug!(ParserError, "Unable to parse .tn response status.")
         end
       end
 
       property_supported :available? do
-        !!node("status:available")
+        content_for_scanner.match?(/^NO OBJECT FOUND!\s*$/i) || !!node("status:available")
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 

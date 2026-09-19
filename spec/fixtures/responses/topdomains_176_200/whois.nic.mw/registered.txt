@@ -1,0 +1,15 @@
+% Domain Information over Whois protocol
+%
+% Whoisd Server Version: 3.9.0
+
+domain:       google.mw
+registrar:    MARKMONITOR-REG
+registered:   20.12.2002 16:08:33
+changed:      13.09.2022 04:15:25
+expire:       05.10.2027
+
+nsset:        MM1541838
+nserver:      ns2.google.com
+nserver:      ns4.google.com
+nserver:      ns3.google.com
+nserver:      ns1.google.com

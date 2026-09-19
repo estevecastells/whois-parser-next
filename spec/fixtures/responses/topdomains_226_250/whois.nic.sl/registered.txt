@@ -1,0 +1,8 @@
+Domain Name: google.sl
+WHOIS Server: whois.nic.sl
+Creation Date: 2008-05-17T21:00:00.0Z
+Registry Expiry Date: 2027-05-17T21:00:00.0Z
+Name Server: ns1.google.com
+Name Server: ns2.google.com
+Name Server: ns3.google.com
+Name Server: ns4.google.com

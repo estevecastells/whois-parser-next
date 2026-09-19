@@ -1,0 +1,6 @@
+This is JWhoisServer serving ccTLD tg
+Java Whois Server 0.4.1.3
+
+NO OBJECT FOUND!
+object:.............zz226250-tg-20260919.tg
+type:...............domain

@@ -46,6 +46,15 @@ module Whois
         )
       end
 
+      # Tucows returns this notice when the selected registry interface does
+      # not support the queried TLD. It is not evidence that the domain is
+      # registered or available.
+      def response_unavailable?
+        super || content_for_scanner.match?(
+          /^(?:>>> Tld not supported by this registry interface|TLD is not supported\.)$/i
+        )
+      end
+
 
       private
 

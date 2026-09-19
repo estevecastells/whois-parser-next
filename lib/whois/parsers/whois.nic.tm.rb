@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -19,6 +20,7 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisNicTm < Base
+      include RegistryResponseSafety
 
       property_not_supported :disclaimer
 
@@ -37,17 +39,19 @@ module Whois
       property_supported :status do
         if available?
           :available
-        else
+        elsif content_for_scanner.match?(/^Domain :\s*\S+/i)
           :registered
+        else
+          :unknown
         end
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /^Domain (.+?) is available/)
+        !!(content_for_scanner =~ /^Domain \S+ is available for purchase\s*$/i)
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 

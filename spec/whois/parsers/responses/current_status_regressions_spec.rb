@@ -14,8 +14,10 @@ require 'whois/parsers/whois.rnids.rs.rb'
 require 'whois/parsers/whois.nic.so.rb'
 require 'whois/parsers/kero.yachay.pe.rb'
 require 'whois/parsers/whois.domainregistry.ie.rb'
+require 'whois/parsers/whois.nic.es.rb'
+require 'whois/parsers/whois.cira.ca.rb'
 
-RSpec.describe 'current WHOIS status responses' do
+RSpec.describe Whois::Parser, 'current WHOIS status responses' do
   def parser(klass, path)
     body = File.read(fixture('responses', path))
     klass.new(Whois::Record::Part.new(body: body))
@@ -27,7 +29,21 @@ RSpec.describe 'current WHOIS status responses' do
 
     expect(registered.status).to eq(:registered)
     expect(registered.domain).to eq('google.co.nz')
+    expect(registered.nameservers.map(&:name)).to eq(%w[ns1.google.com ns2.google.com])
     expect(available.status).to eq(:available)
+  end
+
+  it 'does not treat empty .es name-server rows as IPv4 labels' do
+    registered = parser(Whois::Parsers::WhoisNicEs, 'whois.nic.es/es/status_registered.txt')
+
+    expect(registered.nameservers.map(&:name)).to eq(%w[ns2.google.com ns1.google.com])
+  end
+
+  it 'does not report an invalid CIRA status as registered' do
+    invalid = parser(Whois::Parsers::WhoisCiraCa, 'whois.cira.ca/ca/status_invalid.txt')
+
+    expect(invalid.status).to eq(:invalid)
+    expect(invalid.registered?).to eq(false)
   end
 
   it 'parses current .link responses' do

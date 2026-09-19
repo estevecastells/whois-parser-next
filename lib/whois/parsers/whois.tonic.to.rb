@@ -38,11 +38,11 @@ module Whois
       end
 
       property_supported :available? do
-        (!response_incomplete? && !!(content_for_scanner =~ /No match for/))
+        !response_incomplete? && !!(content_for_scanner =~ /^No match for \S+\s*$/)
       end
 
       property_supported :registered? do
-        (!response_incomplete? && !available?)
+        !response_incomplete? && !available?
       end
 
 
@@ -76,6 +76,22 @@ module Whois
       #
       def response_incomplete?
         content_for_scanner.strip == ""
+      end
+
+      def response_throttled?
+        content_for_scanner.match?(
+          /^(?:\s*(?:%|#)\s*)?(?:whois\s+)?query\s+(?:rate\s+)?limit\s+exceeded\b/i
+        ) || content_for_scanner.match?(
+          /^(?:\s*(?:%|#)\s*)?maximum\s+query\s+rate\s+reached\b/i
+        ) || content_for_scanner.match?(
+          /^(?:\s*(?:%|#)\s*)?excessive\s+querying\b/i
+        )
+      end
+
+      def response_unavailable?
+        content_for_scanner.match?(
+          /^(?:\s*(?:%|#)\s*)?(?:requests of this client are not permitted|access to the whois service is denied|whois service is unavailable)\b/i
+        )
       end
 
     end

@@ -36,10 +36,11 @@ module Whois
       property_supported :status do
         value = node("query_status")
         value ||= if content_for_scanner.match?(/^Not found:\s/i)
-                     "220 Available"
-                   elsif content_for_scanner.match?(/^Domain Name:\s/i)
-                     "200 Active"
-                   end
+                    "220 Available"
+                  elsif content_for_scanner.match?(/^Domain Name:\s/i) &&
+                        content_for_scanner.match?(/^Domain Status:\s+\S+/i)
+                    "200 Active"
+                  end
 
         if value
           case value.downcase
@@ -59,7 +60,7 @@ module Whois
             Whois::Parser.bug!(ParserError, "Unknown status `#{value}'.")
           end
         else
-          Whois::Parser.bug!(ParserError, "Unable to parse status.")
+          :unknown
         end
       end
 
@@ -68,7 +69,7 @@ module Whois
       end
 
       property_supported :registered? do
-        status == :registered || status == :redemption
+        [:registered, :redemption].include?(status)
       end
 
 
@@ -88,7 +89,7 @@ module Whois
       property_supported :registrar do
         node("registrar_name") do |value|
           Parser::Registrar.new(
-            name:         value
+            name: value
           )
         end
       end
@@ -113,7 +114,7 @@ module Whois
 
         if nameservers.empty?
           content_for_scanner.scan(/^Name Server:\s*(.+)$/i).map do |name|
-            Parser::Nameserver.new(name: name)
+            Parser::Nameserver.new(name: name.first)
           end
         else
           nameservers

@@ -159,7 +159,7 @@ edu:
     status_available: u34jedzcq.edu
     status_registered: academia.edu
 gov:
-    _server: whois.nic.gov
+    _server: whois.dotgov.gov
     status_available: u34jedzcq.gov
     status_registered: gsa.gov
     _status_available_skipdiff:
@@ -216,7 +216,7 @@ jobs:
     status_available: u34jedzcq.jobs
     status_registered: google.jobs
 mobi:
-    _server: whois.dotmobiregistry.net
+    _server: whois.afilias.net
     status_available: u34jedzcq.mobi
     status_registered: google.mobi
 museum:
@@ -302,7 +302,7 @@ at:
     status_available: u34jedzcq.at
     status_registered: google.at
 au:
-    _server: whois.audns.net.au
+    _server: whois.auda.org.au
     status_available: u34jedzcq.com.au
     status_registered: google.com.au
     _status_registered_skipdiff:
@@ -442,7 +442,7 @@ cn:
     property_status_reserved: hyko.cn
     property_status_reserved_list: 12323.cn
 co:
-    _server: whois.nic.co
+    _server: whois.registry.co
     status_available: u34jedzcq.co
     status_registered: t.co
     _status_available_skipdiff:
@@ -456,7 +456,9 @@ college:
     status_available: u34jedzcq.college
     status_registered: toplevel.college
 cr:
-    _adapter: web
+    _server: whois.nic.cr
+    status_available: u34jedzcq.cr
+    status_registered: google.cr
 cu:
     _adapter: web
 cv:
@@ -624,6 +626,10 @@ hn:
         - 22
     _status_registered_skipdiff:
         - 95
+host:
+    _server: whois.nic.host
+    status_available: u34jedzcq.host
+    status_registered: google.host
 hr:
     _server: whois.dns.hr
     status_available: u34jedzcq.hr
@@ -641,11 +647,11 @@ hu:
     status_available: u34jedzcq.hu
     status_registered: google.hu
 id:
-    _server: whois.pandi.or.id
+    _server: whois.id
     status_available: u34jedzcq.co.id
     status_registered: google.co.id
 ie:
-    _server: whois.domainregistry.ie
+    _server: whois.iedr.ie
     status_available: u34jedzcq.ie
     status_registered: google.ie
 il:
@@ -657,7 +663,7 @@ im:
     status_available: u34jedzcq.im
     status_registered: google.im
 in:
-    _server: whois.registry.in
+    _server: whois.nixiregistry.in
     status_available: u34jedzcq.in
     status_registered: google.in
 io:
@@ -843,11 +849,11 @@ mv:
 mw:
     _adapter: web
 mx:
-    _server: whois.nic.mc
+    _server: whois.mx
     status_available: u34jedzcq.mx
     status_registered: google.mx
 my:
-    _server: whois.domainregistry.my
+    _server: whois.mynic.my
     status_available: u34jedzcq.my
     status_registered: google.my
 mz:
@@ -1104,7 +1110,7 @@ to:
 tp:
     _adapter: none
 tr:
-    _server: whois.nic.tr
+    _server: whois.trabis.gov.tr
     status_available: u34jedzcq.com.tr
     status_invalid: invalid.tr
     status_registered: google.com.tr

@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 require 'whois/scanners/whois.centralnic.com.rb'
 
 
@@ -16,6 +17,7 @@ module Whois
 
     # Parser for the whois.centralnic.com server.
     class WhoisCentralnicCom < Base
+      include RegistryResponseSafety
       include Scanners::Scannable
 
       self.scanner = Scanners::WhoisCentralnicCom
@@ -48,7 +50,9 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        !available? && !Array.wrap(node("Status") || node("Domain Status")).empty? &&
+          !node('Domain Name').to_s.strip.empty? &&
+          Array.wrap(node("Status") || node("Domain Status")).none? { |value| value.to_s.strip.casecmp('unknown').zero? }
       end
 
 

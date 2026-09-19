@@ -40,6 +40,19 @@ module Whois
         !available?
       end
 
+      # MYNIC includes a normal informational "query limit is 500 per day"
+      # footer in successful responses. Only classify explicit limit failures,
+      # never that policy text, so a denied lookup cannot look registered.
+      def response_throttled?
+        content_for_scanner.match?(/^(?:\s*(?:%|#)\s*)?(?:whois\s+)?query\s+(?:rate\s+)?limit\s+exceeded\b/i) ||
+          content_for_scanner.match?(/^(?:\s*(?:%|#)\s*)?you\s+have\s+exceeded\s+your\s+(?:daily|monthly)(?:\s+\w+){0,2}\s+(?:api\s+)?(?:rate\s+)?limit\b/i) ||
+          content_for_scanner.match?(/^(?:\s*(?:%|#)\s*)?maximum\s+query\s+rate\s+reached\b/i)
+      end
+
+      def response_unavailable?
+        content_for_scanner.match?(/^(?:\s*(?:%|#)\s*)?(?:requests of this client are not permitted|access to the whois service is denied)\b/i)
+      end
+
 
       property_supported :created_on do
         if content_for_scanner =~ /\[Record Created\]\s+(.+?)\n/

@@ -1,0 +1,15 @@
+============================================================================
+Whois du Registre .SN
+============================================================================
+
+Nom de domaine:                google.sn
+Date de création:              2003-03-22T00:00:00Z
+Dernière modification:         2025-12-06T17:12:28.294803Z
+Date d'expiration:             2026-12-31T12:00:00Z
+Registrar:                     MARKMONITOR Inc.
+Statut:                        actif
+
+Serveur de noms:               ns1.google.com
+Serveur de noms:               ns2.google.com
+Serveur de noms:               ns3.google.com
+Serveur de noms:               ns4.google.com

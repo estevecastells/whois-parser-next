@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 require 'whois/scanners/base_shared3'
 
 
@@ -18,6 +19,7 @@ module Whois
     #
     # @abstract
     class BaseShared3 < Base
+      include RegistryResponseSafety
       include Scanners::Scannable
 
       self.scanner = Scanners::BaseShared3
@@ -50,7 +52,9 @@ module Whois
       end
 
       property_supported :registered? do
-        !(respond_to?(:reserved?) && reserved?) && !available?
+        !(respond_to?(:reserved?) && reserved?) && !available? &&
+          !node('domain name').to_s.strip.empty? &&
+          [node('created date'), node('updated date'), node('expiration date'), node('status')].any?(&:present?)
       end
 
 

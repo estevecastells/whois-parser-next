@@ -1,0 +1,7 @@
+Domain Name: google.as
+Registry Domain ID: 249247-as
+Registry Expiry Date: 2027-08-02T00:00:00Z
+Name Server: ns1.google.com
+Name Server: ns2.google.com
+Name Server: ns3.google.com
+Name Server: ns4.google.com

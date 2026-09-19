@@ -35,33 +35,40 @@ module Whois
         if content_for_scanner =~ /^Domain(?:-|\s+)status:?\s+(.+)\n/i
           case ::Regexp.last_match(1).downcase
           # The domain is registered and paid.
-          when  "dom_ok"
+          when "dom_ok"
             :registered
           # The domain is registered and registration fee has to be payed (14 days).
           # Replacement 14-day period for domain payment.
-          when  "dom_ta"
+          when "dom_ta"
             :registered
           # 28 days before the expiration of one year's notice is sent to the first call for an extension of domains.
           # The domain is still fully functional (14 days).
-          when  "dom_dakt"
+          when "dom_dakt"
             :registered
           # 14 days before the expiration of one year's notice is sent to the second call to the extension of domains.
           # The domain is still fully functional (14 days).
-          when  "dom_warn"
+          when "dom_warn"
             :registered
           # The domain is expired and has not been renewed (14 days).
-          when  "dom_lnot"
+          when "dom_lnot"
             :registered
-          when  "dom_exp"
+          when "dom_exp"
             :registered
           # The domain losts its registrar (28 days).
-          when  "dom_held"
+          when "dom_held"
             :redemption
           else
             # Current responses expose EPP status values instead of the
-            # historical DOM_* values. A status line still proves that the
-            # domain is registered.
-            :registered
+            # historical DOM_* values. Unknown values are not registration
+            # evidence and must not fall through to :registered.
+            epp_status = ::Regexp.last_match(1).split(',').map { |value| value.strip.downcase }
+            if epp_status.all? do |value|
+                 value.match?(/\A(?:ok|active|inactive|pending(?:create|delete|renew|transfer|update)|(?:client|server)(?:create|delete|hold|renew|transfer|update)(?:prohibited)?)\z/)
+               end
+              :registered
+            else
+              :unknown
+            end
           end
         else
           :available
@@ -73,7 +80,7 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        [:registered, :redemption].include?(status)
       end
 
 

@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 require 'whois/scanners/base_icann_compliant'
 
 
@@ -19,6 +20,7 @@ module Whois
     # @abstract
     # @see http://www.icann.org/en/resources/registrars/raa/approved-with-specs-27jun13-en.htm#whois
     class BaseIcannCompliant < Base
+      include RegistryResponseSafety
       include Scanners::Scannable
 
       self.scanner = Scanners::BaseIcannCompliant
@@ -35,8 +37,13 @@ module Whois
 
       property_supported :status do
         # status = Array.wrap(node('Domain Status'))
-        if available?
+        if respond_to?(:reserved?) && reserved?
+          :reserved
+        elsif available?
           :available
+        elsif node('Domain Name').to_s.strip.empty? ||
+              [node('Registry Domain ID'), node('Creation Date'), node('Registrar')].all? { |value| value.to_s.strip.empty? }
+          :unknown
         else
           :registered
         end
@@ -47,7 +54,7 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        [:registered, :reserved].include?(status)
       end
 
 

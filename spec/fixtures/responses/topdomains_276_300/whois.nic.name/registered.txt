@@ -1,0 +1,7 @@
+Registry Domain ID: 134538139_DOMAIN_NAME-VRSN
+Domain Name: GOOGLE.NAME
+Registrar: MarkMonitor Inc.
+Registrar IANA ID: 292
+Domain Status: serverTransferProhibited https://icann.org/epp#serverTransferProhibited
+Domain Status: serverUpdateProhibited https://icann.org/epp#serverUpdateProhibited
+Domain Status: serverDeleteProhibited https://icann.org/epp#serverDeleteProhibited

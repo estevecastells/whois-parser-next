@@ -92,7 +92,7 @@ describe Whois::Parsers::WhoisNicEs, "status_registered.expected" do
   describe "#nameservers" do
     it do
       expect(subject.nameservers).to be_a(Array)
-      expect(subject.nameservers.size).to eq(4)
+      expect(subject.nameservers.size).to eq(2)
       expect(subject.nameservers[0]).to be_a(Whois::Parser::Nameserver)
       expect(subject.nameservers[0].name).to eq("ns2.google.com")
       expect(subject.nameservers[1]).to be_a(Whois::Parser::Nameserver)

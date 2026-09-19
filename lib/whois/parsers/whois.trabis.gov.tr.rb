@@ -1,15 +1,24 @@
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 module Whois
   class Parsers
     # Parser for the whois.trabis.gov.tr server.
     class WhoisTrabisGovTr < Base
+      include RegistryResponseSafety
+
       property_supported :domain do
         content_for_scanner.slice(/^\*\* Domain Name:\s+(.+)\n/, 1)
       end
 
       property_supported :status do
-        available? ? :available : :registered
+        if available?
+          :available
+        elsif domain
+          :registered
+        else
+          :unknown
+        end
       end
 
       property_supported :available? do
@@ -17,7 +26,7 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
       property_supported :created_on do

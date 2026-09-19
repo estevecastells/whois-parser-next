@@ -1,0 +1,4 @@
+% This is the WHOIS server for Example Registry.
+% Queries are subject to terms of use.
+%
+% No match for domain 'ZZ176200-DZ-20260919.DZ'.

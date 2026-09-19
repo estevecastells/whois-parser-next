@@ -19,7 +19,9 @@ module Whois
     class BaseNicFr < Base
 
       property_supported :status do
-        if content_for_scanner =~ /status:\s+(.+)\n/
+        if available?
+          :available
+        elsif content_for_scanner =~ /status:\s+(.+)\n/i
           case ::Regexp.last_match(1).downcase
           when "active"     then :registered
           when "registered" then :registered
@@ -37,7 +39,7 @@ module Whois
             Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
           end
         else
-          :available
+          :unknown
         end
       end
 
@@ -46,7 +48,7 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        ![:available, :unknown].include?(status)
       end
 
 
@@ -106,9 +108,10 @@ module Whois
       end
 
 
-      private
-
       MULTIVALUE_KEYS = %w[address]
+      private_constant :MULTIVALUE_KEYS
+
+      private
 
       def parse_contact(element, type)
         return unless content_for_scanner =~ /#{element}:\s+(.+)\n/

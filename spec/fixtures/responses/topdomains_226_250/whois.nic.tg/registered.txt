@@ -1,0 +1,12 @@
+This is JWhoisServer serving ccTLD tg
+Java Whois Server 0.4.1.3
+
+Domain:.............google.tg
+Registrar:..........NETMASTER SARL
+Activation:.........2026-07-16
+Expiration:.........2027-08-12
+Status:.............Activ&eacute;
+Name Server (DB):...ns1.google.com
+Name Server (DB):...ns2.google.com
+Name Server (DB):...ns3.google.com
+Name Server (DB):...ns4.google.com

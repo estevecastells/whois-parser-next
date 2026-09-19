@@ -12,10 +12,11 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 - TESTED: Verified CI support through Ruby 4.0.7; Ruby 3.2 remains the minimum
   supported version.
 - ADDED: Audits and regression fixtures for current registry responses.
-- ADDED: Documented the 2026-09-19 Top 100 audit, using the ICANN DNS
-  Magnitude snapshot dated 2026-09-12 and generated 2026-09-18, with `.arpa`
-  excluded.
-- TESTED: The combined audit suite passes 6,410 examples with 0 failures.
+- ADDED: Documented the 2026-09-19 usage-ranked audit through rank 300, using the ICANN DNS
+  Magnitude snapshot dated 2026-09-12 and generated 2026-09-18, retaining
+  source daily-rank positions and classifying `.arpa` outside registrable-domain
+  parser scope.
+- TESTED: The combined audit suite passes 6,640 examples with 0 failures.
 - PACKAGING: The published gem is runtime-only, containing the library and
   essential documentation while excluding tests, fixtures, and repository
   automation.

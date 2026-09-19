@@ -1,0 +1,11 @@
+%
+% Current registry notice.
+%
+Domain Name: example.hr
+Registrar Registration Expiration Date: 2027-09-20T22:00:00Z
+Registrant Name: Example Organization
+Registrant Street: Example Street 1
+Registrant City: Zagreb
+Registrant Country: HR
+Registrant Postal Code: 10000
+Name Server: ns1.example.net

@@ -63,7 +63,7 @@ module Whois
       # The IEDR daily limit response contains no domain evidence and must not
       # fall through to the parser's default registered result.
       def response_throttled?
-        content_for_scanner.match?(/(?:reached|exceeded).{0,30}daily limit/i)
+        content_for_scanner.match?(/(?:\b(?:reached|exceeded)\b[^\n]{0,60}\bdaily(?:\s+\w+){0,2}\s+limit\b|\bdaily(?:\s+\w+){0,2}\s+limit\b[^\n]{0,60}\b(?:reached|exceeded)\b)/i)
       end
 
 

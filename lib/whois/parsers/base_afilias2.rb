@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 require 'whois/scanners/base_afilias'
 
 
@@ -18,6 +19,7 @@ module Whois
     #
     # @abstract
     class BaseAfilias2 < Base
+      include RegistryResponseSafety
       include Scanners::Scannable
 
       self.scanner = Scanners::BaseAfilias
@@ -46,7 +48,10 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        !available? &&
+          (node("status:reserved") ||
+            (!node("Domain Name").to_s.strip.empty? &&
+              [node("Domain ID"), node("Registry Domain ID"), node("Domain Status")].any? { |value| !Array.wrap(value).empty? }))
       end
 
 

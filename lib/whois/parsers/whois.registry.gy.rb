@@ -19,6 +19,13 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisRegistryGy < BaseCocca2
+      property_supported :status do
+        if content_for_scanner.match?(/^The queried object does not exist: No Object Found\s*$/i)
+          :available
+        else
+          super()
+        end
+      end
     end
 
   end

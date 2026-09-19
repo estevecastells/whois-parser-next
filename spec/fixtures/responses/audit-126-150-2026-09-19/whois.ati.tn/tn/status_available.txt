@@ -1,0 +1,6 @@
+NIC Whois server for cTLDs : .tn
+All rights reserved
+
+NO OBJECT FOUND!
+object:.............u34jedzcq.tn
+type:...............domain

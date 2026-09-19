@@ -1,0 +1,3 @@
+% Domain Information over Whois protocol
+%ERROR:101: no entries found
+% No entries found.

@@ -1,0 +1,8 @@
+Domain Name: google.ink
+Registry Domain ID: REDACTED FOR PRIVACY
+Creation Date: 2014-06-04T12:01:48Z
+Registry Expiry Date: 2026-11-26T23:59:59Z
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Name Server: ns1.google.com
+Name Server: ns2.google.com

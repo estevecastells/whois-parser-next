@@ -39,7 +39,7 @@ module Whois
       end
 
       property_supported :registered? do
-        !!(content_for_scanner =~ /Domain Name:/)
+        !!(content_for_scanner =~ /Domain Name:/i)
       end
 
 

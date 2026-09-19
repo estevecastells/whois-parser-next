@@ -1,0 +1,15 @@
+Domain Name: google.website
+Registry Domain ID: D4978265-CNIC
+Updated Date: 2025-11-11T12:00:30.000Z
+Creation Date: 2014-08-26T12:52:42.000Z
+Registry Expiry Date: 2026-11-26T23:59:59.000Z
+Registrar: MarkMonitor Inc.
+Registrar IANA ID: 292
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Name Server: ns1.google.com
+Name Server: ns2.google.com
+Name Server: ns3.google.com
+Name Server: ns4.google.com
+DNSSEC: unsigned

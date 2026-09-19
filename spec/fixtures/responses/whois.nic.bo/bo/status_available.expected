@@ -6,13 +6,13 @@
 
 
 #status
-  %s == :available
+  %s %ERROR{ResponseIsUnavailable}
 
 #available?
-  %s == true
+  %s %ERROR{ResponseIsUnavailable}
 
 #registered?
-  %s == false
+  %s %ERROR{ResponseIsUnavailable}
 
 
 #created_on

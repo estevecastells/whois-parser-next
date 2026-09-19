@@ -29,7 +29,7 @@ module Whois
 
 
       property_supported :domain do
-        node("domain")
+        node("Domain Name") || node("domain")
       end
 
       property_not_supported :domain_id
@@ -38,8 +38,10 @@ module Whois
       property_supported :status do
         if available?
           :available
-        else
+        elsif node("Domain Name") || node("domain")
           :registered
+        else
+          :unknown
         end
       end
 
@@ -48,7 +50,7 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 
@@ -57,7 +59,8 @@ module Whois
       property_not_supported :updated_on
 
       property_supported :expires_on do
-        node("expires") { |value| parse_time(value) }
+        node("Registrar Registration Expiration Date") { |value| parse_time(value) } ||
+          node("expires") { |value| parse_time(value) }
       end
 
 
@@ -65,21 +68,33 @@ module Whois
 
 
       property_supported :registrant_contacts do
-        node("descr") do |array|
-          _, zip, city = array[2].match(/([\d\s]+) (.+)/).to_a
+        if node("descr")
+          node("descr") do |array|
+            _, zip, city = array[2].match(/([\d\s]+) (.+)/).to_a
+            Parser::Contact.new(
+              :type         => Parser::Contact::TYPE_REGISTRANT,
+              :id           => nil,
+              :name         => array[0],
+              :organization => nil,
+              :address      => array[1],
+              :city         => city,
+              :zip          => zip,
+              :state        => nil,
+              :country      => nil,
+              :phone        => nil,
+              :fax          => nil,
+              :email        => nil
+            )
+          end
+        elsif node("Registrant Name")
           Parser::Contact.new(
-            :type         => Parser::Contact::TYPE_REGISTRANT,
-            :id           => nil,
-            :name         => array[0],
-            :organization => nil,
-            :address      => array[1],
-            :city         => city,
-            :zip          => zip,
-            :state        => nil,
-            :country      => nil,
-            :phone        => nil,
-            :fax          => nil,
-            :email        => nil
+            type: Parser::Contact::TYPE_REGISTRANT,
+            name: node("Registrant Name"),
+            address: node("Registrant Street"),
+            city: node("Registrant City"),
+            zip: node("Registrant Postal Code"),
+            country_code: node("Registrant Country"),
+            email: node("Registrant Email")
           )
         end
       end
@@ -90,6 +105,13 @@ module Whois
 
 
       property_not_supported :nameservers
+
+      def response_unavailable?
+        body = content_for_scanner
+        !body.match?(/^%ERROR:\s*no entries found\s*$/i) &&
+          !body.match?(/^Domain Name:\s+\S+/i) &&
+          !body.match?(/^domain:\s+\S+/i)
+      end
 
     end
 

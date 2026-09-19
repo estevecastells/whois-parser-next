@@ -19,6 +19,11 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisNicDesign < WhoisCentralnicCom
+      # The current CentralNic service emits `No Data Found` without a
+      # domain header for a generated absence query.
+      property_supported :available? do
+        super() || content_for_scanner.match?(/^No Data Found\s*$/i)
+      end
     end
 
   end

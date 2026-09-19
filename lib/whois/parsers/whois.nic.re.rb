@@ -19,6 +19,10 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisNicRe < BaseNicFr
+      # AFNIC uses this compact marker for a missing .re object.
+      property_supported :available? do
+        !!(content_for_scanner =~ /^(?:%% NOT FOUND|%% No entries found in the AFNIC Database\.)\s*$/i)
+      end
     end
 
   end

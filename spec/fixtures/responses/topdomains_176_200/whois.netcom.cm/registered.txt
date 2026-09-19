@@ -1,0 +1,16 @@
+Domain Name: google.cm
+Registry Domain ID: 64389-RegCM
+Registrar URL: http://www.netcom.cm
+Updated Date: 2026-09-17T18:59:00Z
+Creation Date: 2009-10-07T09:02:24Z
+Registry Expiry Date: 2027-10-07T09:02:24Z
+Registrar: Netcom.cm Sarl
+Registrar Email: REDACTED
+Domain Status: active https://icann.org/epp#active
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Name Server: ns1.google.com
+Name Server: ns2.google.com
+Name Server: ns3.google.com
+Name Server: ns4.google.com

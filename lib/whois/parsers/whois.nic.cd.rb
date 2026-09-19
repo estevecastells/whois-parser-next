@@ -21,10 +21,14 @@ module Whois
     class WhoisNicCd < BaseCocca2
 
       property_supported :status do
-        if node("Domain ID")
+        # Current CoCCA responses use Registry Domain ID. Older responses
+        # used Domain ID, so keep both forms as registered evidence.
+        if node("Registry Domain ID") || node("Domain ID")
           :registered
-        else
+        elsif content_for_scanner.match?(/^Domain Status:\s*(?:Available|No Object Found)\s*$/i)
           :available
+        else
+          :unknown
         end
       end
 

@@ -1,0 +1,7 @@
+Domain Name: google.host
+Registry Domain ID: D4977293-CNIC
+Creation Date: 2014-08-26T12:49:37.000Z
+Registry Expiry Date: 2026-11-26T23:59:59.000Z
+Registrar: MarkMonitor Inc.
+Name Server: ns1.googledomains.com
+Name Server: ns2.googledomains.com

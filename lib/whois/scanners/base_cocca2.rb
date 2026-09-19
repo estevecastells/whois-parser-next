@@ -10,6 +10,9 @@ module Whois
           :scan_disclaimer,
           :skip_lastupdate,
           :skip_token_additionalsection,
+          :skip_comment,
+          :skip_no_object,
+          :skip_footer,
           :scan_keyvalue,
       ]
 
@@ -22,7 +25,7 @@ module Whois
       ]
 
       tokenizer :scan_disclaimer do
-        if @input.match?(/^#{DISCLAIMER_MATCHES.join("|")}/)
+        if @input.match?(/^#{DISCLAIMER_MATCHES.join('|')}/)
           @ast["field:disclaimer"] = @input.scan_until(/>>>/) ||
                                      # special handler for whois.nic.cx exception
                                      @input.scan_until(/\Z/)
@@ -35,6 +38,18 @@ module Whois
 
       tokenizer :skip_token_additionalsection do
         @input.skip(/Additional Section\n/)
+      end
+
+      tokenizer :skip_comment do
+        @input.skip(/^%.*\n/)
+      end
+
+      tokenizer :skip_no_object do
+        @input.skip(/^The queried object does not exist: No Object Found\n/i)
+      end
+
+      tokenizer :skip_footer do
+        @input.skip(/^For more information on domain status codes,.*\n/i)
       end
 
     end

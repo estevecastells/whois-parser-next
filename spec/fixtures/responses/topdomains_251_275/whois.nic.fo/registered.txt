@@ -1,0 +1,7 @@
+Domain Name: GOOGLE.FO
+Creation Date: 2011-07-22T22:38:12.0Z
+Updated Date: 2026-06-29T20:32:17.0Z
+Registry Expiry Date: 2027-07-22T23:59:59.0Z
+Domain Status: ok https://icann.org/epp#ok
+Name Server: NS1.MARKMONITOR.COM
+Name Server: NS3.MARKMONITOR.COM

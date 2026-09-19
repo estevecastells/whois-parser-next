@@ -1,0 +1,10 @@
+Domain Name: zicta.zm
+Registry Domain ID: 2617-zicta
+Updated Date: 2024-08-27T10:19:37Z
+Creation Date: 2013-03-14T22:00:00Z
+Registry Expiry Date: 2030-12-30T00:00:00Z
+Registrar: ZICTA Reserved
+Domain Status: active https://icann.org/epp#active
+Name Server: ns1.desec.io
+Name Server: ns2.desec.org
+DNSSEC: signedDelegation

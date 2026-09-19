@@ -29,17 +29,19 @@ module Whois
       property_supported :status do
         if available?
           :available
-        else
+        elsif content_for_scanner =~ /^Domain Name:\s+\S+/i
           :registered
+        else
+          :unknown
         end
       end
 
       property_supported :available? do
-        (content_for_scanner.strip == "Not found")
+        !!(content_for_scanner =~ /^(?:Not found|The queried object does not exist: No Object Found)\s*$/i)
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 

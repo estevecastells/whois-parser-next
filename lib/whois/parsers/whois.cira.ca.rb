@@ -41,7 +41,7 @@ module Whois
         status_value = node("Domain status") || node("Domain Status")
 
         if status_value
-          case Array.wrap(status_value).map { |value| value.to_s.downcase.sub(/\s+https?:\/\/.*\z/, "") }
+          case Array.wrap(status_value).map { |value| value.to_s.downcase.sub(%r{\s+https?://.*\z}, "") }
           when ["registered"]
             :registered
           when ["redemption"]
@@ -57,7 +57,7 @@ module Whois
           when ["unavailable"]
             :invalid
           else
-            epp_statuses = Array.wrap(status_value).map { |value| value.to_s.downcase.sub(/\s+https?:\/\/.*\z/, "") }
+            epp_statuses = Array.wrap(status_value).map { |value| value.to_s.downcase.sub(%r{\s+https?://.*\z}, "") }
             if epp_statuses.all? { |value| value.match?(/\A(?:client|server)(?:delete|transfer|update|renew)prohibited\z/) }
               :registered
             else
@@ -95,7 +95,7 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 

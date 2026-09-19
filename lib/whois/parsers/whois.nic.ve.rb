@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -25,6 +26,7 @@ module Whois
     # and examples.
     #
     class WhoisNicVe < Base
+      include RegistryResponseSafety
 
       property_supported :status do
         if content_for_scanner =~ /Estatus del dominio: (.+?)\n/
@@ -36,17 +38,22 @@ module Whois
           else
             Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
           end
-        else
+        elsif content_for_scanner.match?(/^domain:\s*\S+/i)
+          :registered
+        elsif available?
           :available
+        else
+          Whois::Parser.bug!(ParserError, "Unable to parse .ve response status.")
         end
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /No match for "(.+?)"/)
+        !!(content_for_scanner =~ /No match for "(.+?)"/) ||
+          !!(content_for_scanner =~ /^%ERROR:101:\s+no entries found\s*$/i)
       end
 
       property_supported :registered? do
-        !available?
+        [:registered, :inactive].include?(status)
       end
 
 

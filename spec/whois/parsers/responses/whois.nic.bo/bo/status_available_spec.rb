@@ -21,7 +21,7 @@ describe Whois::Parsers::WhoisNicBo, "status_available.expected" do
 
   describe "#domain" do
     it do
-      expect(subject.domain).to eq(nil)
+      expect { subject.domain }.to raise_error(Whois::ResponseIsUnavailable)
     end
   end
   describe "#domain_id" do
@@ -31,22 +31,22 @@ describe Whois::Parsers::WhoisNicBo, "status_available.expected" do
   end
   describe "#status" do
     it do
-      expect(subject.status).to eq(:available)
+      expect { subject.status }.to raise_error(Whois::ResponseIsUnavailable)
     end
   end
   describe "#available?" do
     it do
-      expect(subject.available?).to eq(true)
+      expect { subject.available? }.to raise_error(Whois::ResponseIsUnavailable)
     end
   end
   describe "#registered?" do
     it do
-      expect(subject.registered?).to eq(false)
+      expect { subject.registered? }.to raise_error(Whois::ResponseIsUnavailable)
     end
   end
   describe "#created_on" do
     it do
-      expect(subject.created_on).to eq(nil)
+      expect { subject.created_on }.to raise_error(Whois::ResponseIsUnavailable)
     end
   end
   describe "#updated_on" do
@@ -56,7 +56,7 @@ describe Whois::Parsers::WhoisNicBo, "status_available.expected" do
   end
   describe "#expires_on" do
     it do
-      expect(subject.expires_on).to eq(nil)
+      expect { subject.expires_on }.to raise_error(Whois::ResponseIsUnavailable)
     end
   end
   describe "#nameservers" do

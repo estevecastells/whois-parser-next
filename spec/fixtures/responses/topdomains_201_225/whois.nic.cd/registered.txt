@@ -1,0 +1,11 @@
+Domain Name: google.cd
+Registry Domain ID: 4592-niccd
+Updated Date: 2024-06-04T20:02:11.483Z
+Creation Date: 2021-01-15T00:00:00.0Z
+Registry Expiry Date: 2025-06-30T00:00:00.0Z
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Name Server: ns1.google.com
+Name Server: ns2.google.com
+Name Server: ns3.google.com
+Name Server: ns4.google.com
+>>> Last update of WHOIS database: 2026-09-18T19:13:58.960Z <<<

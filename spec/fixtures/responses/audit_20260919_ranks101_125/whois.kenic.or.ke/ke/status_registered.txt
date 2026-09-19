@@ -1,0 +1,5 @@
+Domain Name: example.ke
+Registry Domain ID: REDACTED-KENIC
+Updated Date: 2026-02-03T10:42:11Z
+Status: active https://icann.org/epp#active
+Name Server: ns1.example.net

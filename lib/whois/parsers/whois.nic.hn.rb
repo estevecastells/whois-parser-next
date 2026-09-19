@@ -8,6 +8,7 @@
 
 
 require_relative 'base_cocca2'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -19,6 +20,29 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisNicHn < BaseCocca2
+      include RegistryResponseSafety
+
+      property_supported :status do
+        if no_object_found?
+          :available
+        else
+          super()
+        end
+      end
+
+      property_supported :available? do
+        no_object_found? || super()
+      end
+
+      property_supported :registered? do
+        status == :registered
+      end
+
+      private
+
+      def no_object_found?
+        content_for_scanner.match?(/^The queried object does not exist:\s*No Object Found\s*$/i)
+      end
     end
 
   end

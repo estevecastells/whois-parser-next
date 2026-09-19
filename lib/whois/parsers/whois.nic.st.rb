@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -25,12 +26,15 @@ module Whois
     # and examples.
     #
     class WhoisNicSt < Base
+      include RegistryResponseSafety
 
       property_supported :status do
         if available?
           :available
-        else
+        elsif content_for_scanner.match?(/^Domain(?: Name)?:\s*\S+/i)
           :registered
+        else
+          :unknown
         end
       end
 
@@ -39,7 +43,7 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
       property_supported :created_on do
