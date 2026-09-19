@@ -3,7 +3,7 @@
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 
-#### Unreleased 0.1.0
+#### Release 0.1.0 (2026-09-19)
 
 - CHANGED: Continued the project as `whois-parser-next`, with the original MIT
   license, attribution, and Git history preserved.
