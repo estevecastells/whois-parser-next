@@ -2,6 +2,7 @@ require 'spec_helper'
 
 require 'whois/parsers/blank'
 
+require 'whois/parsers/whois.afilias-srs.net'
 require 'whois/parsers/whois.nic.works'
 require 'whois/parsers/whois.nic.systems'
 require 'whois/parsers/whois.nic.business'
@@ -87,6 +88,7 @@ RSpec.describe Whois::Parser, 'ICANN DNS Magnitude source ranks 101-125 audit' d
 
   describe 'reachable registries that deny the TLD' do
     {
+      Whois::Parsers::WhoisAfiliasSrsNet => 'whois.afilias-srs.net/apple/status_unsupported.txt',
       Whois::Parsers::WhoisNicWorks => 'whois.nic.works/works/status_unsupported.txt',
       Whois::Parsers::WhoisNicSystems => 'whois.nic.systems/systems/status_unsupported.txt',
       Whois::Parsers::WhoisNicBusiness => 'whois.nic.business/business/status_unsupported.txt',

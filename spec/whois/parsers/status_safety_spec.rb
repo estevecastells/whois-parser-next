@@ -68,7 +68,12 @@ RSpec.describe Whois::Parsers::Base, 'parser status safety' do
 
   describe 'registry responses without a record' do
     {
-      Whois::Parsers::WhoisAfiliasSrsNet => "TLD is not supported.\n",
+      Whois::Parsers::WhoisAfiliasSrsNet => <<~RESPONSE,
+        TLD is not supported.
+        >>> Last update of WHOIS database: 2026-09-19T00:56:24Z <<<
+
+        Terms of Use: Access to WHOIS information is provided for query-based access.
+      RESPONSE
       Whois::Parsers::WhoisRegistryQa => '',
       Whois::Parsers::WhoisKg => '',
       Whois::Parsers::WhoisNicCi => '',

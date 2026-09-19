@@ -9,7 +9,7 @@ module Whois
       }
 
       def response_unavailable?
-        super || content_for_scanner.match?(/\ATLD is not supported\.\s*\z/i)
+        super || content_for_scanner.match?(/\ATLD is not supported\.\s*(?:\r?\n|\z)/i)
       end
     end
   end
