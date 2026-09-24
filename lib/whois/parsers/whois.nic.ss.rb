@@ -29,7 +29,7 @@ module Whois
 
       def registered_evidence?
         content_for_scanner.match?(/^Domain Name:\s+\S+/i) &&
-          !content_for_scanner.match?(/^Domain Status:\s+Prohibited String\b/i)
+          content_for_scanner.match?(/^Domain Status:\s+(?!Prohibited String\b)\S+/i)
       end
     end
   end

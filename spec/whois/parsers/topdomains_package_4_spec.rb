@@ -27,6 +27,8 @@ require 'whois/parsers/whois.nic.gd'
 require 'whois/parsers/whois.nic.pm'
 require 'whois/parsers/whois.nic.fr'
 require 'whois/parsers/whois.ax'
+require 'whois/parsers/whois.cnnic.cn'
+require 'whois/parsers/cwhois.cnnic.cn'
 
 RSpec.describe Whois::Parser, 'ICANN DNS Magnitude package-4 parser coverage' do
   def parser_for(klass, path, host = nil)
@@ -186,8 +188,51 @@ RSpec.describe Whois::Parser, 'ICANN DNS Magnitude package-4 parser coverage' do
 
       reserved = parser_for(klass, 'tirol/reserved.txt')
       expect(reserved.status).to eq(:reserved), klass.name
-      expect(reserved.registered?).to eq(true), klass.name
+      expect(reserved.available?).to eq(false), klass.name
+      expect(reserved.registered?).to eq(false), klass.name
     end
+  end
+
+  it 'keeps empty, denied, and ambiguous responses out of registration claims' do
+    [
+      Whois::Parsers::WhoisAx,
+      Whois::Parsers::WhoisNicCoop,
+      Whois::Parsers::WhoisCnnicCn,
+      Whois::Parsers::CwhoisCnnicCn,
+    ].each do |klass|
+      empty = klass.new(Whois::Record::Part.new(body: ''))
+      expect(empty.response_unavailable?).to eq(true), klass.name
+      expect { empty.status }.to raise_error(Whois::ResponseIsUnavailable), klass.name
+      expect { empty.available? }.to raise_error(Whois::ResponseIsUnavailable), klass.name
+      expect { empty.registered? }.to raise_error(Whois::ResponseIsUnavailable), klass.name
+
+      denied = klass.new(Whois::Record::Part.new(body: "Access to the WHOIS service is denied.\n"))
+      expect(denied.response_unavailable?).to eq(true), klass.name
+      expect { denied.registered? }.to raise_error(Whois::ResponseIsUnavailable), klass.name
+
+      unknown = klass.new(
+        Whois::Record::Part.new(body: File.read(fixture('responses', 'top1000_safety/temporary_response.txt')))
+      )
+      expect(unknown.status).to eq(:unknown), klass.name
+      expect(unknown.available?).to eq(false), klass.name
+      expect(unknown.registered?).to eq(false), klass.name
+    end
+  end
+
+  it 'does not treat bare SSNIC or Tatar markers as positive evidence' do
+    ss = Whois::Parsers::WhoisNicSs.new(
+      Whois::Record::Part.new(body: File.read(fixture('responses', 'top1000_safety/domain_name_only.txt')))
+    )
+    expect(ss.status).to eq(:unknown)
+    expect(ss.available?).to eq(false)
+    expect(ss.registered?).to eq(false)
+
+    tatar = Whois::Parsers::WhoisNicTatar.new(
+      Whois::Record::Part.new(body: File.read(fixture('responses', 'top1000_safety/unknown_object_marker.txt')))
+    )
+    expect(tatar.status).to eq(:unknown)
+    expect(tatar.available?).to eq(false)
+    expect(tatar.registered?).to eq(false)
   end
 
   it 'keeps the current absence markers for existing package-4 parsers' do

@@ -93,6 +93,16 @@ RSpec.describe Whois::Parser, 'top-1000 parser package 1 adapters' do
       expect(parser.available?).to eq(true)
       expect(parser.registered?).to eq(false)
     end
+
+    it 'does not treat a bare Domain Name line as registration evidence' do
+      parser = described_class.new(
+        Whois::Record::Part.new(body: File.read(fixture('responses', 'top1000_safety/domain_name_only.txt')))
+      )
+
+      expect(parser.status).to eq(:unknown)
+      expect(parser.available?).to eq(false)
+      expect(parser.registered?).to eq(false)
+    end
   end
 
   {
@@ -148,5 +158,15 @@ RSpec.describe Whois::Parser, 'top-1000 parser package 1 adapters' do
       expect(parser.available?).to eq(false)
       expect(parser.registered?).to eq(false)
     end
+  end
+
+  it 'does not treat an unknown object message as an absence marker' do
+    parser = Whois::Parsers::WhoisNicXnD1acj3b.new(
+      Whois::Record::Part.new(body: File.read(fixture('responses', 'top1000_safety/unknown_object_marker.txt')))
+    )
+
+    expect(parser.status).to eq(:unknown)
+    expect(parser.available?).to eq(false)
+    expect(parser.registered?).to eq(false)
   end
 end

@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 require 'whois/scanners/whois.cnnic.cn.rb'
 
 
@@ -16,9 +17,12 @@ module Whois
 
     # Parser for the whois.cnnic.cn server.
     class WhoisCnnicCn < Base
+      include RegistryResponseSafety
       include Scanners::Scannable
 
       self.scanner = Scanners::WhoisCnnicCn
+
+      RESPONSE_MARKER = /(?:^No matching record\.?\s*$|^The domain you requested is prohibited\.?\s*$|^Sorry, The domain you requested is in the reserved list\.?\s*$|^Domain Name:\s*\S+)/i
 
 
       property_not_supported :disclaimer
@@ -34,15 +38,26 @@ module Whois
 
 
       property_supported :status do
-        Array.wrap node("Domain Status")
+        return [] if available? || reserved?
+        return :unknown unless recognized_response?
+
+        statuses = Array.wrap node("Domain Status")
+        if statuses.empty?
+          :unknown
+        else
+          statuses
+        end
       end
 
       property_supported :available? do
+        return true if content_for_scanner.match?(/^No matching record\.?\s*$/i)
+        return false unless recognized_response?
+
         !!node("status:available")
       end
 
       property_supported :registered? do
-        !reserved? && !available?
+        status.is_a?(Array) && !status.empty? && registered_evidence?
       end
 
 
@@ -86,11 +101,24 @@ module Whois
 
       # NEWPROPERTY
       def reserved?
+        return true if content_for_scanner.match?(/^The domain you requested is prohibited\.?\s*$/i)
+        return true if content_for_scanner.match?(/^Sorry, The domain you requested is in the reserved list\.?\s*$/i)
+        return false unless recognized_response?
+
         !!node("status:reserved")
       end
 
-
       private
+
+      def registered_evidence?
+        !node("Domain Name").to_s.strip.empty? &&
+          !Array.wrap(node("Domain Status")).empty?
+      end
+
+      def recognized_response?
+        content_for_scanner.match?(RESPONSE_MARKER)
+      end
+
 
       def build_contact(element, type)
         node("#{element}") do |value|

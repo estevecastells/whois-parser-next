@@ -9,7 +9,7 @@ module Whois
     class BaseTop1000Icann < BaseIcannCompliant
       AVAILABLE_MARKERS = [
         /^No Data Found\s*$/i,
-        /^The queried object does not exist(?::\s*(?:DOMAIN NOT FOUND|no matching objects found))?\s*$/i,
+        /^The queried object does not exist:\s*(?:DOMAIN NOT FOUND|no matching objects found)\s*$/i,
         /^>>> Domain \S+ is available for registration\s*$/i,
         /^Domain not found\s*$/i,
         /^%% NOT FOUND\s*$/i,

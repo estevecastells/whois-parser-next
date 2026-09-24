@@ -101,6 +101,16 @@ RSpec.describe Whois::Parser, 'ICANN DNS Magnitude package-5 coverage' do
     expect(parser_for('whois.nic.xn--t60b56a', 'identity_no_match.txt').available?).to eq(true)
     expect(parser_for('whois.gtld.knet.cn', 'identity_knet_missing.txt').available?).to eq(true)
     expect(parser_for('whois.ryce-rsp.com', 'identity_ryce_available.txt').available?).to eq(true)
+
+    knet_unknown = described_class.parser_for(
+      Whois::Record::Part.new(
+        body: File.read(fixture('responses', 'top1000_safety/unknown_object_marker.txt')),
+        host: 'whois.gtld.knet.cn'
+      )
+    )
+    expect(knet_unknown.status).to eq(:unknown)
+    expect(knet_unknown.available?).to eq(false)
+    expect(knet_unknown.registered?).to eq(false)
   end
 
   it 'parses the AFNIC .yt response and its explicit absence marker' do
@@ -123,6 +133,16 @@ RSpec.describe Whois::Parser, 'ICANN DNS Magnitude package-5 coverage' do
     expect(registered.nameservers.map(&:name)).to eq(%w[ns1.google.com ns2.google.com])
     expect(available.available?).to eq(true)
     expect(available.registered?).to eq(false)
+
+    domain_only = described_class.parser_for(
+      Whois::Record::Part.new(
+        body: File.read(fixture('responses', 'top1000_safety/jwhois_domain_only.txt')),
+        host: 'whois.mediaserv.net'
+      )
+    )
+    expect(domain_only.status).to eq(:unknown)
+    expect(domain_only.available?).to eq(false)
+    expect(domain_only.registered?).to eq(false)
   end
 
   it 'keeps empty and ambiguous responses unknown' do

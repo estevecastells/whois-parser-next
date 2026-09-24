@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -25,18 +26,24 @@ module Whois
     # and examples.
     #
     class WhoisNicCoop < Base
+      include RegistryResponseSafety
 
       property_supported :status do
-        content_for_scanner.scan(/Status:\s+(.+?)\n/).flatten
+        statuses = content_for_scanner.scan(/Status:\s+(.+?)\n/).flatten
+        if statuses.empty? && !available?
+          :unknown
+        else
+          statuses
+        end
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /No domain records were found to match/ ||
+        !!(content_for_scanner =~ /^No domain records were found to match\s+"[^"]+"\s*$/i ||
            content_for_scanner =~ /^>>> Domain \S+ is available for registration\s*$/i)
       end
 
       property_supported :registered? do
-        !available?
+        !available? && registered_evidence?
       end
 
 
@@ -63,6 +70,13 @@ module Whois
         content_for_scanner.scan(/Host Name:\s+(.+)\n/).flatten.map do |name|
           Parser::Nameserver.new(:name => name)
         end
+      end
+
+      private
+
+      def registered_evidence?
+        content_for_scanner.match?(/^Domain Name:\s+\S+/i) &&
+          content_for_scanner.match?(/^(?:Domain ID|Created):\s+\S+/i)
       end
 
     end

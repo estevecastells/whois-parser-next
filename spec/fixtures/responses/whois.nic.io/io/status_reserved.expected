@@ -16,7 +16,7 @@
   %s == false
 
 #registered?
-  %s == true
+  %s == false
 
 
 #created_on

@@ -11,7 +11,7 @@ module Whois
       property_supported :status do
         if available?
           :available
-        elsif content_for_scanner.match?(/^\s*Domain Name:\s*\S+/i)
+        elsif registered_evidence?
           :registered
         else
           :unknown
@@ -24,6 +24,13 @@ module Whois
 
       def response_unavailable?
         super || response_incomplete?
+      end
+
+      private
+
+      def registered_evidence?
+        content_for_scanner.match?(/^\s*Domain Name:\s*\S+/i) &&
+          content_for_scanner.match?(/^\s*(?:Registry Domain ID|Creation Date|Registrar):\s*\S+/i)
       end
     end
 

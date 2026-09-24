@@ -54,7 +54,7 @@ module Whois
       end
 
       property_supported :registered? do
-        [:registered, :reserved].include?(status)
+        status == :registered
       end
 
 

@@ -6,7 +6,7 @@ module Whois
     # `DOMAIN NOT FOUND` as its authoritative absence marker.
     class WhoisNicXnD1acj3b < BaseCentralnicIcann
       self.scanner = Scanners::BaseIcannCompliant, {
-        pattern_available: /^The queried object does not exist:\s+\S+\s*$/i,
+        pattern_available: /^The queried object does not exist:\s+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.xn--d1acj3b\s*$/i,
       }
     end
 

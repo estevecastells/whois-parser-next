@@ -6,7 +6,13 @@ module Whois
     # object-specific no-entry sentence.
     class WhoisNicTatar < WhoisNicAs
       property_supported :available? do
-        super() || content_for_scanner.match?(/^The queried object does not exist:\s+\S+/i)
+        super() || content_for_scanner.match?(/^The queried object does not exist:\s+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.tatar\s*$/i)
+      end
+
+      private
+
+      def registered_evidence?
+        super && content_for_scanner.match?(/^(?:Registry Domain ID|Creation Date|Registrar):\s+\S+/i)
       end
     end
   end

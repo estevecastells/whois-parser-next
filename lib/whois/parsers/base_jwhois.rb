@@ -16,7 +16,7 @@ module Whois
       property_supported :status do
         if available?
           :available
-        elsif content_for_scanner.match?(/^domain:\s*\S+/i)
+        elsif registered_evidence?
           :registered
         else
           :unknown
@@ -35,6 +35,13 @@ module Whois
         content_for_scanner.scan(/^nameserver:\s*(\S+)\s*$/i).flatten.map do |name|
           Parser::Nameserver.new(name: name.downcase)
         end
+      end
+
+      private
+
+      def registered_evidence?
+        content_for_scanner.match?(/^domain:\s*\S+/i) &&
+          content_for_scanner.match?(/^(?:changed|nameserver):\s*\S+/i)
       end
     end
   end

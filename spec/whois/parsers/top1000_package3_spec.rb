@@ -44,7 +44,10 @@ RSpec.describe Whois::Parser, 'ICANN DNS Magnitude package-3 WHOIS coverage' do
     expect(parser('whois.nic.fox', 'available_no_data.txt').status).to eq(:available)
     expect(parser('whois.nic.cam', 'available_domain_not_found.txt').status).to eq(:available)
     expect(parser('whois.nic.love', 'available_radix.txt').status).to eq(:available)
-    expect(parser('whois.nic.rodeo', 'reserved.txt').status).to eq(:reserved)
+    reserved = parser('whois.nic.rodeo', 'reserved.txt')
+    expect(reserved.status).to eq(:reserved)
+    expect(reserved.available?).to eq(false)
+    expect(reserved.registered?).to eq(false)
   end
 
   it 'reuses the explicit unsupported-registry family without claiming a result' do
@@ -73,6 +76,17 @@ RSpec.describe Whois::Parser, 'ICANN DNS Magnitude package-3 WHOIS coverage' do
     expect(unknown.status).to eq(:unknown)
     expect(unknown.registered?).to eq(false)
     expect(unknown.available?).to eq(false)
+  end
+
+  it 'requires an exact absence marker for top-1000 ICANN adapters' do
+    unknown = parser(
+      'whois.nic.rodeo',
+      body: File.read(File.expand_path('../../fixtures/responses/top1000_safety/unknown_object_marker.txt', __dir__))
+    )
+
+    expect(unknown.status).to eq(:unknown)
+    expect(unknown.available?).to eq(false)
+    expect(unknown.registered?).to eq(false)
   end
 
   it 'handles registries with distinct compact response contracts' do

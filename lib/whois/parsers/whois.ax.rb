@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -23,22 +24,25 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisAx < Base
+      include RegistryResponseSafety
 
       property_supported :status do
         if available?
           :available
-        else
+        elsif registered_evidence?
           :registered
+        else
+          :unknown
         end
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /^No records matching .+ found/ ||
+        !!(content_for_scanner =~ /^No records matching \S+ found\.\s*$/i ||
            content_for_scanner =~ /^Domain not found\s*$/i)
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 
@@ -57,6 +61,13 @@ module Whois
         content_for_scanner.scan(/Name Server \d:\s+(.+)\n/).flatten.map do |name|
           Parser::Nameserver.new(:name => name)
         end
+      end
+
+      private
+
+      def registered_evidence?
+        content_for_scanner.match?(/^Domain Name:\s+\S+/i) &&
+          content_for_scanner.match?(/^(?:Created|Name Server \d):\s+\S+/i)
       end
 
     end
