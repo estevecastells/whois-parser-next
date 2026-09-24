@@ -22,6 +22,8 @@ module Whois
       def response_unavailable?
         response_incomplete? || content_for_scanner.match?(
           /^(?:\s*(?:%|#)\s*)?(?:requests of this client are not permitted|access to the whois service is denied|whois service is unavailable)\b/i
+        ) || content_for_scanner.match?(
+          /\ATLD is not supported\.[ \t]*(?:\n|\z)/i
         )
       end
     end

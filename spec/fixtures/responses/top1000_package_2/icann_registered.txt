@@ -1,0 +1,6 @@
+Domain Name: example.test
+Registry Domain ID: D123-TEST
+Creation Date: 2020-01-02T03:04:05Z
+Registrar: Example Registrar
+Name Server: ns1.example.test
+Name Server: ns2.example.test

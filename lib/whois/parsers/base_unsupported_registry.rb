@@ -21,7 +21,7 @@ module Whois
 
       def response_unavailable?
         content_for_scanner.match?(
-          /^(?:TLD is not supported\.|No Data Found)\s*$/i
+          /\A(?:TLD is not supported\.|No Data Found)[ \t]*(?:\n|\z)/i
         )
       end
     end
