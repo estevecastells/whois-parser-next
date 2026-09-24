@@ -31,3 +31,10 @@ The first 300 rows retain the previously pinned digest:
 
 The manifest has no unresolved rank or label ambiguity. The audit spec
 verifies contiguity, uniqueness, classifications, and both digests.
+
+The static 301-1000 WHOIS inventory and five-package ownership plan lives in
+[`whois-parser-top1000-planning.csv`](whois-parser-top1000-planning.csv). Its
+server columns come from the locked `whois` 6.0.3 definitions, and its parser
+columns come from the current parser tree. See the accompanying
+[`whois-parser-top1000-work-packages-2026-09-19.md`](../whois-parser-top1000-work-packages-2026-09-19.md)
+for state definitions and implementation boundaries.
