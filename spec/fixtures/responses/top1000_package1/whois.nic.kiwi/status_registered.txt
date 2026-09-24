@@ -1,0 +1,5 @@
+Domain Name: google.kiwi
+Registry Domain ID: 38570-KIWI
+Creation Date: 2014-03-25T05:14:23Z
+Registrar: MarkMonitor Inc.
+Domain Status: clientTransferProhibited

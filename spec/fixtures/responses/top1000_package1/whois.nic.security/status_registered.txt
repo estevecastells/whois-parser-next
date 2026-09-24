@@ -1,0 +1,5 @@
+Domain Name: GOOGLE.SECURITY
+Registry Domain ID: D14321731-CNIC
+Creation Date: 2016-01-07T17:34:12.0Z
+Registrar: MarkMonitor Inc.
+Domain Status: clientTransferProhibited

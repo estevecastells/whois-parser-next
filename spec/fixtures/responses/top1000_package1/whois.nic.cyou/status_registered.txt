@@ -1,0 +1,5 @@
+Domain Name: GOOGLE.CYOU
+Registry Domain ID: D186449579-CNIC
+Creation Date: 2020-05-15T20:56:02.0Z
+Registrar: MarkMonitor Inc.
+Domain Status: clientTransferProhibited

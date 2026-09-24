@@ -1,0 +1,8 @@
+require_relative 'base_centralnic_icann'
+
+module Whois
+  class Parsers
+    class WhoisNicSecurity < BaseCentralnicIcann
+    end
+  end
+end
