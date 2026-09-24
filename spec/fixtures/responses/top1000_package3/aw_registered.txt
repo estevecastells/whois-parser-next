@@ -1,0 +1,3 @@
+Domain name: google.aw
+Status:      active
+Registrar:   Example Registrar

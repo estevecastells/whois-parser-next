@@ -1,0 +1,7 @@
+Domain Name: google.buzz
+Registry Domain ID: D123-BUZZ
+Registrar: Example Registrar
+Creation Date: 2020-01-02T03:04:05Z
+Registry Expiry Date: 2030-01-02T03:04:05Z
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Name Server: ns1.example.test
