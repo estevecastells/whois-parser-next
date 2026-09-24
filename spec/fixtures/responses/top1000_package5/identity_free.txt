@@ -1,0 +1,2 @@
+Domain Name: google.example
+Domain Status: free

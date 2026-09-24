@@ -1,0 +1,7 @@
+domain:                        google.yt
+status:                        ACTIVE
+Expiry Date:                   2027-02-15T19:07:10Z
+created:                       2011-12-06T09:03:45Z
+last-update:                   2026-01-19T10:32:06.892344Z
+nserver:                       ns1.markmonitor.com
+nserver:                       ns3.markmonitor.com

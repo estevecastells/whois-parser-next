@@ -1,0 +1,8 @@
+Domain Name: google.example
+Registry Domain ID: D123-CNIC
+Creation Date: 2014-01-02T03:04:05Z
+Registrar: Example Registrar
+Registrar IANA ID: 292
+Domain Status: clientTransferProhibited
+Name Server: ns1.example.net
+Name Server: ns2.example.net

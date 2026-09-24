@@ -1,0 +1,4 @@
+domain:     google.gf
+changed:    2025-10-13 00:00:00.0
+nameserver: ns1.google.com
+nameserver: ns2.google.com

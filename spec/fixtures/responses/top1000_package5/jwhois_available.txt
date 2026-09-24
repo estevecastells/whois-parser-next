@@ -1,0 +1,3 @@
+NO OBJECT FOUND!
+object:     zzzz-whois-parser-20260919.gf
+type:       domain
