@@ -31,7 +31,8 @@ module Whois
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /No domain records were found to match/)
+        !!(content_for_scanner =~ /No domain records were found to match/ ||
+           content_for_scanner =~ /^>>> Domain \S+ is available for registration\s*$/i)
       end
 
       property_supported :registered? do

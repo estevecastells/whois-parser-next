@@ -20,6 +20,10 @@ module Whois
     #
     class WhoisNicGd < BaseShared3
 
+      property_supported :available? do
+        super() || content_for_scanner.match?(/^The queried object does not exist:\s*DOMAIN NOT FOUND\s*$/i)
+      end
+
       # NEWPROPERTY
       def reserved?
         !!content_for_scanner.match(/RESTRICTED/)

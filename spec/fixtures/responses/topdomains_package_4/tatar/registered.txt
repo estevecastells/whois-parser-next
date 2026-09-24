@@ -1,0 +1,6 @@
+Domain Name: GOOGLE.TATAR
+Registry Domain ID: GOOGLE.TATAR
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Creation Date: 2014-10-27T12:50:36Z
+Registrar: JSC RU-CENTER [RUCENTER-TATAR]
+Name Server: ns1.google.com.

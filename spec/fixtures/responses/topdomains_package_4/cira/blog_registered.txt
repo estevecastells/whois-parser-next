@@ -1,0 +1,8 @@
+Domain Name: google.blog
+Registry Domain ID: 596387-BLOG
+Domain Status: clientTransferProhibited
+Creation Date: 2016-08-19T23:31:39Z
+Registrar: MarkMonitor, Inc (TLDs)
+Name servers:
+  ns1.google.com
+  ns2.google.com

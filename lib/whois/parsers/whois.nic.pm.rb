@@ -19,6 +19,9 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisNicPm < BaseNicFr
+      property_supported :available? do
+        !!(content_for_scanner =~ /^(?:%% NOT FOUND|%% No entries found in the AFNIC Database\.)\s*$/i)
+      end
     end
 
   end

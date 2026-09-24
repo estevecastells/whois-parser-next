@@ -1,0 +1,6 @@
+Domain Name: google.uno
+Registry Domain ID: D175369094-CNIC
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Creation Date: 2014-02-07T16:02:45Z
+Registrar: MarkMonitor Inc.
+Name Server: ns1.google.com

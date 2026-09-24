@@ -1,0 +1,6 @@
+Domain Name: google.example
+Registry Domain ID: D123-CNIC
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Creation Date: 2016-08-19T23:31:39Z
+Registrar: MarkMonitor Inc.
+Name Server: ns1.google.com

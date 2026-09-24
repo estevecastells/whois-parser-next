@@ -1,0 +1,2 @@
+Error code: 01044
+Error message: The domain name requested has usage restrictions applied to it.
