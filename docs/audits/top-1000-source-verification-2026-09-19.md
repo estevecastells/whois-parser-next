@@ -4,12 +4,12 @@ Date: 2026-09-19
 
 ## Result
 
-The repository's pinned source manifest for ranks 1-300 is reproducible and
+The repository's pinned source manifest for ranks 1-1000 is reproducible and
 correct as a repository artifact. The canonical form is one UTF-8 line per
 row, `source-rank:tld`, followed by a final newline. Its SHA-256 is:
 
 ```text
-3f30997fd02e9481a316f2eaee541143b16cb445198cbf35956f5ae1c5950b62
+6f1411e1323ed09683480b47314188c71c19d62979d2d7cc2894669b4dd9e681
 ```
 
 The authoritative historical response is preserved by ICANN under its public
@@ -58,7 +58,7 @@ The current root page was also retrieved and confirmed to have rolled to the
 next snapshot, 2026-09-13 generated 2026-09-19. The historical directory
 listing records `20260912.full.html` as an 811K file last modified on 2026-09-18.
 
-## Repository ranks 1-300 verification
+## Existing audit reports, ranks 1-300
 
 The nine existing audit reports contain exactly 300 rows, one for each source
 rank 1 through 300, with 300 unique TLD labels and no duplicate rank. The
@@ -209,10 +209,12 @@ silent historical substitute.
 
 ## Verification status
 
-* Ranks 1-300: verified against the repository's pinned canonical digest.
+* Ranks 1-300: verified against the existing audit reports and the repository's
+  pinned canonical digest.
 * Ranks 301-1000 for 2026-09-12: verified from ICANN's historical HTML and
   digest recorded above.
 * Current ICANN 2026-09-13 ranks 301-1000: checked only to confirm daily
   rollover; its digest is explicitly excluded from the target manifest.
-* Parser implementation, README, CHANGELOG, and version files: unchanged by
-  this verification.
+* Parser implementation and package audit reports remain separate from this
+  source verification record; their evidence and outcomes are documented in
+  the linked package reports.

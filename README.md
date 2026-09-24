@@ -38,8 +38,8 @@ of current WHOIS responses, explicit unknown states, registry-specific
 fixtures, and safe handling of malformed, rate-limited, retired, or changed
 server responses.
 
-The current development gem name is `whois-parser-next`. It has not yet been
-published to RubyGems.
+The latest published RubyGems release is `0.1.0`. Version `0.2.0` is an
+unpublished release candidate.
 
 ## Compatibility
 
@@ -83,12 +83,21 @@ bundle exec rspec
 
 ## Coverage evidence
 
-The 2026-09-19 live audit covers the ICANN DNS Magnitude ordering through rank
-300. Start with the [Top 20 review](docs/audits/top-20-tlds-2026-09-19.md) and
-[Top 100 audit](docs/audits/top-100-tlds-2026-09-19.md); the same directory
-contains the contiguous 25-TLD reports for ranks 101 through 300. Each report
-separates verified parsing from unavailable, retired, restricted, web-only,
-and unresolved WHOIS paths.
+The 2026-09-19 integrated audit covers 1,000 observed TLD strings from the
+ICANN DNS Magnitude snapshot dated 2026-09-12. These strings are not 1,000
+guaranteed working WHOIS registries or domain-availability results. The audit
+keeps verified parser evidence, explicit unavailable or unsupported
+responses, unknown or unresolved endpoints, and classification-only rows
+distinct.
+
+Start with the [source verification report](docs/audits/top-1000-source-verification-2026-09-19.md),
+the [Top 20 review](docs/audits/top-20-tlds-2026-09-19.md), and the [Top 100
+audit](docs/audits/top-100-tlds-2026-09-19.md). The same directory contains
+the contiguous reports for ranks 101 through 300, the [301-1000 work-package
+plan](docs/audits/whois-parser-top1000-work-packages-2026-09-19.md), and the
+five package audit reports. Each report preserves the evidence boundary and
+does not turn unavailable, unsupported, unresolved, or classification-only
+rows into availability claims.
 
 ## Join the work
 

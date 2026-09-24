@@ -3,6 +3,20 @@
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 
+#### Unpublished candidate 0.2.0 (2026-09-25)
+
+- ADDED: Extended the usage-ranked audit and parser work through 1,000 ICANN
+  DNS Magnitude TLD strings from the 2026-09-12 snapshot.
+- CLARIFIED: The 1,000 rows are observed TLD strings, not 1,000 guaranteed
+  working registries or domain-availability results. The audit keeps verified
+  parser evidence, explicit unavailable or unsupported responses,
+  unknown or unresolved endpoints, and classification-only rows distinct.
+- ADDED: Preserved the source manifest, verification evidence, planning
+  inventory, and five implementation-package reports for ranks 301-1000.
+- TESTED: The combined parser and audit suite passes 6,768 examples with 0
+  failures on Ruby 3.2.2 and 3.4.5.
+
+
 #### Release 0.1.0 (2026-09-19)
 
 - CHANGED: Continued the project as `whois-parser-next`, with the original MIT
