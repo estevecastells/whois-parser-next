@@ -2,12 +2,12 @@
 
 ## Supported versions
 
-Until the first release, only the current main branch is supported.
+The current main branch and the latest published release are supported.
 
 | Version | Supported |
 |---|---|
 | main | Yes |
-| Released versions | No released versions yet |
+| 0.2.0 (latest release) | Yes |
 
 ## Reporting a vulnerability
 

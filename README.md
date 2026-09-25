@@ -52,12 +52,10 @@ Whois::Parser
 ```
 
 Existing applications can retain `require "whois-parser"` and their
-`Whois::Parser` integrations while changing the dependency source:
+`Whois::Parser` integrations while using the published RubyGems release:
 
 ```ruby
-gem "whois-parser-next",
-  github: "estevecastells/whois-parser-next",
-  require: "whois-parser"
+gem "whois-parser-next", "= 0.2.0", require: "whois-parser"
 ```
 
 ## Requirements

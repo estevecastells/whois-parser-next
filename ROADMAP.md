@@ -6,24 +6,29 @@ feature calendar.
 
 ## Current release
 
-- Establish a safe, maintained successor with Ruby 3.2 through Ruby 4 support.
-- Audit the first 300 rows of a dated, reproducible TLD-usage snapshot.
-- Replace unsafe fallback classifications with explicit unknown or unavailable
-  outcomes when a response lacks authoritative evidence.
-- Keep the gem compatible with `require "whois-parser"` and `Whois::Parser`.
-- Publish through short-lived RubyGems trusted-publishing credentials.
+- Published `whois-parser-next` 0.2.0 to RubyGems, retaining the established
+  `require "whois-parser"` and `Whois::Parser` compatibility.
+- Completed the audit of 1,000 observed TLD strings from the ICANN DNS Magnitude
+  snapshot dated 2026-09-12. These rows are ranked TLD strings, not 1,000
+  confirmed working WHOIS registries or domain-availability results.
+- Kept verified parser evidence, unavailable or unsupported responses,
+  unresolved endpoints, and classification-only rows distinct.
 
 ## Next priorities
 
-1. Continue evidence-backed TLD coverage in reproducible, non-overlapping
-   batches.
-2. Add regression fixtures when registries change format, server, policy, or
-   availability wording.
-3. Reduce avoidable runtime dependencies without changing public behavior.
-4. Improve contributor tooling for fixture privacy, server-mapping drift, and
-   ambiguous-response safety.
-5. Document parser confidence and provenance without pretending that a parsed
-   WHOIS response is an availability guarantee.
+1. Refresh the existing 1,000-row cohort only against a new, dated source
+   snapshot, keeping each snapshot's ranks and labels separate.
+2. Close parser evidence gaps for mapped official WHOIS hosts with bounded
+   probes and sanitized fixtures for exact response behavior. DNS failures,
+   timeouts, unsupported replies, and ambiguous responses remain unresolved or
+   unavailable.
+3. Add or change parser behavior only when current response evidence is backed
+   by a regression spec; do not infer one host's behavior for unmapped or
+   unverified TLDs.
+4. Scope any expansion beyond rank 1,000 from a separately documented dataset
+   before treating it as parser-coverage work.
+5. Reduce avoidable runtime dependencies and improve contributor tooling for
+   fixture privacy, server-mapping drift, and response-safety checks.
 
 ## Performance and Rust
 
