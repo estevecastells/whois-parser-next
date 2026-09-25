@@ -1,0 +1,13 @@
+Domain Name: google.africa
+Registry Domain ID: bc_DOMAIN-AFRICA
+Updated Date: 2026-05-05T10:44:06Z
+Creation Date: 2017-06-02T22:00:29Z
+Registry Expiry Date: 2027-06-02T22:00:29Z
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Name Server: ns2.googledomains.com
+Name Server: ns4.googledomains.com
+Name Server: ns1.googledomains.com
+Name Server: ns3.googledomains.com
+>>> Last update of WHOIS database: 2026-09-25T13:18:10Z <<<
