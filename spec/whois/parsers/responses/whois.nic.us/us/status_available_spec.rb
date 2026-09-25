@@ -31,12 +31,12 @@ describe Whois::Parsers::WhoisNicUs, "status_available.expected" do
   end
   describe "#status" do
     it do
-      expect(subject.status).to eq(nil)
+      expect(subject.status).to eq(:unknown)
     end
   end
   describe "#available?" do
     it do
-      expect(subject.available?).to eq(true)
+      expect(subject.available?).to eq(false)
     end
   end
   describe "#registered?" do

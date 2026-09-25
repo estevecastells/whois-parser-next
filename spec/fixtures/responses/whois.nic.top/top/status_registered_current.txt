@@ -1,0 +1,13 @@
+Domain Name: google.top
+Registry Domain ID: D20150409G10001G_34600327-top
+Updated Date: 2026-03-08T10:29:58Z
+Creation Date: 2015-04-09T14:34:13Z
+Registry Expiry Date: 2027-04-09T14:34:13Z
+Registrar: MarkMonitor
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Name Server: ns2.google.com
+Name Server: ns4.google.com
+Name Server: ns1.google.com
+Name Server: ns3.google.com
