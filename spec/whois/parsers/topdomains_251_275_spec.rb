@@ -2,6 +2,7 @@ require 'spec_helper'
 
 require 'whois/parsers/whois.nic.nf'
 require 'whois/parsers/whois.nic.ink'
+require 'whois/parsers/whois.sr'
 require 'whois/parsers/whois.nic.delivery'
 require 'whois/parsers/whois.nic.direct'
 require 'whois/parsers/whois.nic.games'
@@ -20,6 +21,14 @@ RSpec.describe Whois::Parser, 'ICANN DNS Magnitude ranks 251-275 audit' do
     server = Whois::Server.find_for_domain(domain)
     record = Whois::Record.new(
       server,
+      [Whois::Record::Part.new(body: body, host: host)]
+    )
+    Whois::Parser.new(record)
+  end
+
+  def parser_for_body(host, body)
+    record = Whois::Record.new(
+      nil,
       [Whois::Record::Part.new(body: body, host: host)]
     )
     Whois::Parser.new(record)
@@ -55,6 +64,31 @@ RSpec.describe Whois::Parser, 'ICANN DNS Magnitude ranks 251-275 audit' do
     expect(registered.nameservers.map(&:name)).to eq(%w[ns1.google.com ns2.google.com])
     expect(available.status).to eq(:available)
     expect(available.registered?).to eq(false)
+  end
+
+  it 'parses current .sr registration and exact no-object responses' do
+    registered = parser('whois.sr', 'google.sr', 'registered.txt')
+    available = parser('whois.sr', 'codex-rank251-20260925.sr', 'available.txt')
+
+    expect(registered.domain).to eq('google.sr')
+    expect(registered.status).to eq(:registered)
+    expect(registered.nameservers.map(&:name)).to eq(%w[
+      ns4.google.com ns3.google.com ns2.google.com ns1.google.com
+    ])
+    expect(available.status).to eq(:available)
+    expect(available.registered?).to eq(false)
+  end
+
+  it 'keeps denied, throttled, and ambiguous .sr responses non-positive' do
+    denied = parser_for_body('whois.sr', "Requests of this client are not permitted.\n")
+    throttled = parser_for_body('whois.sr', "Query rate limit exceeded.\n")
+    ambiguous = parser_for_body('whois.sr', "Domain: codex-rank251-20260925.sr\n")
+
+    expect { denied.status }.to raise_error(Whois::ResponseIsUnavailable)
+    expect { throttled.status }.to raise_error(Whois::ResponseIsThrottled)
+    expect(ambiguous.status).to eq(:unknown)
+    expect(ambiguous.available?).to eq(false)
+    expect(ambiguous.registered?).to eq(false)
   end
 
   it 'parses the current Identity Digital .ink and .icu records' do
