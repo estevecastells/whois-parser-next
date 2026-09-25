@@ -3,15 +3,22 @@
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 
-#### Release 0.3.0 (unreleased)
+#### Release 0.3.0 (2026-09-25)
 
 - ADDED: Added evidence-backed `.top` registration and exact authoritative
   absence parsing. `.us` now recognizes registration evidence while keeping
   the registry's non-authoritative `No Data Found` response unknown.
-- ADDED: Added a conservative `.pk` parser for exact PKNIC registered and
-  explicitly available responses. The standard `whois` 6.0.3 mapping still
-  uses a legacy web adapter, so this parser is not yet effective `.pk`
-  coverage for DomScan.
+- ADDED: Added conservative `.pk` parsing for exact PKNIC registered and
+  explicitly available responses. The standard `whois` 6.0.3 mapping selects
+  a legacy web adapter, and `Whois::Client.new(host: ...)` cannot override
+  that adapter. DomScan needs a fixed-host port-43 route through its managed
+  relay before `.pk` counts as effective coverage.
+- ADDED: Tightened `.uz` and `.sa` parsing against current registered and
+  exact authoritative-absence responses. `.uz` reserved names remain
+  `:reserved`, not registered or available. Added a conservative `.ge` parser
+  for exact registered and absence responses from IANA's `whois.nic.ge` host;
+  `whois` 6.0.3 defaults `.ge` to `whois.registration.ge`, so a fixed-host
+  route is still required before counting it as effective coverage.
 - SAFETY: Kept blocked, empty, and ambiguous `.ch` responses unknown, and
   added unavailable-only handling for explicit unsupported responses from
   `.digital`, `.email`, `.live`, `.media`, `.network`, and `.services`.
@@ -20,16 +27,24 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
   pinned to parser baseline `f2c822c` and excludes the Top 100, whose summary
   labels do not expose row-level evidence pairs. The scorecard does not claim
   1,000 effective WHOIS integrations or a single effective-coverage rate.
+  Later `.uz`/`.sa` evidence and `.pk`/`.ge` parsers are follow-ups, not
+  additions to that pinned count.
 - SOURCES: The audit notes link to the [ICANN DNS Magnitude
   snapshot](https://magnitude.research.icann.org/historic/20260912.full.html),
   [IANA `.top`](https://www.iana.org/domains/root/db/top.html),
   [IANA `.us`](https://www.iana.org/domains/root/db/us.html),
   [IANA `.ch`](https://www.iana.org/domains/root/db/ch.html),
   [IANA `.pk`](https://www.iana.org/domains/root/db/pk.html), and the
-  [official PKNIC site](https://www.pknic.net.pk/).
+  [official PKNIC site](https://www.pknic.net.pk/). The
+  [rank 104-105 report](docs/audits/top-101-125-tlds-2026-09-19.md) cites
+  [IANA `.uz`](https://www.iana.org/domains/root/db/uz.html),
+  [UZINFOCOM](https://www.cctld.uz/),
+  [IANA `.sa`](https://www.iana.org/domains/root/db/sa.html), and
+  [IANA `.ge`](https://www.iana.org/domains/root/db/ge.html).
 - EVIDENCE: [Top-1,000 scorecard](docs/audits/top-1000-effective-coverage-scorecard-2026-09-25.md),
   [current `.top`/`.us` observations](docs/audits/top-us-current-2026-09-25.md),
-  and [`.pk` routing and registry evidence](docs/audits/top1000-es-pk-shop-dev-app-2026-09-25.md).
+  [`.pk` routing and registry evidence](docs/audits/top1000-es-pk-shop-dev-app-2026-09-25.md),
+  and [rank 101-125 follow-up evidence](docs/audits/top-101-125-tlds-2026-09-19.md).
 
 
 #### Release 0.2.0 (2026-09-25)

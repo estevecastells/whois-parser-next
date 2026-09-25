@@ -38,9 +38,9 @@ of current WHOIS responses, explicit unknown states, registry-specific
 fixtures, and safe handling of malformed, rate-limited, retired, or changed
 server responses.
 
-The current source version is `0.3.0`, prepared but not yet published. The
-latest published RubyGems release remains `0.2.0` until the 0.3.0 release is
-tagged and verified on RubyGems.
+The current source version is `0.3.0`. Check the [RubyGems project
+page](https://rubygems.org/gems/whois-parser-next) for its publication status
+and the latest published version.
 
 ## Compatibility
 
@@ -54,11 +54,11 @@ Whois::Parser
 ```
 
 Existing applications can retain `require "whois-parser"` and their
-`Whois::Parser` integrations. Until 0.3.0 is published, pin the latest
-published RubyGems release:
+`Whois::Parser` integrations. To install version 0.3.0 after it appears on
+RubyGems, pin it as follows:
 
 ```ruby
-gem "whois-parser-next", "= 0.2.0", require: "whois-parser"
+gem "whois-parser-next", "= 0.3.0", require: "whois-parser"
 ```
 
 ## Requirements
@@ -92,8 +92,13 @@ domain-availability results. Its strict paired count is pinned to baseline
 evidence pairs, and does not claim an effective-coverage percentage. The
 scorecard keeps verified parser evidence, explicit unavailable or unsupported
 responses, unknown or unresolved endpoints, and classification-only rows
-distinct; later `.pk` work is noted separately because the standard client
-route remains pending.
+distinct. Later `.uz`/`.sa` paired evidence and `.pk`/`.ge` parsers are
+follow-ups, not changes to the pinned scorecard counts. The `.pk` parser does
+not make the default `whois` 6.0.3 Web adapter use port 43; `Whois::Client`
+host configuration does not override that adapter. The `.ge` parser targets
+IANA's `whois.nic.ge`, while the default `whois` route is
+`whois.registration.ge`. Both require explicit fixed-host routing before an
+application can count them as effective coverage.
 
 Start with the [source verification report](docs/audits/top-1000-source-verification-2026-09-19.md),
 the [Top 20 review](docs/audits/top-20-tlds-2026-09-19.md), and the [Top 100
