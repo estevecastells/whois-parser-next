@@ -16,7 +16,7 @@ module Top1000RankStatusLedger
     unknown_unsafe summary_only_healthy_fixed summary_only_unsupported
     report_detail_insufficient
   ].freeze
-  EXACT_UNSUPPORTED_EVIDENCE = /(?:TLD (?:is )?not supported|Tld not supported|TLD[- ]not[- ]supported response|explicit unsupported[- ]TLD denial|explicit registry denial)/i
+  REPORTED_UNSUPPORTED_CLAIM = /(?:TLD (?:is )?not supported|Tld not supported|TLD[- ]not[- ]supported response|explicit unsupported[- ]TLD denial|explicit registry denial)/i
   SOURCE_CLASSIFICATION_STATUSES = %w[undelegated special-use].freeze
   PINNED_PAIR_COUNT = 130
   PINNED_PAIR_RANK_TLD_SHA256 = '5dcc6fa13df956c6456b6633c49b1c63d91aa5c83230d9a952a557d70d075896'.freeze
@@ -156,7 +156,7 @@ module Top1000RankStatusLedger
     return 'unknown' if UNKNOWN_SOURCE_STATES.include?(state)
 
     if state == 'explicit_unsupported'
-      return 'explicit_unsupported' if exact_unsupported_evidence?(row)
+      return 'explicit_unsupported' if reported_exact_unsupported_denial?(row)
 
       return 'unknown'
     end
@@ -170,7 +170,7 @@ module Top1000RankStatusLedger
     raise "Cannot normalize evidence state #{state.inspect} at rank #{row['source_rank']}"
   end
 
-  def self.exact_unsupported_evidence?(row)
+  def self.reported_exact_unsupported_denial?(row)
     return false unless row.fetch('fixture_scope') == 'report_collection'
     return false if row.fetch('fixture_ref').to_s.empty?
 
@@ -178,7 +178,7 @@ module Top1000RankStatusLedger
     row_specific_report = report_rows.any? do |report_row|
       report_row.fetch('source_rank') == row.fetch('source_rank') && report_row.fetch('tld') == row.fetch('tld')
     end
-    row_specific_report && row.fetch('evidence_note').match?(EXACT_UNSUPPORTED_EVIDENCE)
+    row_specific_report && row.fetch('evidence_note').match?(REPORTED_UNSUPPORTED_CLAIM)
   end
 
   def self.source_classification?(row)
@@ -269,7 +269,6 @@ module Top1000RankStatusLedger
 
   def self.build
     source_rows = Top1000EvidenceLedger.manifest_rows
-    source_rows.to_h { |row| [row.fetch('source_rank'), row] }
     evidence_by_rank = Top1000EvidenceLedger.build.to_h { |row| [row.fetch('source_rank'), row] }
 
     rows = source_rows.map do |source|

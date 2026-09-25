@@ -36,12 +36,14 @@ for each TLD.
 
 `paired` means the audit row's prose identifies both a registered response
 and an authoritative absence response. `registered_only` and `absence_only`
-retain one-sided observations. `explicit_unsupported` is retained only when a
-rank/TLD-specific detail row cites an explicit unsupported-TLD or registry
-denial response and has a fixture collection reference. A generic `Unsupported`
-summary, a missing port-43 server, and a report that only says a TLD has no
-WHOIS server do not qualify. `rdap_only` records an explicit WHOIS retirement
-or RDAP-only result.
+retain one-sided observations. `explicit_unsupported` means the referenced
+rank/TLD-specific detail row reports an exact unsupported-TLD or registry
+denial response. Its fixture reference is only a report-level collection
+reference; the ledger does not claim there is a retained, replayable fixture
+for each TLD, nor does that directory independently verify the report claim.
+A generic `Unsupported` summary, a missing port-43 server, and a report that
+only says a TLD has no WHOIS server do not qualify. `rdap_only` records an
+explicit WHOIS retirement or RDAP-only result.
 
 `classification_only` is restricted to manifest rows whose source status is
 `undelegated` or `special-use`, plus `.arpa`, whose report explicitly
@@ -66,11 +68,12 @@ separate current follow-ups below.
 The baseline contains 130 rank-101+ paired observations. The generator and
 spec pin the rank/TLD set as well as the count. Later observations are stored
 in `follow_up_*` columns so they cannot increase or rewrite that baseline.
-Current follow-ups include `.us`, `.top`, `.uz`, `.sa`, `.ge`, `.hn`, `.ma`,
-`.pk`, `.dev`, `.app`, `.shop`, `.mu`, `.africa`, and `.sr`, along with
-unresolved or access-limited checks for `.ch`, `.es`, `.iq`, and `.ga`.
-Follow-up notes preserve default-route limits where the report identifies
-them.
+The current follow-up entries are a selected, non-exhaustive set, not a full
+reconciliation of every newer report. They include `.us`, `.top`, `.uz`,
+`.sa`, `.ge`, `.hn`, `.ma`, `.pk`, `.dev`, `.app`, `.shop`, `.mu`, `.africa`,
+and `.sr`, along with unresolved or access-limited checks for `.ch`, `.es`,
+`.iq`, and `.ga`. Follow-up notes preserve default-route limits where the
+report identifies them.
 
 No effective-coverage percentage is asserted. A parser response pair alone
 does not prove that the default client selects that endpoint or that an

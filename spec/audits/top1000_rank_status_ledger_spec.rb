@@ -43,14 +43,14 @@ RSpec.describe Top1000RankStatusLedger do
     expect(rows_by_rank.fetch(457).fetch('evidence_state')).to eq('unknown')
   end
 
-  it 'keeps unsupported only for row-specific exact-denial evidence' do
+  it 'keeps unsupported only when a rank-specific report records the exact denial' do
     unsupported = rows.select { |row| row.fetch('evidence_state') == 'explicit_unsupported' }
 
     expect(unsupported.length).to eq(205)
     expect(unsupported.all? do |row|
       row.fetch('fixture_scope') == 'report_collection' &&
         !row.fetch('fixture_ref').empty? &&
-        row.fetch('evidence_note').match?(described_class::EXACT_UNSUPPORTED_EVIDENCE)
+        described_class.reported_exact_unsupported_denial?(row)
     end).to be(true)
     expect(described_class.normalize_state(
       'evidence_state' => 'explicit_unsupported',
@@ -59,6 +59,8 @@ RSpec.describe Top1000RankStatusLedger do
       'fixture_ref' => '',
       'evidence_note' => 'Unsupported'
     )).to eq('unknown')
+    expect(described_class.normalize_state(rows_by_rank.fetch(457).merge('evidence_state' => 'explicit_unsupported')))
+      .to eq('unknown')
   end
 
   it 'uses only explicit source classifications for classification-only status' do
@@ -108,6 +110,7 @@ RSpec.describe Top1000RankStatusLedger do
       .to eq(['unknown', 'paired'])
     expect(rows_by_rank.fetch(203).values_at('evidence_state', 'follow_up_state'))
       .to eq(['unknown', 'paired'])
+    expect(rows.count { |row| !row.fetch('follow_up_state').empty? }).to eq(18)
   end
 
   it 'writes a reproducible 1,000-row CSV artifact' do
