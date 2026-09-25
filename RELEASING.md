@@ -21,8 +21,8 @@ RubyGems API key to the repository or its Actions secrets.
 Create and push the annotated release tag only after the checks above pass:
 
 ```shell
-git tag -a v0.2.0 -m "whois-parser-next 0.2.0"
-git push origin v0.2.0
+git tag -a v0.3.0 -m "whois-parser-next 0.3.0"
+git push origin v0.3.0
 ```
 
 The release workflow repeats the full suite and package smoke test before it

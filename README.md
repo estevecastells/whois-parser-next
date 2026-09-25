@@ -38,7 +38,9 @@ of current WHOIS responses, explicit unknown states, registry-specific
 fixtures, and safe handling of malformed, rate-limited, retired, or changed
 server responses.
 
-The latest published RubyGems release is `0.2.0`.
+The current source version is `0.3.0`, prepared but not yet published. The
+latest published RubyGems release remains `0.2.0` until the 0.3.0 release is
+tagged and verified on RubyGems.
 
 ## Compatibility
 
@@ -52,7 +54,8 @@ Whois::Parser
 ```
 
 Existing applications can retain `require "whois-parser"` and their
-`Whois::Parser` integrations while using the published RubyGems release:
+`Whois::Parser` integrations. Until 0.3.0 is published, pin the latest
+published RubyGems release:
 
 ```ruby
 gem "whois-parser-next", "= 0.2.0", require: "whois-parser"
@@ -80,12 +83,17 @@ bundle exec rspec
 
 ## Coverage evidence
 
-The 2026-09-19 integrated audit covers 1,000 observed TLD strings from the
-ICANN DNS Magnitude snapshot dated 2026-09-12. These strings are not 1,000
-guaranteed working WHOIS registries or domain-availability results. The audit
-keeps verified parser evidence, explicit unavailable or unsupported
+The [2026-09-25 scorecard](docs/audits/top-1000-effective-coverage-scorecard-2026-09-25.md)
+summarizes evidence for 1,000 observed TLD strings from the
+[ICANN DNS Magnitude snapshot dated 2026-09-12](https://magnitude.research.icann.org/historic/20260912.full.html).
+These strings are not 1,000 guaranteed working WHOIS registries or
+domain-availability results. Its strict paired count is pinned to baseline
+`f2c822c`, excludes the Top 100 whose summary labels do not expose row-level
+evidence pairs, and does not claim an effective-coverage percentage. The
+scorecard keeps verified parser evidence, explicit unavailable or unsupported
 responses, unknown or unresolved endpoints, and classification-only rows
-distinct.
+distinct; later `.pk` work is noted separately because the standard client
+route remains pending.
 
 Start with the [source verification report](docs/audits/top-1000-source-verification-2026-09-19.md),
 the [Top 20 review](docs/audits/top-20-tlds-2026-09-19.md), and the [Top 100
