@@ -110,7 +110,11 @@ RSpec.describe Top1000RankStatusLedger do
       .to eq(['unknown', 'paired'])
     expect(rows_by_rank.fetch(203).values_at('evidence_state', 'follow_up_state'))
       .to eq(['unknown', 'paired'])
-    expect(rows.count { |row| !row.fetch('follow_up_state').empty? }).to eq(18)
+    expect(rows_by_rank.fetch(315).values_at('evidence_state', 'follow_up_state', 'follow_up_date', 'follow_up_fixture_ref'))
+      .to eq(['unknown', 'observed_pair_unreplayable', '2026-09-25', ''])
+    expect(rows_by_rank.fetch(315).fetch('follow_up_report_ref'))
+      .to eq('docs/audits/top1000-rank315-cam-followup-2026-09-25.md')
+    expect(rows.count { |row| !row.fetch('follow_up_state').empty? }).to eq(19)
   end
 
   it 'writes a reproducible 1,000-row CSV artifact' do

@@ -141,6 +141,13 @@ module Top1000RankStatusLedger
       'follow_up_fixture_ref' => 'spec/fixtures/responses/topdomains_251_275/whois.sr',
       'follow_up_note' => 'A registered and generated-name pair was captured from IANA-listed whois.sr. The standard client has no .sr route, so this does not establish default-route coverage.',
     },
+    315 => {
+      'follow_up_state' => 'observed_pair_unreplayable',
+      'follow_up_date' => '2026-09-25',
+      'follow_up_report_ref' => 'docs/audits/top1000-rank315-cam-followup-2026-09-25.md',
+      'follow_up_fixture_ref' => '',
+      'follow_up_note' => 'Point-in-time registered and authoritative-absence responses were observed, but terms prevent retaining exact response fixtures; hashes cannot replay or independently validate parsing; pinned baseline remains unchanged.',
+    },
   }.freeze
 
   def self.path(relative_path)

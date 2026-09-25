@@ -62,7 +62,7 @@ adapter, or no locked WHOIS mapping.
 
 Pinned baseline counts across all 1,000 rows are: 130 paired, 27
 registered-only, 32 absence-only, 205 explicit unsupported, 7 RDAP-only, 157
-classification-only, and 442 unknown. These counts do not include the 18
+classification-only, and 442 unknown. These counts do not include the 19
 separate current follow-ups below.
 
 The baseline contains 130 rank-101+ paired observations. The generator and
@@ -71,9 +71,13 @@ in `follow_up_*` columns so they cannot increase or rewrite that baseline.
 The current follow-up entries are a selected, non-exhaustive set, not a full
 reconciliation of every newer report. They include `.us`, `.top`, `.uz`,
 `.sa`, `.ge`, `.hn`, `.ma`, `.pk`, `.dev`, `.app`, `.shop`, `.mu`, `.africa`,
-and `.sr`, along with unresolved or access-limited checks for `.ch`, `.es`,
-`.iq`, and `.ga`. Follow-up notes preserve default-route limits where the
-report identifies them.
+`.sr`, and `.cam`, along with unresolved or access-limited checks for `.ch`,
+`.es`, `.iq`, and `.ga`. Rank 315 `.cam` is labeled
+`observed_pair_unreplayable`: registered and authoritative-absence outcomes
+were observed on 2026-09-25, but terms prevented retaining exact response
+fixtures. Its follow-up fixture reference is blank, and the hashes in its
+report cannot replay or independently validate parsing. Follow-up notes
+preserve default-route limits where the report identifies them.
 
 No effective-coverage percentage is asserted. A parser response pair alone
 does not prove that the default client selects that endpoint or that an
