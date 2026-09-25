@@ -205,16 +205,17 @@ do not create a WHOIS parser opportunity. See
 [`top1000-es-pk-shop-dev-app-2026-09-25.md`](top1000-es-pk-shop-dev-app-2026-09-25.md)
 for exact evidence and limits.
 
-## Draft release note for maintainer consideration
+## Release note context for 0.3.2
 
-**0.3.0 (unreleased, draft only)**
+The 0.3.2 changelog carries this scorecard's dated correction: the unsupported
+175-pair total is retracted, and the bounded rowwise crosswalk reproduces 130
+directly traceable report-pair observations. The 31 detail-insufficient rows
+and three post-snapshot pairs remain separately identified. These are audit
+evidence counts, not effective WHOIS coverage.
 
-- Added current `.top` registered and authoritative-absence parsing; `.us`
-  registration is parsed while non-authoritative `No Data Found` remains
-  unknown.
-- Hardened `.ch` so blocked, empty, and ambiguous responses remain unknown.
-- Added explicit unavailable-only handling for observed unsupported responses
-  from `.digital`, `.email`, `.live`, `.media`, `.network`, and `.services`.
-
-This draft describes verified parser behavior on the current source branch; it
-does not imply that a release has been created or published.
+The 0.3.2 parser additions for `.mu`, `.africa`, and `.sr` are host-keyed.
+They do not change the default `whois` client's routing, establish effective
+application coverage, or change the scorecard's row totals. The
+[changelog](../../CHANGELOG.md) records the release metadata; check the
+[RubyGems project page](https://rubygems.org/gems/whois-parser-next) for the
+publication status of version 0.3.2.

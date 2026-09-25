@@ -2,6 +2,29 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
+#### Release 0.3.2 (2026-09-25)
+
+- ADDED: Added host-keyed parsers for the current IANA-listed WHOIS hosts for
+  `.mu` (`whois.tld.mu`), `.africa` (`whois.nic.africa`), and `.sr`
+  (`whois.sr`). These parsers recognize the documented current registered and
+  authoritative-absence response shapes, while empty, denied, throttled, and
+  ambiguous responses remain non-positive.
+- LIMITATION: The pinned `whois` 6.0.3 client routes `.mu` and `.africa` to
+  different hosts and has no `.sr` mapping. The new parsers are selected only
+  for response parts keyed to their IANA-listed hosts; this release does not
+  add default-client routing or claim effective application coverage for
+  these TLDs.
+- CORRECTION (2026-09-25): The corrected top-1,000 scorecard retracts the
+  previously published 175-pair total. Its bounded rowwise crosswalk
+  reproduces 130 directly traceable report-pair observations, with 31 package
+  rows remaining detail-insufficient. The later `.top`, `.uz`, and `.sa`
+  scorecard follow-ups, and the `.mu`, `.africa`, and `.sr` host-specific
+  reports in this release, remain outside that pinned baseline. These are
+  audit-evidence counts, not parser coverage or an effective-coverage rate.
+- EVIDENCE: [`.mu` and `.africa` current-host report](docs/audits/top-201-250-current-host-followup-2026-09-25.md),
+  [`.sr` current-host report](docs/audits/topdomains-251-275-sr-followup-2026-09-25.md),
+  and [corrected scorecard](docs/audits/top-1000-effective-coverage-scorecard-2026-09-25.md).
+
 #### Release 0.3.1 (2026-09-25)
 
 - ADDED: Added paired registered and exact authoritative-absence parsing for

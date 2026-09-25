@@ -38,7 +38,7 @@ of current WHOIS responses, explicit unknown states, registry-specific
 fixtures, and safe handling of malformed, rate-limited, retired, or changed
 server responses.
 
-The current source version is `0.3.1`. Check the [RubyGems project
+The current source version is `0.3.2`. Check the [RubyGems project
 page](https://rubygems.org/gems/whois-parser-next) for its publication status
 and the latest published version.
 
@@ -54,10 +54,10 @@ Whois::Parser
 ```
 
 Existing applications can retain `require "whois-parser"` and their
-`Whois::Parser` integrations. To install version 0.3.1, pin it as follows:
+`Whois::Parser` integrations. To install version 0.3.2, pin it as follows:
 
 ```ruby
-gem "whois-parser-next", "= 0.3.1", require: "whois-parser"
+gem "whois-parser-next", "= 0.3.2", require: "whois-parser"
 ```
 
 ## Requirements
@@ -99,8 +99,10 @@ unknown, one-sided, and classification-only evidence is not promoted to a
 pair. The `.pk` parser does not make the default `whois` 6.0.3 Web adapter use
 port 43; `Whois::Client` host configuration does not override that adapter.
 The `.ge` parser targets IANA's `whois.nic.ge`, while the default `whois` route
-is `whois.registration.ge`. Both require explicit fixed-host routing before
-an application can count them as effective coverage.
+is `whois.registration.ge`. The `.mu` and `.africa` parsers also target IANA
+hosts that differ from the default `whois` 6.0.3 mappings, and `.sr` has no
+default mapping. These host-keyed parsers require separately verified routing
+before an application can count them as effective coverage.
 
 Start with the [source verification report](docs/audits/top-1000-source-verification-2026-09-19.md),
 the [Top 20 review](docs/audits/top-20-tlds-2026-09-19.md), and the [Top 100
