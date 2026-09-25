@@ -2,6 +2,18 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
+#### Release 0.3.1 (2026-09-25)
+
+- ADDED: Added paired registered and exact authoritative-absence parsing for
+  `.ma` and `.hn`. Empty and denied replies remain unavailable, rate limits
+  remain throttled, and conflicting or incomplete replies remain unknown.
+- FIXED: Corrected `.pk` parsing for PKNIC's observed indented response
+  fields. Registration and availability still require explicit markers;
+  incomplete or conflicting replies remain unknown, and denied or throttled
+  replies remain non-positive.
+- EVIDENCE: [Current `.ma` and `.hn` responses](docs/audits/top-126-150-tlds-2026-09-19.md)
+  and [production-shaped `.pk` responses](docs/audits/top1000-es-pk-shop-dev-app-2026-09-25.md).
+
 
 #### Release 0.3.0 (2026-09-25)
 

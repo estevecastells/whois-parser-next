@@ -38,7 +38,7 @@ of current WHOIS responses, explicit unknown states, registry-specific
 fixtures, and safe handling of malformed, rate-limited, retired, or changed
 server responses.
 
-The current source version is `0.3.0`. Check the [RubyGems project
+The current source version is `0.3.1`. Check the [RubyGems project
 page](https://rubygems.org/gems/whois-parser-next) for its publication status
 and the latest published version.
 
@@ -54,11 +54,10 @@ Whois::Parser
 ```
 
 Existing applications can retain `require "whois-parser"` and their
-`Whois::Parser` integrations. To install version 0.3.0 after it appears on
-RubyGems, pin it as follows:
+`Whois::Parser` integrations. To install version 0.3.1, pin it as follows:
 
 ```ruby
-gem "whois-parser-next", "= 0.3.0", require: "whois-parser"
+gem "whois-parser-next", "= 0.3.1", require: "whois-parser"
 ```
 
 ## Requirements
