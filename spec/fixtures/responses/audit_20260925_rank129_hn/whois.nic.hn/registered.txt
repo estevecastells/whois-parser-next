@@ -1,0 +1,6 @@
+Domain Name: google.hn
+Domain Status: active https://icann.org/epp#active
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Queda absolutamente prohibido su uso para otros propósitos.

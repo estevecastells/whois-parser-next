@@ -1,0 +1,3 @@
+Access to the WHOIS service is denied.
+Domain Name: google.hn
+Domain Status: active https://icann.org/epp#active

@@ -1,0 +1,2 @@
+Domain Name: google.ma
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited

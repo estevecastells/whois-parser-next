@@ -24,14 +24,14 @@ module Whois
 
       property_supported :status do
         if no_object_found?
-          :available
+          registration_fields_present? ? :unknown : :available
         else
           super()
         end
       end
 
       property_supported :available? do
-        no_object_found? || super()
+        status == :available
       end
 
       property_supported :registered? do
@@ -42,6 +42,12 @@ module Whois
 
       def no_object_found?
         content_for_scanner.match?(/^The queried object does not exist:\s*No Object Found\s*$/i)
+      end
+
+      def registration_fields_present?
+        content_for_scanner.match?(
+          /^[ \t]*(?:Domain Status|Domain ID|Creation Date|Updated Date|Registry Expiry Date|Name Server|(?:Sponsoring )?Registrar|Registrant|Admin|Billing|Tech):/i
+        )
       end
     end
 

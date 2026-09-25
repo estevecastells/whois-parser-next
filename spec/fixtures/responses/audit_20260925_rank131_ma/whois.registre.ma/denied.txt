@@ -1,0 +1,3 @@
+Access to the WHOIS service is denied.
+Domain Name: google.ma
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
