@@ -1,0 +1,3 @@
+Access to the WHOIS service is denied.
+Domain Name: GOOGLE.GE
+Domain Status: Ok

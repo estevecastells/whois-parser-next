@@ -68,10 +68,13 @@ The parser class resolves from the official host name
 `Whois::Server::Adapters::Web` with no WHOIS host (and URL
 `http://www.pknic.net.pk/`) under `whois` 6.0.3. That is the exact routing gap:
 the standard client cannot select PKNIC port-43 for a `.pk` query, even though
-the parser exists.
-`Whois::Client.new(host: 'whois.pknic.net.pk')` is the gem's documented/tested
-host override and safely forces the query to that registry; alternatively,
-DomScan can add a dedicated `.pk` server mapping. Either routing change belongs
+the parser exists. `Whois::Client.new(host: 'whois.pknic.net.pk')` is not a
+working override for this route in 6.0.3: `Client#lookup` first selects the
+registered Web adapter, and `Web#request` raises `Whois::WebInterfaceError`
+regardless of the configured host. A fixed-host socket path can instead call
+`Whois::Server::Adapters::Standard.new(:tld, 'pk',
+'whois.pknic.net.pk').lookup(domain)`. DomScan must invoke such a path through
+its managed relay and with bounded WHOIS timeouts. This routing change belongs
 in DomScan and must be deployed before `.pk` is counted as effective coverage.
 
 For `.dev`, `.app`, and `.shop`, DomScan should use the official RDAP endpoints

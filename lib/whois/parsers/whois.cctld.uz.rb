@@ -27,26 +27,15 @@ module Whois
       include RegistryResponseSafety
 
       property_supported :status do
-        if available?
-          :available
-        elsif content_for_scanner =~ /^Status: (.+?)\n/
-          case ::Regexp.last_match(1).downcase
-          when "active" then :registered
-          when "reserved" then :reserved
-          else
-            Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
-          end
-        else
-          :unknown
-        end
+        classify_status
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /not found in database/)
+        classify_status == :available
       end
 
       property_supported :registered? do
-        [:registered, :reserved].include?(status)
+        classify_status == :registered
       end
 
 
@@ -75,6 +64,53 @@ module Whois
             Parser::Nameserver.new(:name => name.strip.chomp("."))
           end
         end
+      end
+
+      private
+
+      def classify_status
+        return :unknown if absence_conflicts_with_record?
+
+        evidence = []
+        evidence << :registered if registered_evidence?
+        evidence << :reserved if reserved_evidence?
+        evidence << :available if available_evidence?
+        evidence.one? ? evidence.first : :unknown
+      end
+
+      def absence_conflicts_with_record?
+        return false unless absence_domain_names.any?
+
+        domain_names.any? || status_values.any? || content_for_scanner.match?(/^[ \t]*Domain Name:/i)
+      end
+
+      def registered_evidence?
+        domain_names.one? && status_values == ["active"]
+      end
+
+      def reserved_evidence?
+        domain_names.one? && status_values == ["reserved"]
+      end
+
+      def available_evidence?
+        absence_domain_names.one? && status_values.empty? &&
+          !content_for_scanner.match?(/^[ \t]*Domain Name:/i)
+      end
+
+      def domain_names
+        content_for_scanner.scan(
+          /^[ \t]*Domain Name:[ \t]*((?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+uz)[ \t]*$/i
+        ).flatten.map(&:downcase).uniq
+      end
+
+      def status_values
+        content_for_scanner.scan(/^[ \t]*Status:[ \t]*([a-z]+)[ \t]*$/i).flatten.map(&:downcase).uniq
+      end
+
+      def absence_domain_names
+        content_for_scanner.scan(
+          /^[ \t]*Sorry, but domain:[ \t]*"((?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+uz)", not found in database[ \t]*$/i
+        ).flatten.map(&:downcase).uniq
       end
 
     end

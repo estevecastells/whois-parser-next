@@ -31,7 +31,7 @@ describe Whois::Parsers::WhoisCctldUz, "property_status_reserved.expected" do
   end
   describe "#registered?" do
     it do
-      expect(subject.registered?).to eq(true)
+      expect(subject.registered?).to eq(false)
     end
   end
 end

@@ -27,21 +27,15 @@ module Whois
       include RegistryResponseSafety
 
       property_supported :status do
-        if available?
-          :available
-        elsif content_for_scanner.match?(/^Domain Name:\s*\S+/i)
-          :registered
-        else
-          :unknown
-        end
+        classify_status
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /^No Match for/)
+        classify_status == :available
       end
 
       property_supported :registered? do
-        status == :registered
+        classify_status == :registered
       end
 
 
@@ -66,6 +60,31 @@ module Whois
             Parser::Nameserver.new(name: name.strip)
           end
         end
+      end
+
+      private
+
+      def classify_status
+        registered = registered_domain_names
+        absent = absence_domain_names
+
+        if registered.one? && absent.empty?
+          :registered
+        elsif absent.one? && registered.empty?
+          :available
+        else
+          :unknown
+        end
+      end
+
+      def registered_domain_names
+        content_for_scanner.scan(/^[ \t]*Domain Name:[ \t]*([^\s]+\.sa)[ \t]*$/i).flatten.map(&:downcase).uniq
+      end
+
+      def absence_domain_names
+        content_for_scanner.scan(
+          /^[ \t]*No Match for (?:domain:[ \t]*)?([^\s]+\.sa)[ \t]*$/i
+        ).flatten.map(&:downcase).uniq
       end
 
     end
