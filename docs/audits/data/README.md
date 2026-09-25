@@ -38,3 +38,12 @@ server columns come from the locked `whois` 6.0.3 definitions, and its parser
 columns come from the current parser tree. See the accompanying
 [`whois-parser-top1000-work-packages-2026-09-19.md`](../whois-parser-top1000-work-packages-2026-09-19.md)
 for state definitions and implementation boundaries.
+
+The corrected, bounded report crosswalk is documented in the [evidence-ledger
+methodology](../top1000-evidence-ledger-methodology-2026-09-25.md) and stored as
+[`whois-parser-top1000-evidence-ledger-subset-2026-09-25.csv`](whois-parser-top1000-evidence-ledger-subset-2026-09-25.csv).
+It reproduces 130 direct row-pair observations and 31 rows whose package
+reports lack enough detail to normalize `verified` into a pair. It is not a
+full 1,000-row ledger or effective-coverage claim. Regenerate and validate it
+from the repository root with `ruby scripts/build_top1000_evidence_ledger.rb`
+and `bundle exec rspec spec/audits/top1000_evidence_ledger_spec.rb`.

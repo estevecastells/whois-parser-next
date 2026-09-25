@@ -5,11 +5,10 @@ require 'digest'
 
 module Top1000EvidenceLedger
   ROOT = File.expand_path('..', __dir__)
-  SOURCE_PATH = 'docs/audits/data/icann-dns-magnitude-20260912-ranks-1-1000.csv'
-  PLANNING_PATH = 'docs/audits/data/whois-parser-top1000-planning.csv'
-  TOP100_PATH = 'docs/audits/top-100-tlds-2026-09-19.md'
-  SCORECARD_PATH = 'docs/audits/top-1000-effective-coverage-scorecard-2026-09-25.md'
-  PINNED_SHA256 = '6f1411e1323ed09683480b47314188c71c19d62979d2d7cc2894669b4dd9e681'
+  SOURCE_PATH = 'docs/audits/data/icann-dns-magnitude-20260912-ranks-1-1000.csv'.freeze
+  PLANNING_PATH = 'docs/audits/data/whois-parser-top1000-planning.csv'.freeze
+  TOP100_PATH = 'docs/audits/top-100-tlds-2026-09-19.md'.freeze
+  PINNED_SHA256 = '6f1411e1323ed09683480b47314188c71c19d62979d2d7cc2894669b4dd9e681'.freeze
 
   RANGE_REPORTS = {
     'docs/audits/top-101-125-tlds-2026-09-19.md' => 'spec/fixtures/responses/audit_20260919_ranks101_125',
@@ -19,19 +18,19 @@ module Top1000EvidenceLedger
     'docs/audits/top-201-225-tlds-2026-09-19.md' => 'spec/fixtures/responses/topdomains_201_225',
     'docs/audits/topdomains-226-250-2026-09-19.md' => 'spec/fixtures/responses/topdomains_226_250',
     'docs/audits/topdomains-251-275-2026-09-19.md' => 'spec/fixtures/responses/topdomains_251_275',
-    'docs/audits/topdomains-276-300-2026-09-19.md' => 'spec/fixtures/responses/topdomains_276_300'
+    'docs/audits/topdomains-276-300-2026-09-19.md' => 'spec/fixtures/responses/topdomains_276_300',
   }.freeze
 
   PACKAGE_REPORTS = {
     2 => ['docs/audits/whois-parser-top1000-package-2-2026-09-19.md', 'spec/fixtures/responses/top1000_package_2'],
     3 => ['docs/audits/whois-parser-top1000-package-3-2026-09-19.md', 'spec/fixtures/responses/top1000_package3'],
     4 => ['docs/audits/whois-parser-top1000-package-4-2026-09-19.md', 'spec/fixtures/responses/topdomains_package_4'],
-    5 => ['docs/audits/whois-parser-top1000-package-5-2026-09-19.md', 'spec/fixtures/responses/top1000_package5']
+    5 => ['docs/audits/whois-parser-top1000-package-5-2026-09-19.md', 'spec/fixtures/responses/top1000_package5'],
   }.freeze
   PACKAGE_NAMES = %w[package-1 package-2 package-3 package-4 package-5].freeze
 
-  PACKAGE1_REPORT = 'docs/audits/whois-parser-top1000-package-1-2026-09-19.md'
-  PACKAGE1_FIXTURES = 'spec/fixtures/responses/top1000_package1'
+  PACKAGE1_REPORT = 'docs/audits/whois-parser-top1000-package-1-2026-09-19.md'.freeze
+  PACKAGE1_FIXTURES = 'spec/fixtures/responses/top1000_package1'.freeze
   EVIDENCE_STATES = %w[
     paired
     registered_only
@@ -58,48 +57,48 @@ module Top1000EvidenceLedger
       'report_ref' => 'docs/audits/top-us-current-2026-09-25.md',
       'fixture_ref' => 'spec/fixtures/responses/whois.nic.us/us/status_registered_current.txt;spec/fixtures/responses/whois.nic.us/us/status_no_record_current.txt',
       'fixture_scope' => 'row_specific',
-      'evidence_note' => 'Registered record observed; No Data Found is non-authoritative under the registry disclaimer.'
+      'evidence_note' => 'Registered record observed; No Data Found is non-authoritative under the registry disclaimer.',
     },
     43 => {
       'follow_up_state' => 'rdap_only_no_whois',
       'follow_up_date' => '2026-09-25',
       'follow_up_report_ref' => 'docs/audits/top1000-es-pk-shop-dev-app-2026-09-25.md',
-      'follow_up_note' => 'IANA lists Google Registry RDAP and no WHOIS server; no WHOIS parser result is inferred.'
+      'follow_up_note' => 'IANA lists Google Registry RDAP and no WHOIS server; no WHOIS parser result is inferred.',
     },
     47 => {
       'follow_up_state' => 'rdap_only_no_whois',
       'follow_up_date' => '2026-09-25',
       'follow_up_report_ref' => 'docs/audits/top1000-es-pk-shop-dev-app-2026-09-25.md',
-      'follow_up_note' => 'IANA lists Google Registry RDAP and no WHOIS server; no WHOIS parser result is inferred.'
+      'follow_up_note' => 'IANA lists Google Registry RDAP and no WHOIS server; no WHOIS parser result is inferred.',
     },
     84 => {
       'follow_up_state' => 'port43_parser_pair_not_standard_route',
       'follow_up_date' => '2026-09-25',
       'follow_up_report_ref' => 'docs/audits/top1000-es-pk-shop-dev-app-2026-09-25.md',
       'follow_up_fixture_ref' => 'spec/fixtures/responses/whois.pknic.net.pk/pk',
-      'follow_up_note' => 'The report documents a registered and explicit-availability pair at PKNIC, but the locked whois client maps .pk to a legacy web adapter.'
+      'follow_up_note' => 'The report documents a registered and explicit-availability pair at PKNIC, but the locked whois client maps .pk to a legacy web adapter.',
     },
     103 => {
       'follow_up_state' => 'paired',
       'follow_up_date' => '2026-09-25',
       'follow_up_report_ref' => 'docs/audits/top-us-current-2026-09-25.md',
       'follow_up_fixture_ref' => 'spec/fixtures/responses/whois.nic.top/top/status_registered_current.txt;spec/fixtures/responses/whois.nic.top/top/status_absent_current.txt',
-      'follow_up_note' => 'A later bounded report records registered and exact authoritative absence evidence; the pinned scorecard does not add this follow-up to its counts.'
+      'follow_up_note' => 'A later bounded report records registered and exact authoritative absence evidence; the pinned scorecard does not add this follow-up to its counts.',
     },
     104 => {
       'follow_up_state' => 'paired',
       'follow_up_date' => '2026-09-25',
       'follow_up_report_ref' => 'docs/audits/top-101-125-tlds-2026-09-19.md',
       'follow_up_fixture_ref' => 'spec/fixtures/responses/audit_20260925_ranks104_105',
-      'follow_up_note' => 'The report adds current registered and exact generated-name no-entry evidence after the scorecard baseline.'
+      'follow_up_note' => 'The report adds current registered and exact generated-name no-entry evidence after the scorecard baseline.',
     },
     105 => {
       'follow_up_state' => 'paired',
       'follow_up_date' => '2026-09-25',
       'follow_up_report_ref' => 'docs/audits/top-101-125-tlds-2026-09-19.md',
       'follow_up_fixture_ref' => 'spec/fixtures/responses/audit_20260925_ranks104_105',
-      'follow_up_note' => 'The report adds current registered and exact generated-name no-match evidence after the scorecard baseline.'
-    }
+      'follow_up_note' => 'The report adds current registered and exact generated-name no-match evidence after the scorecard baseline.',
+    },
   }.freeze
 
   def self.path(relative_path)
@@ -116,7 +115,7 @@ module Top1000EvidenceLedger
       {
         'source_rank' => row[:source_rank].to_i,
         'tld' => row[:tld].to_s,
-        'source_status' => row[:status].to_s
+        'source_status' => row[:status].to_s,
       }
     end
     ranks = rows.map { |row| row['source_rank'] }
@@ -146,7 +145,7 @@ module Top1000EvidenceLedger
         'tld' => tld,
         'cells' => cells,
         'detail' => cells.drop(2).join(' | ').gsub('`', '').strip,
-        'raw' => line.strip
+        'raw' => line.strip,
       }
     end
   end
@@ -156,7 +155,7 @@ module Top1000EvidenceLedger
     line ? line[/\d{4}-\d{2}-\d{2}/] : '2026-09-19'
   end
 
-  def self.fixture_fields(relative_path, fixture_path)
+  def self.fixture_fields(_relative_path, fixture_path)
     if fixture_path && File.directory?(path(fixture_path))
       [fixture_path, 'report_collection']
     else
@@ -168,26 +167,25 @@ module Top1000EvidenceLedger
     value = label.downcase
     return 'classification_only' if value.match?(/special-use|undelegated|infrastructure|web-only|no port-43 parser/)
     return 'summary_only_unsupported' if value.include?('unsupported')
-    return 'summary_only_healthy_fixed' if value == 'healthy' || value == 'fixed'
+    return 'summary_only_healthy_fixed' if ['healthy', 'fixed'].include?(value)
 
     'unknown_unsafe'
   end
 
-  def self.classify_detail(detail, context = nil)
+  def self.classify_detail(detail)
     value = detail.downcase
-    context = context.to_s.downcase
 
     return 'classification_only' if value.match?(/undelegated|special-use|web-only|classification only|no port[- ]43|no standard whois|no[_ -]server[_ -]mapping|no server|no whois adapter|no adapter|adapter is none|adapter none|none adapter|no delegation status|no root delegation/)
     return 'rdap_only' if value.match?(/whois.{0,60}retir.{0,60}rdap|rdap[- ]only|rdap.{0,30}retir|retired.{0,30}for rdap/)
     return 'unknown_unsafe' if value.match?(/no per[- ]tld status|each tld was not re-queried|not re-queried after rate limiting|summary-only|non-authoritative|not indicative of availability|does not indicate availability/)
 
     unsupported = value.match?(/tld is not supported|tld not supported|tld[- ]not[- ]supported|unsupported[- ]tld|explicit (?:registry )?denial|unsupported response|tld not supported by this registry interface|tld has no whois server/)
-    reserved = value.match?(/reserved[- ](?:domain|policy|response|marker|list|notice|negative)|reserved\/negative|reservation|prohibited|globalblock/)
+    reserved = value.match?(%r{reserved[- ](?:domain|policy|response|marker|list|notice|negative)|reserved/negative|reservation|prohibited|globalblock})
     has_registered = (value.match?(/\bregistered\b/) &&
       !value.match?(/(?:not|cannot(?: be)?|rather than|instead of falling through to|without|no)[- ]+registered\b|registered probe unresolved/) &&
       !value.match?(/legacy registered fixture/)) ||
-      value.match?(/domain-key presence for registration|active epp status|active, registrar locked|(?:centralnic|cira|verisign) (?:icann )?record|domain(?::| name)?\s+records?|domain name:.*epp status/)
-    has_absence = value.match?(/authoritative absence|absence marker|absent response|no data found|no[- ]match|not[- ]found|no[- ]entries|no[- ]entry|no[- ]object|no[- ]record|no matching objects?|zero objects|does not exist|no such domain|not[- ]registered|available for registration|radix availability|radix available|purchase[- ]availability|availability sentence|\bfree responses?\b|registered\/free|\bavailable response|\bavailable\b/)
+                     value.match?(/domain-key presence for registration|active epp status|active, registrar locked|(?:centralnic|cira|verisign) (?:icann )?record|domain(?::| name)?\s+records?|domain name:.*epp status/)
+    has_absence = value.match?(%r{authoritative absence|absence marker|absent response|no data found|no[- ]match|not[- ]found|no[- ]entries|no[- ]entry|no[- ]object|no[- ]record|no matching objects?|zero objects|does not exist|no such domain|not[- ]registered|available for registration|radix availability|radix available|purchase[- ]availability|availability sentence|\bfree responses?\b|registered/free|\bavailable response|\bavailable\b})
     explicitly_one_sided = value.match?(/absence only|absence verified, registered (?:probe )?unresolved|registered probe unresolved|absence probe (?:blocked|ambiguous|unresolved)|absence (?:ambiguous|blocked|unresolved)|legacy registered fixture remains covered|current probes both returned domain not found/)
 
     return 'unknown_unsafe' if reserved
@@ -221,7 +219,7 @@ module Top1000EvidenceLedger
       'follow_up_date' => '',
       'follow_up_report_ref' => '',
       'follow_up_fixture_ref' => '',
-      'follow_up_note' => ''
+      'follow_up_note' => '',
     }
   end
 
@@ -327,8 +325,8 @@ module Top1000EvidenceLedger
   end
 
   def self.add_package_rows!(ledger, source_by_rank)
-    planning = CSV.table(path(PLANNING_PATH)).each_with_object({}) do |row, index|
-      index[row[:source_rank].to_i] = row[:implementation_package].to_s
+    planning = CSV.table(path(PLANNING_PATH)).to_h do |row|
+      [row[:source_rank].to_i, row[:implementation_package].to_s]
     end
 
     PACKAGE_REPORTS.each do |package, (report, fixture)|
@@ -348,12 +346,12 @@ module Top1000EvidenceLedger
         context_index = package == 2 ? 4 : 3
         context = entry['cells'][context_index].to_s.downcase
         state = if package == 3 && context == 'excluded'
-          'classification_only'
-        elsif package == 3 && context == 'unknown'
-          'unknown_unsafe'
-        else
-          classify_detail(entry['detail'], context)
-        end
+                  'classification_only'
+                elsif package == 3 && context == 'unknown'
+                  'unknown_unsafe'
+                else
+                  classify_detail(entry['detail'])
+                end
         ledger[rank] = empty_row(source, state, date, report, fixture_ref, fixture_scope, entry['detail'])
       end
     end
@@ -362,20 +360,17 @@ module Top1000EvidenceLedger
   def self.apply_follow_ups!(ledger)
     FOLLOW_UPS.each do |rank, follow_up|
       next unless ledger.key?(rank)
+
       row = ledger.fetch(rank)
       follow_up.each do |field, value|
-        if %w[evidence_state evidence_date report_ref fixture_ref fixture_scope evidence_note].include?(field)
-          row[field] = value
-        else
-          row[field] = value
-        end
+        row[field] = value
       end
     end
   end
 
   def self.build
     source_rows = manifest_rows
-    source_by_rank = source_rows.each_with_object({}) { |row, index| index[row['source_rank']] = row }
+    source_by_rank = source_rows.to_h { |row| [row['source_rank'], row] }
     expected_ranks = (1..1000).to_a
     ledger = {}
 

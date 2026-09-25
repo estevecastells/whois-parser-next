@@ -35,12 +35,17 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
   added unavailable-only handling for explicit unsupported responses from
   `.digital`, `.email`, `.live`, `.media`, `.network`, and `.services`.
 - DOCS: Added a scorecard for 1,000 observed TLD strings from the ICANN DNS
-  Magnitude snapshot dated 2026-09-12. Its strict count of 175 paired rows is
-  pinned to parser baseline `f2c822c` and excludes the Top 100, whose summary
-  labels do not expose row-level evidence pairs. The scorecard does not claim
-  1,000 effective WHOIS integrations or a single effective-coverage rate.
-  Later `.uz`/`.sa` evidence and `.pk`/`.ge` parsers are follow-ups, not
-  additions to that pinned count.
+  Magnitude snapshot dated 2026-09-12. The original scorecard stated 175
+  paired rows and excluded the Top 100, whose summary labels do not expose
+  row-level evidence pairs. See the dated correction below; the scorecard
+  does not claim 1,000 effective WHOIS integrations or a single
+  effective-coverage rate.
+- CORRECTION (2026-09-25): A rowwise crosswalk could not reproduce the
+  originally published 175-pair claim. The corrected scorecard and bounded
+  evidence ledger identify 130 directly traceable snapshot pair observations
+  and 31 package rows with insufficient row-level detail; later `.top`,
+  `.uz`, and `.sa` pairs are recorded separately. These are report evidence
+  counts, not effective parser coverage.
 - SOURCES: The audit notes link to the [ICANN DNS Magnitude
   snapshot](https://magnitude.research.icann.org/historic/20260912.full.html),
   [IANA `.top`](https://www.iana.org/domains/root/db/top.html),

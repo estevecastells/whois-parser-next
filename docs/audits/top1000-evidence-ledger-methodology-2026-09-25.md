@@ -42,9 +42,14 @@ baseline pair split is:
 
 The 69 rank-301+ rows split by planning package as package 1: 7, package 2: 0,
 package 3: 1, package 4: 22, and package 5: 39. The package-3 pair is rank 729
-(`.aw`). The 31 detail-insufficient rows are all in package 3; those rows say
-`verified` but do not identify which registered/absence evidence was verified.
-The word `verified` alone is not normalized to a pair.
+(`.aw`). The earlier 111 count for ranks 301–1000 was tallied as package 1: 7,
+package 3: 34, package 4: 31, and package 5: 39. The direct rowwise audit gives
+7, 1, 22, and 39 respectively. Package 3's reduction is 31 generic `verified`
+rows without pair detail plus two absence-only rows; package 4's reduction is
+eight absence-only plus one RDAP-only row in the rowwise crosswalk. At ranks
+101–300, the old count 64 exceeds the rowwise count 61 by three, but the old
+tally has no row IDs to identify those observations. The word `verified` alone
+is not normalized to a pair.
 
 The Top-100 report provides only summary labels for most rows. Its 100 rows
 remain split as 76 `Healthy`/`Fixed` summary-only, 6 `Unsupported`
@@ -63,12 +68,12 @@ The scorecard previously stated 175 paired rows (64 at ranks 101–300 and 111
 at ranks 301–1000). That count is retracted: the published reports do not
 provide a rowwise crosswalk that reproduces it. The hand-checked, directly
 traceable row-pair count is 130, a difference of 45 from that earlier claim.
-Because the earlier tally did not enumerate its rows, the difference cannot
-be reconciled row by row. The 31 generic package-3 `verified` rows are
-insufficient evidence, but the available sources do not prove how each was
-treated in the earlier tally. Other labels that remain ambiguous, unsafe,
-blocked, rate-limited, or otherwise non-authoritative remain unknown; they are
-not promoted to absence or pairs.
+The aggregate rank-301+ discrepancy is attributable to the package-3 and
+package-4 summary differences described above; the separate three-row
+ranks-101–300 discrepancy remains unidentified because the earlier tally has
+no row IDs. Other labels that remain ambiguous, unsafe, blocked, rate-limited,
+or otherwise non-authoritative remain unknown; they are not promoted to
+absence or pairs.
 
 This is a source-report evidence count, not a count of parsers, supported
 registries, default client routes, successful production requests, or

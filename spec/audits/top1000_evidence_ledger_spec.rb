@@ -38,6 +38,20 @@ RSpec.describe Top1000EvidenceLedger do
     expect(insufficient.length).to eq(31)
     expect(insufficient.map { |row| planning.fetch(row.fetch('source_rank')) }.uniq)
       .to eq(['package-3'])
+    package3_rows = rows.select do |row|
+      row.fetch('source_rank') > 300 && planning.fetch(row.fetch('source_rank')) == 'package-3'
+    end
+    package3_states = package3_rows.group_by { |row| row.fetch('evidence_state') }
+                                   .transform_values(&:length)
+    package4_rows = rows.select do |row|
+      row.fetch('source_rank') > 300 && planning.fetch(row.fetch('source_rank')) == 'package-4'
+    end
+    package4_states = package4_rows.group_by { |row| row.fetch('evidence_state') }
+                                   .transform_values(&:length)
+    expect(package3_states.values_at('paired', 'report_detail_insufficient', 'absence_only'))
+      .to eq([1, 31, 2])
+    expect(package4_states.values_at('paired', 'absence_only', 'rdap_only'))
+      .to eq([22, 8, 1])
     expect(pairs.find { |row| row.fetch('source_rank') == 729 }.fetch('tld')).to eq('aw')
   end
 

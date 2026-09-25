@@ -58,48 +58,79 @@ coverage.
   absence cases were verified. These rows are deliberately not promoted into
   paired or explicit-unsupported counts.
 
-## Scorecard
+## Corrected rowwise pair reconciliation
 
-| Evidence state | Ranks 1-100 | Ranks 101-300 | Ranks 301-1000 | Total |
-| --- | ---: | ---: | ---: | ---: |
-| Registered and authoritative absence both reported | Not normalized | 64 | 111 | **175** |
-| Registered response only | 1 | 4 | 21 | **26** |
-| Authoritative absence only | 0 | 10 | 11 | **21** |
-| Explicit unsupported response | 0 | 36 | 169 | **205** |
-| WHOIS retired; RDAP-only notice | 0 | 1 | 6 | **7** |
-| Unknown/unsafe, including reserved or restricted | 11 | 30 | 190 | **231** |
-| Classification-only or no port-43 target | 6 | 55 | 192 | **253** |
-| Top-100 summary label only (`Healthy`/`Fixed`) | 76 | 0 | 0 | **76** |
-| Top-100 `Unsupported` label without row-level marker evidence | 6 | 0 | 0 | **6** |
-| **Rows** | **100** | **200** | **700** | **1,000** |
+Correction dated 2026-09-25: the previously published count of 175 paired
+rows is retracted. The reports do not provide a rowwise crosswalk that
+reproduces that total. The bounded hand-audited ledger and validator below
+reproduce 130 directly traceable pair observations in the pinned snapshot:
 
-The 175 paired rows are the strict count explicitly supported by row-level
-evidence descriptions in the reports; ranks 1-100 are not included in that
-number. The Top 100 report labels 76 rows `Healthy` or `Fixed`, but its table
-does not expose per-row evidence pairs. Treating those labels as verified
-registered-plus-absence coverage would overstate what can be reproduced from
-that report. The six Top 100 `Unsupported` labels also lack the row-level
-response details needed to count them as exact unsupported-marker evidence.
-The current `.us` follow-up supersedes its earlier `Ambiguous` label: a
-registered response is observed, while `No Data Found` remains unknown because
-the registry says a missing record does not establish availability.
+| Rank range | Previously published pairs | Directly traceable report pairs |
+| --- | ---: | ---: |
+| 101–300 | 64 | 61 |
+| 301–1000 | 111 | 69 |
+| **Total** | **175 (retracted)** | **130** |
 
-The 253 classification/non-port-43 rows include source-classification rows,
-web-only mappings, and rows with no applicable standard WHOIS port-43 parser
-target. They are grouped together here because the audit question is parser
-coverage over this source list, not how many TLD strings are theoretically
-delegated. No claim is made that web-only or unsupported adapters are effective
-registration coverage.
+The old tally did not enumerate its rows, so its row identities cannot be
+reconstructed. At the aggregate level, the old ranks 301–1000 total was
+7 + 34 + 31 + 39 = 111 across packages 1, 3, 4, and 5. The rowwise audit
+reproduces 7 + 1 + 22 + 39 = 69: package 3 falls by 33 because 31 generic
+`verified` rows and two absence-only rows do not document pairs; package 4
+falls by 9 because its rowwise crosswalk has eight absence-only and one
+RDAP-only row among outcomes included in the old summary. The ranks 101–300
+difference of three (64 previously stated, 61
+rowwise reproduced) has no identified rank IDs and remains unresolved. These
+count differences explain the 45-row aggregate change, but do not supply a
+row-by-row reconciliation. Do not treat either tally as effective parser
+coverage.
 
-This scorecard intentionally does not publish one effective-coverage
-percentage. Parser presence, one-sided evidence, unsupported responses, and
-successful parsing of both evidence states are different outcomes.
+The 69 directly traceable rank-301–1000 observations split by the published
+planning packages as follows:
 
-## Next 10 ranked evidence gaps
+| Planning package | Directly traceable pairs |
+| --- | ---: |
+| Package 1 | 7 |
+| Package 2 | 0 |
+| Package 3 | 1 (`.aw`, rank 729) |
+| Package 4 | 22 |
+| Package 5 | 39 |
+| **Total** | **69** |
 
-These are ordered by source rank. They are evidence-refresh or validation
-opportunities, not ten promised parser changes. Blocked or restricted services
-must remain unknown; none is a reason to infer availability.
+The same package reports contain 31 package-3 rows with a generic `verified`
+outcome but no rowwise detail naming both registered and authoritative
+absence evidence. These remain `report_detail_insufficient`, not pairs. Other
+ambiguous, unsafe, blocked, throttled, or non-authoritative rows remain
+unknown; this correction does not promote them to absence or registration.
+
+The Top-100 table's summary labels are separately retained without pair
+inference:
+
+| Top-100 evidence state | Rows |
+| --- | ---: |
+| `Healthy`/`Fixed` summary only | 76 |
+| `Unsupported` summary only | 6 |
+| Classification-only | 6 |
+| Unknown/unsafe | 11 |
+| Registered-only current `.us` follow-up | 1 |
+| **Rows** | **100** |
+
+The reproducible CSV contains only these 100 Top-100 rows, the 130 direct
+rank-101+ pairs, the 31 detail-insufficient rows, and three post-snapshot
+follow-ups: `.top` (rank 103), `.uz` (rank 104), and `.sa` (rank 105). Those
+three follow-ups have their own fields and do not change the pinned 130-pair
+baseline. The CSV is a bounded evidence subset, not a fully normalized
+1,000-row state ledger. See the [methodology and validation rules](top1000-evidence-ledger-methodology-2026-09-25.md)
+and [machine-readable subset](data/whois-parser-top1000-evidence-ledger-subset-2026-09-25.csv).
+
+No effective-coverage percentage is asserted. A report pair is not by itself
+proof of a supported parser, the default client's route, or an effective
+application integration.
+
+## Snapshot-time evidence gaps and follow-ups
+
+These items describe the pinned 2026-09-19 audit snapshot and its subsequent
+bounded follow-ups. They are evidence-refresh or validation opportunities,
+not promised parser changes. Blocked or restricted services remain unknown.
 
 | Rank | TLD | Current evidence | Safest next action |
 | ---: | --- | --- | --- |
@@ -111,29 +142,26 @@ must remain unknown; none is a reason to infer availability.
 | 59 | `.vn` | The Top 100 report labels the result restricted. | Verify current access policy/source semantics; do not work around the restriction or classify it as absence. |
 | 68 | `.za` | The Top 100 report labels the result restricted. | Confirm the applicable registry scope and access policy before any parser work. |
 | 72 | `.gr` | The Top 100 report labels the result restricted. | Confirm official source semantics; restricted output remains unknown, not absent. |
-| 104 | `.uz` | A registered response is reported for the mapped server; the row does not report an authoritative absence response. | Low-cost follow-up: capture an exact generated-name response and add a paired fixture/spec only if the registry response is authoritative. |
-| 105 | `.sa` | A registered response is reported for the mapped server; the row does not report an authoritative absence response. | Same low-cost paired-evidence follow-up as `.uz`; do not infer absence from a non-record response. |
+| 104 | `.uz` | The pinned row reports registration only; a 2026-09-25 follow-up adds registered and exact generated-name no-entry evidence. | Keep the later pair separately dated; do not backfill it into the pinned count. |
+| 105 | `.sa` | The pinned row reports registration only; a 2026-09-25 follow-up adds registered and exact generated-name no-match evidence. | Keep the later pair separately dated; do not backfill it into the pinned count. |
 
 The list reflects the `f2c822c` parser snapshot and the earlier rank audit.
 The later current-source follow-up described below supersedes several of these
 items; it does not change the snapshot counts above.
 
-## Cheap validation and reporting gaps
+## Remaining reporting limits
 
-- Normalize the Top 100 row ledger to state explicitly whether each row has
-  registered, authoritative-absence, unsupported, RDAP-only, or unknown
-  evidence. Its current summary labels do not support the same count rules as
-  the later rowwise reports.
-- Add a machine-readable evidence-state column to the existing 301-1000
-  planning/ownership data, or a companion ledger, and preserve evidence date
-  and report/fixture reference. The package reports currently use different
-  outcome schemas, so the aggregate requires a manual crosswalk.
-- Keep registered-only and absence-only rows visible. They are not paired
-  coverage, even if a parser file or legacy fixture exists.
-- For rows with only an `Unavailable`, `Restricted`, or `Unresolved` label,
-  record the exact observed marker or say explicitly that the response detail
-  was not retained. Do not convert those labels into stronger availability or
-  parser claims.
+- The machine-readable CSV is a bounded evidence subset, not a normalized
+  ledger for all 1,000 ranks. Rows not in the subset must be read from their
+  linked reports; no aggregate state is inferred for them here.
+- The package reports use different outcome schemas. A generic `verified`
+  outcome without row-level evidence detail remains insufficient to establish
+  a pair.
+- Keep registered-only and absence-only observations distinct. A parser file
+  or legacy fixture does not substitute for two current evidence cases.
+- `Unavailable`, `Restricted`, `Unresolved`, denial, throttle, timeout, and
+  ambiguous results do not establish availability. Keep them unknown unless
+  exact authoritative evidence supports a narrower classification.
 
 ## Reproducing the rank-manifest check
 
@@ -150,9 +178,12 @@ Expected output:
 rows=1000 ranks=1-1000 sha256=6f1411e1323ed09683480b47314188c71c19d62979d2d7cc2894669b4dd9e681
 ```
 
-The evidence-state tallies above are a manual classification of the linked
-rowwise reports under the rules in this document; they are not regenerated
-from parser-file names or the static planning inventory.
+The corrected pair, summary-only, and detail-insufficient counts are
+reproduced by `scripts/build_top1000_evidence_ledger.rb` and checked by
+`spec/audits/top1000_evidence_ledger_spec.rb`. The script validates the source
+rank digest and does not infer pairs from parser-file names or the static
+`parser_present_unverified` planning field. The accompanying methodology
+documents the hand review and limits.
 
 ## Post-snapshot follow-up
 
@@ -160,8 +191,12 @@ After the scorecard baseline, commit `a226471` added a conservative `.pk`
 parser using current registered and exact explicit-availability evidence.
 This does not make `.pk` effective coverage for the standard WHOIS client:
 `whois` 6.0.3 still maps it to a legacy web adapter, and DomScan's separate
-port-43 routing work is pending. The `.pk` row therefore remains in the
-unknown/unresolved baseline tally above; parser-file presence is not counted.
+port-43 routing work is pending. This does not make `.pk` a pair in the
+directly traceable subset; parser-file presence is not counted.
+
+The 2026-09-25 follow-up also records separate row-pair evidence for `.top`,
+`.uz`, and `.sa`. These observations are listed in the subset's follow-up
+columns and are deliberately excluded from its 130-pair pinned baseline.
 
 The same later report established that IANA lists only Google Registry RDAP,
 not WHOIS, for `.dev` and `.app`; `.es` port-43 is limited to registry-approved

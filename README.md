@@ -86,18 +86,21 @@ The [2026-09-25 scorecard](docs/audits/top-1000-effective-coverage-scorecard-202
 summarizes evidence for 1,000 observed TLD strings from the
 [ICANN DNS Magnitude snapshot dated 2026-09-12](https://magnitude.research.icann.org/historic/20260912.full.html).
 These strings are not 1,000 guaranteed working WHOIS registries or
-domain-availability results. Its strict paired count is pinned to baseline
-`f2c822c`, excludes the Top 100 whose summary labels do not expose row-level
-evidence pairs, and does not claim an effective-coverage percentage. The
-scorecard keeps verified parser evidence, explicit unavailable or unsupported
-responses, unknown or unresolved endpoints, and classification-only rows
-distinct. Later `.uz`/`.sa` paired evidence and `.pk`/`.ge` parsers are
-follow-ups, not changes to the pinned scorecard counts. The `.pk` parser does
-not make the default `whois` 6.0.3 Web adapter use port 43; `Whois::Client`
-host configuration does not override that adapter. The `.ge` parser targets
-IANA's `whois.nic.ge`, while the default `whois` route is
-`whois.registration.ge`. Both require explicit fixed-host routing before an
-application can count them as effective coverage.
+domain-availability results. A dated correction retracts the previously
+published 175 paired count: the hand-audited report crosswalk reproduces 130
+direct row-pair observations (61 at ranks 101–300 and 69 at 301–1000), with 31
+package rows remaining detail-insufficient. Three later pairs (`.top`, `.uz`,
+`.sa`) are tracked separately from that pinned baseline. See the [corrected
+scorecard](docs/audits/top-1000-effective-coverage-scorecard-2026-09-25.md),
+[methodology](docs/audits/top1000-evidence-ledger-methodology-2026-09-25.md),
+and [bounded machine-readable subset](docs/audits/data/whois-parser-top1000-evidence-ledger-subset-2026-09-25.csv).
+No effective-coverage percentage is asserted. Summary-only, unsupported,
+unknown, one-sided, and classification-only evidence is not promoted to a
+pair. The `.pk` parser does not make the default `whois` 6.0.3 Web adapter use
+port 43; `Whois::Client` host configuration does not override that adapter.
+The `.ge` parser targets IANA's `whois.nic.ge`, while the default `whois` route
+is `whois.registration.ge`. Both require explicit fixed-host routing before
+an application can count them as effective coverage.
 
 Start with the [source verification report](docs/audits/top-1000-source-verification-2026-09-19.md),
 the [Top 20 review](docs/audits/top-20-tlds-2026-09-19.md), and the [Top 100
