@@ -3,7 +3,7 @@
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 
-#### Unpublished candidate 0.2.0 (2026-09-25)
+#### Release 0.2.0 (2026-09-25)
 
 - ADDED: Extended the usage-ranked audit and parser work through 1,000 ICANN
   DNS Magnitude TLD strings from the 2026-09-12 snapshot.

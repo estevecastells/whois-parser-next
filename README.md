@@ -38,8 +38,7 @@ of current WHOIS responses, explicit unknown states, registry-specific
 fixtures, and safe handling of malformed, rate-limited, retired, or changed
 server responses.
 
-The latest published RubyGems release is `0.1.0`. Version `0.2.0` is an
-unpublished release candidate.
+The latest published RubyGems release is `0.2.0`.
 
 ## Compatibility
 
