@@ -47,3 +47,10 @@ reports lack enough detail to normalize `verified` into a pair. It is not a
 full 1,000-row ledger or effective-coverage claim. Regenerate and validate it
 from the repository root with `ruby scripts/build_top1000_evidence_ledger.rb`
 and `bundle exec rspec spec/audits/top1000_evidence_ledger_spec.rb`.
+
+The complete 1,000-row rank/status ledger is stored as
+[`whois-parser-top1000-rank-status-ledger-2026-09-25.csv`](whois-parser-top1000-rank-status-ledger-2026-09-25.csv).
+Its unknown rows retain report provenance, while later observations remain in
+separate follow-up columns. See the [full-ledger methodology](../top1000-rank-status-ledger-methodology-2026-09-25.md).
+Regenerate and validate it with `ruby scripts/build_top1000_rank_status_ledger.rb`
+and `bundle exec rspec spec/audits/top1000_rank_status_ledger_spec.rb`.
