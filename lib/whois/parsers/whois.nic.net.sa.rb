@@ -65,6 +65,12 @@ module Whois
       private
 
       def classify_status
+        cached_properties_fetch(:classified_status) do
+          classify_status_from_content
+        end
+      end
+
+      def classify_status_from_content
         registered = registered_domain_names
         absent = absence_domain_names
 

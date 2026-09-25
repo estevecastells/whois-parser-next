@@ -29,6 +29,20 @@ RSpec.describe Whois::Parsers::WhoisNicGe, 'current .ge WHOIS evidence' do
     expect(absent.available?).to eq(true)
   end
 
+  it 'caches status classification per parser across status and boolean properties' do
+    registered = parser_for('registered')
+    available = parser_for('available')
+    expect(registered).to receive(:classify_status_from_content).once.and_call_original
+    expect(available).to receive(:classify_status_from_content).once.and_call_original
+
+    expect(registered.status).to eq(:registered)
+    expect(registered.registered?).to eq(true)
+    expect(registered.available?).to eq(false)
+    expect(available.status).to eq(:available)
+    expect(available.registered?).to eq(false)
+    expect(available.available?).to eq(true)
+  end
+
   it 'keeps empty, denied, and throttled responses from becoming domain results' do
     empty = described_class.new(Whois::Record::Part.new(body: '', host: host))
     denied = parser_for('denied')

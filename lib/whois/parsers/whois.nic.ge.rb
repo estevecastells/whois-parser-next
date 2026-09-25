@@ -34,6 +34,12 @@ module Whois
       private
 
       def classify_status
+        cached_properties_fetch(:classified_status) do
+          classify_status_from_content
+        end
+      end
+
+      def classify_status_from_content
         if registered_evidence?
           :registered
         elsif available_evidence?
