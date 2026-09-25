@@ -114,10 +114,13 @@ inference:
 | Registered-only current `.us` follow-up | 1 |
 | **Rows** | **100** |
 
-The reproducible CSV contains only these 100 Top-100 rows, the 130 direct
-rank-101+ pairs, the 31 detail-insufficient rows, and three post-snapshot
-follow-ups: `.top` (rank 103), `.uz` (rank 104), and `.sa` (rank 105). Those
-three follow-ups have their own fields and do not change the pinned 130-pair
+The reproducible CSV contains these 100 Top-100 rows, the 130 direct rank-101+
+pairs, the 31 detail-insufficient rows, and three additional post-snapshot
+follow-up ranks: `.top` (103), `.uz` (104), and `.sa` (105). A fourth dated
+point-in-time pair observation for `.cam` (rank 315) supplements one of the
+already included detail-insufficient rows. Its response is represented only
+by hashes because no redistributable exact fixture was verified. All four
+observations use follow-up fields and stay outside the pinned 130-pair
 baseline. The CSV is a bounded evidence subset, not a fully normalized
 1,000-row state ledger. See the [methodology and validation rules](top1000-evidence-ledger-methodology-2026-09-25.md)
 and [machine-readable subset](data/whois-parser-top1000-evidence-ledger-subset-2026-09-25.csv).
@@ -194,9 +197,13 @@ This does not make `.pk` effective coverage for the standard WHOIS client:
 port-43 routing work is pending. This does not make `.pk` a pair in the
 directly traceable subset; parser-file presence is not counted.
 
-The 2026-09-25 follow-up also records separate row-pair evidence for `.top`,
-`.uz`, and `.sa`. These observations are listed in the subset's follow-up
-columns and are deliberately excluded from its 130-pair pinned baseline.
+The 2026-09-25 follow-ups record separate row-pair observations for `.top`,
+`.uz`, `.sa`, and `.cam`. The `.cam` result is a dated, row-specific
+point-in-time observation with hashes only; its response body is not retained,
+so it is not an independently reproducible parser fixture or proof of
+effective coverage. These observations are listed in the subset's follow-up
+columns and are deliberately excluded from its 130-pair pinned baseline. See
+the [rank-315 `.cam` follow-up](top1000-rank315-cam-followup-2026-09-25.md).
 
 The same later report established that IANA lists only Google Registry RDAP,
 not WHOIS, for `.dev` and `.app`; `.es` port-43 is limited to registry-approved

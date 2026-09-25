@@ -99,6 +99,13 @@ module Top1000EvidenceLedger
       'follow_up_fixture_ref' => 'spec/fixtures/responses/audit_20260925_ranks104_105',
       'follow_up_note' => 'The report adds current registered and exact generated-name no-match evidence after the scorecard baseline.',
     },
+    315 => {
+      'follow_up_state' => 'paired',
+      'follow_up_date' => '2026-09-25',
+      'follow_up_report_ref' => 'docs/audits/top1000-rank315-cam-followup-2026-09-25.md',
+      'follow_up_fixture_ref' => '',
+      'follow_up_note' => 'A bounded point-in-time row-specific pair is summarized by sanitized response hashes because CentralNic terms prohibit storing or reproducing service data; the pinned baseline remains unchanged.',
+    },
   }.freeze
 
   def self.path(relative_path)
@@ -401,7 +408,7 @@ module Top1000EvidenceLedger
     raise "Expected 130 directly traceable rank-101+ pairs, found #{paired.length}" unless paired.length == 130
     raise "Expected 31 report-detail-insufficient rows, found #{insufficient.length}" unless insufficient.length == 31
     raise "Expected 100 Top-100 rows, found #{top100.length}" unless top100.length == 100
-    raise "Expected 3 separately recorded paired follow-ups, found #{follow_ups.length}" unless follow_ups.length == 3
+    raise "Expected 4 separately recorded paired follow-ups, found #{follow_ups.length}" unless follow_ups.length == 4
 
     subset = (top100 + paired + insufficient + follow_ups).uniq { |row| row['source_rank'] }.sort_by { |row| row['source_rank'] }
     expected_ranks = (top100 + paired + insufficient + follow_ups).map { |row| row['source_rank'] }.uniq.sort

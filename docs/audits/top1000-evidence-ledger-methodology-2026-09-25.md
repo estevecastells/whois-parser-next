@@ -31,8 +31,11 @@ claimed to be an exact per-row fixture unless the source report says so.
 
 The reproducible subset has 264 unique rank rows: the 100 Top-100 rows, the
 130 directly traceable rank-101+ report pairs, 31 rank-301+ package rows with
-insufficient row-level detail, and three later paired follow-ups. The pinned
-baseline pair split is:
+insufficient row-level detail, and three additional post-snapshot follow-up
+ranks. Four later pair observations are recorded in the follow-up columns;
+the `.cam` point-in-time observation supplements an already included
+detail-insufficient row and retains hashes but no response text or exact
+fixture. The pinned baseline pair split is:
 
 | Scope | Direct row-pair observations |
 | --- | ---: |
@@ -56,11 +59,14 @@ remain split as 76 `Healthy`/`Fixed` summary-only, 6 `Unsupported`
 summary-only, 6 classification-only, 11 unknown/unsafe, and 1 registered-only
 follow-up row. None is inferred to be a pair from a summary label.
 
-Three later pairs are kept in the CSV follow-up columns and excluded from the
-pinned baseline total: rank 103 `.top`, rank 104 `.uz`, and rank 105 `.sa`.
-Other later work, including `.pk`, `.ge`, `.dev`, and `.app`, is also outside
-the baseline pair count and does not establish default-client effective
-coverage.
+Four later pair observations are kept in the CSV follow-up columns and
+excluded from the pinned baseline total: rank 103 `.top`, rank 104 `.uz`, rank
+105 `.sa`, and rank 315 `.cam`. The `.cam` observation adds dated,
+row-specific hash metadata to a row already in the subset, so its 264-row size
+is unchanged. Its hashes cannot replay the response or validate parsing
+independently. Other later work, including `.pk`, `.ge`, `.dev`, and `.app`, is
+also outside the baseline pair count and does not establish default-client
+effective coverage.
 
 ## Retraction and limitations
 

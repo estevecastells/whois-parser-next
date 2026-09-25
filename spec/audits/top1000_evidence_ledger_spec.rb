@@ -70,12 +70,13 @@ RSpec.describe Top1000EvidenceLedger do
     expect(top100.none? { |row| row.fetch('evidence_state') == 'paired' }).to be(true)
   end
 
-  it 'records later .top, .uz, and .sa pairs separately from baseline evidence' do
+  it 'records later .top, .uz, .sa, and .cam pairs separately from baseline evidence' do
     follow_ups = rows.select { |row| row.fetch('follow_up_state') == 'paired' }
 
     expect(follow_ups.map { |row| [row.fetch('source_rank'), row.fetch('tld')] })
-      .to eq([[103, 'top'], [104, 'uz'], [105, 'sa']])
-    expect(follow_ups.map { |row| row.fetch('evidence_state') }.uniq).to eq(['registered_only'])
+      .to eq([[103, 'top'], [104, 'uz'], [105, 'sa'], [315, 'cam']])
+    expect(follow_ups.map { |row| row.fetch('evidence_state') }.uniq)
+      .to eq(['registered_only', 'report_detail_insufficient'])
     expect(described_class.hand_audited_subset.length).to eq(264)
   end
 end

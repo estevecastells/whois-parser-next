@@ -50,6 +50,12 @@ RSpec.describe Whois::Parser, 'ICANN DNS Magnitude package-3 WHOIS coverage' do
     expect(reserved.registered?).to eq(false)
   end
 
+  it 'routes .cam to its IANA-listed standard WHOIS host' do
+    server = Whois::Server.find_for_domain('google.cam')
+    expect(server).to be_a(Whois::Server::Adapters::Standard)
+    expect(server.instance_variable_get(:@host)).to eq('whois.nic.cam')
+  end
+
   it 'reuses the explicit unsupported-registry family without claiming a result' do
     unsupported = %w[
       whois.nic.agency whois.nic.codes whois.nic.academy whois.nic.energy whois.nic.dog
