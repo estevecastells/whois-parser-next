@@ -32,24 +32,40 @@ The `whois` gem 6.0.3 nevertheless returns `whois.nic.google` for `.dev` and
 not be treated as a successful registry route.
 
 On 2026-09-25, bounded direct port-43 probes to the IANA-listed PKNIC host
-returned these sanitized results:
+returned these sanitized results. The headings and indentation match the raw
+response shape:
 
 ```text
-google.pk
-Domain: google.pk
-Status: Domain is Registered
+# WHOIS .PK Domains (PKNIC)
 
-codex-audit-20260925-7418321.pk
-Domain: codex-audit-20260925-7418321.pk
-Status: Not Registered, and may be available if valid
-Available: Yes.
+    Domain: google.pk
+    Status: Domain is Registered
+
+# WHOIS .PK Domains (PKNIC)
+
+    Domain: codex-20260925-nonexistent.pk
+    Status: Not Registered, and may be available if valid
+    Available: Yes.
 ```
 
-The `.pk` fixtures retain only the domain and exact status lines; no registrant
-or contact information is included. The parser requires both the echoed `.pk`
-domain and the registry's exact `Available: Yes.` line before returning
-`:available`. Conflicting markers return `:unknown`. Empty, denied, throttled,
-and incomplete absence responses have adversarial coverage.
+The `.pk` fixtures retain only the banner, domain, and exact status lines; no
+registrant or contact information is included. The live PKNIC response
+indents fields by four spaces. The parser accepts bounded leading indentation
+(up to eight ASCII spaces) while still requiring the echoed `.pk` domain and
+the registry's exact `Available: Yes.` line before returning `:available`.
+Conflicting, incomplete, and over-indented evidence returns `:unknown`;
+denied and throttled responses remain unavailable even when record-looking
+availability lines follow them.
+
+The direct parser and DomScan's `/v1/whois` result are distinct evidence paths.
+Before this correction, the parser returned `:unknown` for the indented PKNIC
+body even though the endpoint had returned `registered: true` for a live
+registered query. DomScan's separate `classifyTraditionalWhoisAvailability`
+fallback can classify raw text independently of the gem parser; that endpoint
+result therefore did not prove parser support. The generated absence response
+did not meet that fallback's registered/short-response rules and remained
+unknown there. These changes fix the parser only and do not change DomScan
+routing or deploy effective coverage.
 
 Probe limits were a 4-second connection timeout, 7-second response deadline,
 64 KiB response cap, and at least 2 seconds between WHOIS queries. No `.es`

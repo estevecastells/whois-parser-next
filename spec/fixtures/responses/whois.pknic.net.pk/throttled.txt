@@ -1,1 +1,4 @@
 WHOIS query rate limit exceeded.
+    Domain: codex-20260925-nonexistent.pk
+    Status: Not Registered, and may be available if valid
+    Available: Yes.

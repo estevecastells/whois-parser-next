@@ -52,17 +52,17 @@ module Whois
       private
 
       def echoed_domain
-        content_for_scanner[/^Domain:\s*((?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+pk)\s*$/i, 1]
+        content_for_scanner[/^ {0,8}Domain:[ \t]*((?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+pk)[ \t]*$/i, 1]
       end
 
       def registered_evidence?
-        !!(echoed_domain && content_for_scanner.match?(/^Status: Domain is Registered\s*$/))
+        !!(echoed_domain && content_for_scanner.match?(/^ {0,8}Status: Domain is Registered[ \t]*$/))
       end
 
       def available_evidence?
         !!(echoed_domain &&
-          content_for_scanner.match?(/^Status: Not Registered, and may be available if valid\s*$/) &&
-          content_for_scanner.match?(/^Available: Yes\.\s*$/))
+          content_for_scanner.match?(/^ {0,8}Status: Not Registered, and may be available if valid[ \t]*$/) &&
+          content_for_scanner.match?(/^ {0,8}Available: Yes\.[ \t]*$/))
       end
     end
 

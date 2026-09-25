@@ -24,7 +24,7 @@ RSpec.describe Whois::Parsers::WhoisPknicNetPk do
     expect(registered.registered?).to eq(true)
     expect(registered.available?).to eq(false)
 
-    expect(available.domain).to eq('codex-audit-20260925-7418321.pk')
+    expect(available.domain).to eq('codex-20260925-nonexistent.pk')
     expect(available.status).to eq(:available)
     expect(available.registered?).to eq(false)
     expect(available.available?).to eq(true)
@@ -33,8 +33,9 @@ RSpec.describe Whois::Parsers::WhoisPknicNetPk do
   it 'requires the registry availability line and rejects contradictory evidence' do
     incomplete = parser_for('incomplete_absence')
     ambiguous = parser_for('ambiguous')
+    over_indented = parser_for('over_indented')
 
-    [incomplete, ambiguous].each do |parser|
+    [incomplete, ambiguous, over_indented].each do |parser|
       expect(parser.status).to eq(:unknown)
       expect(parser.registered?).to eq(false)
       expect(parser.available?).to eq(false)

@@ -1,2 +1,4 @@
-Domain: google.pk
-Status: Domain is Registered
+# WHOIS .PK Domains (PKNIC)
+
+    Domain: google.pk
+    Status: Domain is Registered

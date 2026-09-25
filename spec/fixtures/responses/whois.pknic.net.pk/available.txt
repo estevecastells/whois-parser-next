@@ -1,3 +1,5 @@
-Domain: codex-audit-20260925-7418321.pk
-Status: Not Registered, and may be available if valid
-Available: Yes.
+# WHOIS .PK Domains (PKNIC)
+
+    Domain: codex-20260925-nonexistent.pk
+    Status: Not Registered, and may be available if valid
+    Available: Yes.
