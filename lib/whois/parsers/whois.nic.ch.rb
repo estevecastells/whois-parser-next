@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 module Whois
   class Parsers
@@ -24,12 +25,15 @@ module Whois
     # and examples.
     #
     class WhoisNicCh < Base
+      include RegistryResponseSafety
 
       property_supported :status do
         if available?
           :available
-        else
+        elsif content_for_scanner.match?(/^Domain name:\s*\S+/i)
           :registered
+        else
+          Whois::Parser.bug!(ParserError, "Unable to parse .ch response status.")
         end
       end
 
@@ -38,7 +42,7 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 
