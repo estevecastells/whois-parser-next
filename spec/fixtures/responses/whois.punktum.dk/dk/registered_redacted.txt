@@ -1,0 +1,10 @@
+Domain: sample.dk
+DNS: REDACTED
+Registered: 1999-01-10
+Expires: 2027-03-31
+Registrar: REDACTED
+Registration period: 1 year
+VID: REDACTED
+DNSSEC: Unsigned delegation
+Status: Active
+Hostname: ns1.example.dk

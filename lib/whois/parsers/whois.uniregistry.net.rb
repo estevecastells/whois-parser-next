@@ -19,8 +19,11 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisUniregistryNet < BaseIcannCompliant
+      AVAILABLE_DOMAIN_LINE = /^>>> Domain (?:"[^"\r\n]+"|[^\s\r\n]+) is available for registration[ \t]*$/
+      RECORD_EVIDENCE = /^[ \t]*(?:Domain Name|Domain ID|Registry Domain ID|Creation Date|Registrar|Sponsoring Registrar|Name Server):[ \t]*\S/i
+
       self.scanner = Scanners::BaseIcannCompliant, {
-          pattern_available: />>> Domain ".+" is available/,
+          pattern_available: AVAILABLE_DOMAIN_LINE,
       }
 
 
@@ -52,11 +55,21 @@ module Whois
       def response_unavailable?
         super || content_for_scanner.match?(
           /^(?:>>> Tld not supported by this registry interface|TLD is not supported\.)$/i
-        )
+        ) || ambiguous_availability_response?
       end
 
 
       private
+
+      def ambiguous_availability_response?
+        marker_count = content_for_scanner.lines.count do |line|
+          line.match?(AVAILABLE_DOMAIN_LINE)
+        end
+
+        marker_count.positive? && (
+          marker_count != 1 || content_for_scanner.match?(RECORD_EVIDENCE)
+        )
+      end
 
       def build_contact(element, type)
         if (contact = super)

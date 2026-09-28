@@ -1,0 +1,12 @@
+Domain Name: NIC.SBS
+Updated Date: 2026-01-28T00:06:58.0Z
+Creation Date: 2021-02-03T15:20:54.0Z
+Registry Expiry Date: 2027-02-03T23:59:59.0Z
+Registrar: CentralNic Ltd
+Domain Status: serverRenewProhibited https://icann.org/epp#serverRenewProhibited
+Domain Status: serverUpdateProhibited https://icann.org/epp#serverUpdateProhibited
+Domain Status: serverDeleteProhibited https://icann.org/epp#serverDeleteProhibited
+Domain Status: serverTransferProhibited https://icann.org/epp#serverTransferProhibited
+Name Server: A.NIC.SBS
+Name Server: B.NIC.SBS
+Name Server: C.NIC.SBS

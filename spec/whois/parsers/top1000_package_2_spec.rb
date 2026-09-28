@@ -28,8 +28,16 @@ RSpec.describe Whois::Parser, 'ICANN DNS Magnitude ranks 301-1000 package 2 pars
     ]
   end
 
-  def parser_for(host, fixture)
-    body = File.read(fixture('responses', 'top1000_package_2', fixture))
+  def parser_for(host, fixture_name)
+    path =
+      if host == 'whois.nic.giving' && fixture_name == 'icann_registered.txt'
+        # Full registry text carries restrictive terms; use the synthetic
+        # parser-shape fixture instead.
+        fixture('responses', 'whois.nic.giving/giving', 'registered_synthetic.txt')
+      else
+        fixture('responses', 'top1000_package_2', fixture_name)
+      end
+    body = File.read(path)
     described_class.parser_klass(host).new(Whois::Record::Part.new(body: body, host: host))
   end
 
@@ -39,15 +47,22 @@ RSpec.describe Whois::Parser, 'ICANN DNS Magnitude ranks 301-1000 package 2 pars
     end
   end
 
-  it 'parses the sanitized ICANN registered evidence without false availability' do
+  it 'parses registered evidence without false availability' do
     registered_hosts.each do |host|
       subject = parser_for(host, 'icann_registered.txt')
+      if host == 'whois.nic.giving'
+        expected_domain = 'sample.giving'
+        expected_nameservers = %w[ns1.example.net ns2.example.net]
+      else
+        expected_domain = 'example.test'
+        expected_nameservers = %w[ns1.example.test ns2.example.test]
+      end
 
       expect(subject.status).to eq(:registered), host
       expect(subject.registered?).to eq(true), host
       expect(subject.available?).to eq(false), host
-      expect(subject.domain).to eq('example.test'), host
-      expect(subject.nameservers.map(&:name)).to eq(%w[ns1.example.test ns2.example.test]), host
+      expect(subject.domain).to eq(expected_domain), host
+      expect(subject.nameservers.map(&:name)).to eq(expected_nameservers), host
     end
   end
 

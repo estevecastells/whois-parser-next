@@ -1,0 +1,13 @@
+# Synthetic parser fixture. All values are invented; no registry response text copied.
+Domain Name: synthetic.icu
+Registry Domain ID: SYNTHETIC-ICU-1
+Updated Date: 2025-01-02T00:00:00Z
+Creation Date: 2025-01-01T00:00:00Z
+Registry Expiry Date: 2027-01-01T00:00:00Z
+Registrar: Example Registrar
+Sponsoring Registrar: Example Registrar
+Registrar IANA ID: 9999
+Domain Status: clientTransferProhibited
+Name Server: ns1.example.invalid
+Name Server: ns2.example.invalid
+DNSSEC: unsigned

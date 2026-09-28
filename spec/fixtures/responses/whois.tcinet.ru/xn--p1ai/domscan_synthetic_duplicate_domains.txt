@@ -1,0 +1,3 @@
+domain: codex-audit-20260928.xn--p1ai
+domain: codex-audit-20260928-duplicate.xn--p1ai
+state: REGISTERED, DELEGATED, VERIFIED

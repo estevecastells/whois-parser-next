@@ -1,0 +1,12 @@
+Domain Name: NIC.QUEST
+Updated Date: 2026-02-11T00:06:59.0Z
+Creation Date: 2015-02-17T02:13:20.0Z
+Registry Expiry Date: 2027-02-17T23:59:59.0Z
+Registrar: XYZ.com, LLC
+Domain Status: serverRenewProhibited https://icann.org/epp#serverRenewProhibited
+Domain Status: serverUpdateProhibited https://icann.org/epp#serverUpdateProhibited
+Domain Status: serverDeleteProhibited https://icann.org/epp#serverDeleteProhibited
+Domain Status: serverTransferProhibited https://icann.org/epp#serverTransferProhibited
+Name Server: D-CNIC.NIC.QUEST
+Name Server: B-CNIC.NIC.QUEST
+Name Server: A-CNIC.NIC.QUEST

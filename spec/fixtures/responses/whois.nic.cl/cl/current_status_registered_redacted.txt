@@ -1,0 +1,8 @@
+Registrant name: [redacted]
+Registrant organisation: [redacted]
+Registrar name: NIC Chile
+Registrar URL: https://www.nic.cl
+Creation date: 2020-03-03 15:00:00 CLST
+Expiration date: 2027-03-03 15:00:00 CLST
+Name server: ns1.example.cl
+Name server: ns2.example.cl

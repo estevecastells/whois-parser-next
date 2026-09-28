@@ -1,0 +1,12 @@
+# Synthetic parser fixture. Identifiers and values are invented; no registry response text copied.
+Domain Name: synthetic-record.open
+Registry Domain ID: D000001-OPEN
+Updated Date: 2026-08-01T00:00:00Z
+Creation Date: 2026-01-01T00:00:00Z
+Registry Expiry Date: 2027-01-01T00:00:00Z
+Registrar: American Express Travel Related Services, Inc.
+Registrar IANA ID: 9999
+Domain Status: serverUpdateProhibited
+Name Server: ns1.example.invalid
+Name Server: ns2.example.invalid
+DNSSEC: unsigned

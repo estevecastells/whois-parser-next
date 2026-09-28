@@ -1,0 +1,2 @@
+Error for "redacted-probe.com".
+Nominet is not the registry for this domain name.

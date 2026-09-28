@@ -1,5 +1,5 @@
 #domain
-  %s == nil
+  %s %ERROR{ResponseIsUnavailable}
 
 #domain_id
   %s %ERROR{AttributeNotSupported}
@@ -16,13 +16,13 @@
 
 
 #created_on
-  %s == nil
+  %s %ERROR{ResponseIsUnavailable}
 
 #updated_on
   %s %ERROR{AttributeNotSupported}
 
 #expires_on
-  %s == nil
+  %s %ERROR{ResponseIsUnavailable}
 
 
 #nameservers

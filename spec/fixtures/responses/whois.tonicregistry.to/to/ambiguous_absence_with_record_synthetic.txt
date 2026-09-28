@@ -1,0 +1,3 @@
+# Synthetic contradiction fixture. No registry response text copied.
+>>> Domain synthetic.to is available for registration
+Domain Name: synthetic.to

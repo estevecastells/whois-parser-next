@@ -1,0 +1,2 @@
+# Synthetic parser fixture based on the observed marker; no registry response text copied.
+>>> Domain synthetic.link is available for registration

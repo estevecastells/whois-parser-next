@@ -1,0 +1,3 @@
+# Synthetic contradiction fixture; no registry response text copied.
+The queried object does not exist: DOMAIN NOT FOUND
+Domain Name: synthetic.top

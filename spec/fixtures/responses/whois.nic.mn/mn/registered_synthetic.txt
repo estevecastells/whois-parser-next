@@ -1,0 +1,6 @@
+Domain Name: sample.mn
+Registry Domain ID: EXAMPLE-123
+Creation Date: 2020-01-01T00:00:00Z
+Registrar: Example Registrar
+Name Server: ns1.example.net
+Name Server: ns2.example.net

@@ -62,8 +62,17 @@ RSpec.describe Whois::Parser, 'ICANN DNS Magnitude ranks 151-175' do
 
   it 'does not treat the retired .shop WHOIS endpoint as a domain result' do
     body = File.read(fixture('responses', 'topdomains_151_175/whois.nic.shop/retired.txt'))
+    server = Whois::Server.find_for_domain('codex-probe-20260928.shop')
+    parser = described_class.parser_for(
+      Whois::Record::Part.new(body: body, host: 'whois.nic.shop')
+    )
 
     expect(body).to include('WHOIS service has been retired')
     expect(body).to include('served via RDAP')
+    expect(server.host).to eq('whois.nic.shop')
+    expect(parser).to be_a(Whois::Parsers::Blank)
+    expect { parser.status }.to raise_error(Whois::ParserNotFound)
+    expect { parser.available? }.to raise_error(Whois::ParserNotFound)
+    expect { parser.registered? }.to raise_error(Whois::ParserNotFound)
   end
 end

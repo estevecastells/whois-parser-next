@@ -1,0 +1,10 @@
+Domain Name: sample.mx
+Created On: 01-jan-2020
+Expiration Date: 01-jan-2030
+Last Updated On: 01-jan-2025
+Registrar: Example Registrar
+Name Servers:
+   DNS: ns1.example.net
+   DNS: ns2.example.net
+
+Synthetic fixture footer: end of sample

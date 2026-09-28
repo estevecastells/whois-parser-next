@@ -1,0 +1,15 @@
+Domain Name: sample.org
+Registry Domain ID: REDACTED
+Updated Date: 2026-09-23T10:16:34Z
+Creation Date: 1998-10-21T04:00:00Z
+Registry Expiry Date: 2027-10-20T04:00:00Z
+Registrar: REDACTED
+Registrar IANA ID: 292
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Domain Status: serverDeleteProhibited https://icann.org/epp#serverDeleteProhibited
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: serverTransferProhibited https://icann.org/epp#serverTransferProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Domain Status: serverUpdateProhibited https://icann.org/epp#serverUpdateProhibited
+Name Server: ns1.example.org
+DNSSEC: unsigned

@@ -54,3 +54,39 @@ Its unknown rows retain report provenance, while later observations remain in
 separate follow-up columns. See the [full-ledger methodology](../top1000-rank-status-ledger-methodology-2026-09-25.md).
 Regenerate and validate it with `ruby scripts/build_top1000_rank_status_ledger.rb`
 and `bundle exec rspec spec/audits/top1000_rank_status_ledger_spec.rb`.
+
+## DomScan WHOIS usage snapshot (2026-09-28)
+
+The privacy-safe endpoint aggregate and first-class parser coverage ledger are
+stored in `domscan-whois-usage-2026-09-28.csv` and
+`domscan-whois-first-class-coverage-2026-09-28.csv`. The latter pins all 153
+root labels with more than five request items (44,402 items total), the IANA
+service-page fields, root-zone state, per-host parser classes, response-test
+references, and outstanding client-route blockers. The API logs expire after
+30 days, so these snapshots preserve the audit baseline and are not regenerated
+from current logs.
+
+The accompanying `domscan-whois-iana-services-2026-09-28.csv` stores the IANA
+root database observations; `domscan-whois-iana-tlds-alpha-2026-09-28.txt`
+pins root-zone membership version `2026092800`; and
+`domscan-whois-parser-mapping-2026-09-28.csv` preserves the DomScan-observed
+traditional WHOIS host/parser map. SHA-256 digests for all four source
+snapshots are enforced by `scripts/audit_domscan_whois_coverage.rb`.
+
+From the repository root, run the integrity audit, parser evidence gate, and
+runtime-route gate with:
+
+```sh
+bundle exec ruby scripts/audit_domscan_whois_coverage.rb
+bundle exec ruby scripts/audit_domscan_whois_coverage.rb --strict
+bundle exec ruby scripts/audit_domscan_whois_coverage.rb --strict-runtime
+bundle exec rspec spec/audits/domscan_whois_coverage_spec.rb
+```
+
+`--strict` fails while parser evidence or protocol resolution remains pending.
+`--strict-runtime` also fails while the installed `whois` gem route needs an
+IANA-host correction, an RDAP-only skip, or an explicit application override.
+The manifest and gate describe the installed upstream `whois` route map in
+this parser worktree. A separate DomScan route patch is locally verified, but
+these files do not verify its integration here or claim that a gem release,
+dependency pin, or production deployment has occurred.

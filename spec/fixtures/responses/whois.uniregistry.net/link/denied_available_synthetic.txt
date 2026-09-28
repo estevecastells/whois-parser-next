@@ -1,0 +1,3 @@
+# Synthetic denial fixture. No registry response text copied.
+>>> Domain synthetic.link is available for registration
+Access denied

@@ -8,7 +8,9 @@ module Whois
     # footer. Keep that exact evidence separate from an unparseable response.
     class WhoisNicOne < BaseIcannCompliant
       property_supported :status do
-        if no_data_found?
+        if contradictory_registration_and_absence?
+          :unknown
+        elsif no_data_found?
           :available
         elsif registered_response?
           :registered
@@ -29,6 +31,10 @@ module Whois
 
       def no_data_found?
         content_for_scanner.lines.first.to_s.strip.casecmp?("No Data Found")
+      end
+
+      def contradictory_registration_and_absence?
+        no_data_found? && registered_response?
       end
 
       def registered_response?

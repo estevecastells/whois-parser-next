@@ -33,19 +33,30 @@ RSpec.describe Whois::Parsers::Base, 'registry response safety' do
       end
 
       it 'raises a typed error for a client denial' do
-        parser = parser_for(klass, 'Access to the WHOIS service is denied.')
+        parser = parser_for(klass, 'Access denied.')
 
         expect(parser.response_unavailable?).to eq(true)
         expect { parser.registered? }.to raise_error(Whois::ResponseIsUnavailable)
       end
 
       it 'raises a typed error for an explicit query throttle' do
-        parser = parser_for(klass, 'WHOIS query rate limit exceeded.')
+        parser = parser_for(klass, 'Too many requests.')
 
         expect(parser.response_throttled?).to eq(true)
         expect { parser.available? }.to raise_error(Whois::ResponseIsThrottled)
       end
     end
+  end
+
+  it 'only matches generic denial and throttle markers at the start of a line' do
+    parser = parser_for(
+      Whois::Parsers::WhoisNicClub,
+      "Registry note: \"Access denied\" describes a rejected request.\n" \
+      "Registry note: \"Too many requests\" describes a client limit.\n"
+    )
+
+    expect(parser.response_unavailable?).to eq(false)
+    expect(parser.response_throttled?).to eq(false)
   end
 
   describe Whois::Parsers::WhoisTonicTo do

@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -25,21 +26,22 @@ module Whois
     # and examples.
     #
     class WhoisNicMx < Base
+      include RegistryResponseSafety
+
+      DOMAIN_PATTERN = /\A(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+mx\z/i
+      NO_RECORD_MARKER = %r{^[ \t]*No_Se_Encontro_El_Objeto/Object_Not_Found[ \t]*$}i
+      RECORD_EVIDENCE = /^[ \t]*(?:Created On|Expiration Date|Registrar|Name Servers|DNS):/i
 
       property_supported :status do
-        if available?
-          :available
-        else
-          :registered
-        end
+        classify_status
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /Object_Not_Found/)
+        classify_status == :available
       end
 
       property_supported :registered? do
-        !available?
+        classify_status == :registered
       end
 
 
@@ -69,6 +71,44 @@ module Whois
           ::Regexp.last_match(1).scan(/DNS:\s+(.+)\n/).flatten.map do |line|
             name, ipv4 = line.strip.split(/\s+/)
             Parser::Nameserver.new(:name => name, :ipv4 => ipv4)
+          end
+        end
+      end
+
+      def response_unavailable?
+        super || content_for_scanner.match?(
+          /^\s*(?:access denied|permission denied|request denied|forbidden)\b/i
+        )
+      end
+
+      private
+
+      def classify_status
+        cached_properties_fetch(:classified_status) do
+          response = content_for_scanner
+          absent = response.lines.one? { |line| line.match?(NO_RECORD_MARKER) }
+          domain_rows = response.scan(/^[ \t]*Domain Name:[ \t]*(.*?)[ \t\r]*$/i).flatten
+          domains = domain_rows.grep(DOMAIN_PATTERN)
+          has_created = response.match?(/^[ \t]*Created On:[ \t]*\S/i)
+          has_expires = response.match?(/^[ \t]*Expiration Date:[ \t]*\S/i)
+          has_registrar = response.match?(/^[ \t]*Registrar:[ \t]*\S/i)
+          registered = [
+            domain_rows.one?,
+            domains.one?,
+            has_created,
+            has_expires,
+            has_registrar,
+            !response_unavailable?,
+            !response_throttled?,
+          ].all?
+          has_record_evidence = response.match?(RECORD_EVIDENCE)
+
+          if absent && domain_rows.empty? && !has_record_evidence && !response_unavailable? && !response_throttled?
+            :available
+          elsif registered && !absent
+            :registered
+          else
+            :unknown
           end
         end
       end

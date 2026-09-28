@@ -1,0 +1,7 @@
+# Synthetic parser fixture. Identifiers and values are invented; no registry response text copied.
+Domain Name: synthetic.to
+Registry Domain ID: SYNTHETIC-TONIC-1
+Creation Date: 2025-01-01T00:00:00Z
+Registrar: Example Registrar
+Name Server: ns1.example.invalid
+Name Server: ns2.example.invalid

@@ -1,0 +1,2 @@
+# Synthetic parser fixture based on the observed absence marker; no registry response text copied.
+No Data Found

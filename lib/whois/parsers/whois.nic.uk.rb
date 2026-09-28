@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -22,6 +23,22 @@ module Whois
     # @see http://www.nominet.org.uk/other/whois/detailedinstruct/
     #
     class WhoisNicUk < Base
+      include RegistryResponseSafety
+
+      DOMAIN_NAME_LINE = /^[ \t]*Domain name:[ \t]*(.*?)[ \t]*\r?$/i
+      NO_MATCH_LINE = /^[ \t]*No match for "([^"]+)"\.[ \t]*\r?$/i
+      NOT_REGISTERED_LINE = /^[ \t]*This domain name has not been registered\.[ \t]*\r?$/i
+      REGISTRATION_STATUS_LINE = /\A[ \t]*Registration status:[ \t]*(.*?)[ \t]*\r?\n?\z/i
+      REGISTRATION_SUPPORT_LINE = /^[ \t]*(?:Registered on|Expiry date|Last updated|Registrar):/i
+      REGISTRATION_EVIDENCE_LINE = /^[ \t]*(?:Domain name|Registration status|Registered on|Expiry date|Last updated|Registrar|Name servers):/i
+      REGISTRATION_STATUSES = {
+        'registered until expiry date.' => :registered,
+        'registration request being processed.' => :registered,
+        'renewal request being processed.' => :registered,
+        'no longer required' => :registered,
+        'renewal required.' => :registered,
+        'no registration status listed.' => :reserved,
+      }.freeze
 
       # == Values for Status
       #
@@ -29,37 +46,37 @@ module Whois
       # @see http://www.nominet.org.uk/registrants/maintain/renew/status/
       #
       property_supported :status do
-        if content_for_scanner =~ /\s+Registration status:\s+(.+?)\n/
-          case ::Regexp.last_match(1).downcase
-          when "registered until expiry date."
-            :registered
-          when "registration request being processed."
-            :registered
-          when "renewal request being processed."
-            :registered
-          when "no longer required"
-            :registered
-          when "no registration status listed."
-            :reserved
-          # NEWSTATUS redemption (https://github.com/weppos/whois/issues/5)
-          when "renewal required."
-            :registered
-          else
-            Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
-          end
-        elsif invalid?
+        body = content_for_scanner
+        absence_markers = body.lines.count do |line|
+          line.match?(NO_MATCH_LINE) || line.match?(NOT_REGISTERED_LINE)
+        end
+
+        if absence_markers.positive?
+          authoritative_absence?(body) ? :available : :unknown
+        elsif invalid? && !registration_evidence?(body)
           :invalid
         else
-          :available
+          domains = domain_name_values(body)
+          statuses = registration_status_values(body)
+          if domains.length != 1 || !domains.first.downcase.end_with?('.uk') || statuses.length != 1
+            :unknown
+          else
+            status = REGISTRATION_STATUSES[statuses.first.downcase]
+            if status == :registered && !body.match?(REGISTRATION_SUPPORT_LINE)
+              :unknown
+            else
+              status || :unknown
+            end
+          end
         end
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /This domain name has not been registered/)
+        status == :available
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 
@@ -149,7 +166,51 @@ module Whois
       #   and will be replenished in 50 seconds.
       #
       def response_throttled?
-        !!(content_for_scanner =~ /The WHOIS query quota for .+ has been exceeded/)
+        content_for_scanner.match?(/^[ \t]*The WHOIS query quota for .+ has been exceeded\b/i) ||
+          RegistryResponseSafety.instance_method(:response_throttled?).bind_call(self)
+      end
+
+      def registration_status_values(body)
+        lines = body.lines
+        lines.each_with_index.filter_map do |line, index|
+          match = REGISTRATION_STATUS_LINE.match(line)
+          next unless match
+
+          value = match[1].strip
+          if value.empty?
+            next_index = index + 1
+            next_index += 1 while next_index < lines.length && lines[next_index].strip.empty?
+            value = lines[next_index].to_s.strip
+          end
+          value unless value.empty?
+        end
+      end
+
+      def domain_name_values(body)
+        lines = body.lines
+        lines.each_with_index.filter_map do |line, index|
+          match = DOMAIN_NAME_LINE.match(line)
+          next unless match
+
+          value = match[1].strip
+          if value.empty?
+            next_index = index + 1
+            next_index += 1 while next_index < lines.length && lines[next_index].strip.empty?
+            value = lines[next_index].to_s.strip.split(/\s+/, 2).first.to_s
+          end
+          value unless value.empty?
+        end
+      end
+
+      def authoritative_absence?(body)
+        no_match = body.lines.filter_map { |line| NO_MATCH_LINE.match(line)&.captures&.first }
+        not_registered = body.lines.count { |line| line.match?(NOT_REGISTERED_LINE) }
+        no_match.length == 1 && no_match.first.downcase.end_with?('.uk') &&
+          not_registered == 1 && !registration_evidence?(body) && !invalid?
+      end
+
+      def registration_evidence?(body)
+        body.match?(REGISTRATION_EVIDENCE_LINE)
       end
 
 

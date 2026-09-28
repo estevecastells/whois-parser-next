@@ -1,0 +1,2 @@
+# Synthetic exact availability-marker fixture; the query name is invented.
+>>> Domain synthetic.to is available for registration

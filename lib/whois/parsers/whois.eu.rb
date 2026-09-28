@@ -27,19 +27,15 @@ module Whois
 
 
       property_supported :status do
-        if available?
-          :available
-        else
-          :registered
-        end
+        classify_status
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /Status:\s+AVAILABLE/)
+        classify_status == :available
       end
 
       property_supported :registered? do
-        !available?
+        classify_status == :registered
       end
 
 
@@ -122,6 +118,36 @@ module Whois
       #
       def response_throttled?
         !!(content_for_scanner =~ /Still in grace period/)
+      end
+
+      private
+
+      def classify_status
+        cached_properties_fetch(:classified_status) do
+          status_values = content_for_scanner.scan(/^Status:[ \t]*([^\r\n]*)$/i).flatten.map(&:strip)
+          available = status_values == ['AVAILABLE']
+          domain_values = content_for_scanner.scan(/^Domain:[ \t]*([^\r\n]+?)[ \t]*$/i).flatten.map(&:downcase)
+          domain = domain_values.length == 1 && domain_values.first.match?(/\A(?:[a-z0-9-]+\.)+eu\z/i)
+          echoed_queries = content_for_scanner.scan(/^%?[ \t]*WHOIS[ \t]+((?:[a-z0-9-]+\.)+eu)[ \t]*$/i).flatten.map(&:downcase)
+          identity_matches = echoed_queries.empty? || (echoed_queries.length == 1 && echoed_queries.first == domain_values.first)
+          registrar = content_for_scanner.match?(/^Registrar:[ \t]*\r?\n[ \t]+Name:[ \t]*\S[^\r\n]*$/i)
+          nameservers = content_for_scanner.match?(
+            /^Name servers:[ \t]*\r?\n(?:[ \t]+(?:[a-z0-9-]+\.)+[a-z0-9-]+(?:[ \t]+\([^\r\n()]+\))?[ \t]*\r?\n?)+/i
+          )
+          record = registrar || nameservers
+          record_fields = content_for_scanner.match?(/^(?:Registrar|Name servers|Registrant|Onsite(?:\(s\))?|Technical|Created|Creation date|Updated|Last updated|Expires|Expiration date):/i)
+          denied_or_throttled = content_for_scanner.match?(
+            /\b(?:access\s+denied|permission\s+denied|not\s+authori[sz]ed|unauthori[sz]ed|not\s+allowed|too\s+many\s+requests|rate[- ]?limit(?:ed)?|temporarily\s+unavailable|service\s+unavailable|try\s+again\s+later|still\s+in\s+grace\s+period)\b/i
+          )
+
+          if !denied_or_throttled && available && domain && identity_matches && !record_fields
+            :available
+          elsif !denied_or_throttled && domain && identity_matches && record && (status_values.empty? || status_values == ['REGISTERED'])
+            :registered
+          else
+            :unknown
+          end
+        end
       end
 
     end

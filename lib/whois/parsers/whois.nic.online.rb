@@ -12,8 +12,25 @@ module Whois
 
       self.scanner = Scanners::BaseIcannCompliant
 
+      property_supported :status do
+        if contradictory_registration_and_absence?
+          :unknown
+        elsif available?
+          :available
+        elsif node('Domain Name').to_s.strip.empty? ||
+              [node('Registry Domain ID'), node('Creation Date'), node('Registrar')].all? { |value| value.to_s.strip.empty? }
+          :unknown
+        else
+          :registered
+        end
+      end
+
       property_supported :available? do
-        !!(content_for_scanner =~ /^>>> Domain \S+ is available for registration\s*$/i)
+        !contradictory_registration_and_absence? && !!(content_for_scanner =~ /^>>> Domain \S+ is available for registration\s*$/i)
+      end
+
+      property_supported :registered? do
+        status == :registered
       end
 
       # Radix can answer with a limit or client-denial notice that contains no
@@ -31,6 +48,13 @@ module Whois
 
       property_supported :expires_on do
         node("Registry Expiry Date") { |value| parse_time(value) }
+      end
+
+      private
+
+      def contradictory_registration_and_absence?
+        !node('Domain Name').to_s.strip.empty? &&
+          content_for_scanner.match?(/^>>> Domain \S+ is available for registration\s*$/i)
       end
 
     end

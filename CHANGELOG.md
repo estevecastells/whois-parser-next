@@ -2,6 +2,38 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
+#### Release 0.4.0 (2026-09-29)
+
+- ADDED: Expanded and tightened first-class parsing for current official WHOIS
+  hosts used by the pinned DomScan high-demand cohort. New parser examples
+  include `.biz`, `.click`, `.gift`, `.help`, `.homes`, `.ie`, `.org`, and
+  `.dk`; updated parser examples include `.mn`, `.cl`, `.eu`, `.giving`, `.id`,
+  `.mx`, `.love`, `.link`, `.icu`, `.lat`, `.to`, and `.open`. The audit tracks
+  all 153 suffixes with more than five observed endpoint requests (44,402
+  request items), with 94 registered/absence regression pairs and no
+  parser-pending rows. Restricted registry cases use minimal synthetic
+  fixtures. The audit keeps RDAP-only, retired, unsupported, and restricted
+  cases as separate outcomes; see the [full audit](docs/audits/domscan-whois-usage-2026-09-28.md)
+  for per-suffix evidence and route limitations.
+- SAFETY: Registration and absence require exact registry evidence. Denied,
+  throttled, malformed, incomplete, or contradictory responses do not become
+  positive registration or availability results. Unknown and unsupported
+  responses remain distinct from authoritative absence.
+- CLARIFIED: `.uk` remains a temporary WHOIS exception based on Nominet's
+  guidance that `whois.nic.uk` continues through 2027-02-09, despite IANA's
+  RDAP-only listing. The release tests current registered and absence response
+  shapes; DomScan's audited 30-day snapshot contained no traditional `.uk`
+  WHOIS calls.
+- SAFETY: `.open` registration is restricted by the registry's
+  [registration policy](https://web.aexp-static.com/content/dam/amex/us/staticassets/pdf/nic/Registry-Policies-OPEN.pdf).
+  A synthetic complete-record test checks the exact `nic.open` registered
+  shape. `No Data Found` remains unknown, and this release makes no
+  public-availability claim for `.open`.
+- TESTED: The integrated parser suite passes 7,001 examples with 0 failures;
+  the pinned-cohort coverage audit passes 3 examples with 0 failures. The
+  linked audit records the separate DomScan route checks and their local,
+  unreleased status.
+
 #### Release 0.3.2 (2026-09-25)
 
 - ADDED: Added host-keyed parsers for the current IANA-listed WHOIS hosts for

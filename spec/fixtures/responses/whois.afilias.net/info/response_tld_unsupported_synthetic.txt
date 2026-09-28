@@ -1,0 +1,2 @@
+TLD is not supported.
+# Synthetic unsupported-TLD fixture; no registry terms or response footer copied.

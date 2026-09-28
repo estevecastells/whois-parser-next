@@ -31,7 +31,7 @@ describe Whois::Parsers::WhoisNicUk, "property_status_no_status_listed.expected"
   end
   describe "#registered?" do
     it do
-      expect(subject.registered?).to eq(true)
+      expect(subject.registered?).to eq(false)
     end
   end
 end

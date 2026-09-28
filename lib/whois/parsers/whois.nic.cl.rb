@@ -27,20 +27,15 @@ module Whois
     class WhoisNicCl < Base
 
       property_supported :status do
-        if available?
-          :available
-        else
-          :registered
-        end
+        classify_status
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /^(.+?): no existe$/i ||
-           content_for_scanner =~ /^.+:\s+no entries found\.$/i)
+        classify_status == :available
       end
 
       property_supported :registered? do
-        !available?
+        classify_status == :registered
       end
 
 
@@ -66,6 +61,35 @@ module Whois
         else
           content_for_scanner.scan(/^Name server:\s+(.+)$/i).flatten.map do |name|
             Parser::Nameserver.new(name: name.strip)
+          end
+        end
+      end
+
+      private
+
+      # The current response layout in the DomScan corpus does not echo the
+      # queried domain. This parser can require a record-shaped response, but
+      # cannot independently verify that the returned record matches the query.
+      def classify_status
+        cached_properties_fetch(:classified_status) do
+          available = content_for_scanner.match?(/^(?:[a-z0-9-]+\.)+cl:[ \t]*(?:no existe|no entries found\.)[ \t]*$/i)
+          current_record = content_for_scanner.match?(/^Registrar name:[ \t]*\S[^\r\n]*$/i) &&
+                           content_for_scanner.match?(/^Creation date:[ \t]*\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])(?:[ \t]+\d{2}:\d{2}:\d{2}[ \t]+[A-Z]{2,5})?[ \t]*$/i) &&
+                           content_for_scanner.match?(/^Expiration date:[ \t]*\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])(?:[ \t]+\d{2}:\d{2}:\d{2}[ \t]+[A-Z]{2,5})?[ \t]*$/i) &&
+                           content_for_scanner.match?(/^Name server:[ \t]*(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?[ \t]*$/i)
+          legacy_record = content_for_scanner.match?(/^ACE:[ \t]*(?:[a-z0-9-]+\.)+cl[ \t]+\(RFC-3490, RFC-3491, RFC-3492\)/i) &&
+                          content_for_scanner.match?(/^Servidores de nombre \(Domain servers\):/i)
+          record = current_record || legacy_record
+          record_marker = content_for_scanner.match?(/^(?:Registrant(?: name| organisation| organization| email| address)?|Registrar(?: name| URL)?|Creation date|Expiration date|Name server|ACE):/i) ||
+                          content_for_scanner.match?(/^Servidores de nombre \(Domain servers\):/i)
+          denied = content_for_scanner.match?(/\b(?:not\s+authori[sz]ed|unauthori[sz]ed|access\s+denied|permission\s+denied|too\s+many\s+requests|rate[- ]?limited?)\b|\bno\s+autorizad[oa]\b|\bacceso\s+denegado\b/i)
+
+          if !denied && available && !record_marker
+            :available
+          elsif !denied && record && !available
+            :registered
+          else
+            :unknown
           end
         end
       end
