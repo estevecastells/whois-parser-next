@@ -53,6 +53,9 @@ contact information and full response terms are omitted from these reduced
 excerpts.
 
 The 0.4.3 focused examples pass 84 cases. Its full suite passes 7,040 examples
-with 0 failures on Ruby 3.2.2 and 3.4.5, and package smoke passes on both. The
-supported-Ruby CI matrix is pending a 0.4.3 commit. The fixtures do not
-establish broad or traffic-weighted live coverage.
+with 0 failures on Ruby 3.2.2 and 3.4.5; package smoke passes on both and
+loads every packaged parser. The 633-file gem includes the CoCCA helper and
+`.ls` parser and has no native extensions. Supported-Ruby CI passed on Ruby
+3.2, 3.3, 3.4, and 4.0.7 for implementation commit
+`7b32576500609aecd8f69b9ae7941bdd41213647` (run 39172234679). The fixtures do
+not establish broad or traffic-weighted live coverage.

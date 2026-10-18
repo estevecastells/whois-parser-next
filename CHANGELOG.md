@@ -20,7 +20,10 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
   restricted; `.ax` and `.ls` fixtures contain reduced technical excerpts.
 - TESTED: The focused suite passes 84 examples. The full suite passes 7,040
   examples with 0 failures on Ruby 3.2.2 and 3.4.5; package smoke passes on
-  both. The supported-Ruby CI matrix is pending a 0.4.3 commit.
+  both and loads every packaged parser. The 633-file gem contains the CoCCA
+  helper and `.ls` parser and has no native extensions. Supported-Ruby CI
+  passed on Ruby 3.2, 3.3, 3.4, and 4.0.7 for implementation commit
+  `7b32576500609aecd8f69b9ae7941bdd41213647` (run 39172234679).
 
 #### Release 0.4.2 (2026-10-18)
 
