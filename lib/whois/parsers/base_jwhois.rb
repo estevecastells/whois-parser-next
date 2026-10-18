@@ -14,17 +14,25 @@ module Whois
       end
 
       property_supported :status do
-        if available?
-          :available
-        elsif registered_evidence?
-          :registered
+        text = content_for_scanner
+        domains = text.scan(/^domain:[ \t]*(\S+)[ \t]*\r?$/i).flatten
+        missing = text.scan(/^NO OBJECT FOUND![ \t]*\r?\nobject:[ \t]*(\S+)[ \t]*\r?\ntype:[ \t]*([^\r\n]+)$/i)
+        markers = text.scan(/^NO OBJECT FOUND![ \t]*\r?$/i).length
+        return :unknown unless markers == missing.length
+
+        if domains.empty?
+          missing.one? && missing.first.last.strip.casecmp('domain').zero? &&
+            missing.first.first.match?(/\A(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+(?:gf|mq)\z/i) ? :available : :unknown
+        elsif domains.one? && domains.first.match?(/\A(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+(?:gf|mq)\z/i) && registered_evidence?
+          # Referenced person objects may be absent while the domain exists.
+          missing.all? { |name, type| type.strip.casecmp('person').zero? && !name.casecmp(domains.first).zero? } ? :registered : :unknown
         else
           :unknown
         end
       end
 
       property_supported :available? do
-        content_for_scanner.match?(/^NO OBJECT FOUND!\s*$/i)
+        status == :available
       end
 
       property_supported :registered? do

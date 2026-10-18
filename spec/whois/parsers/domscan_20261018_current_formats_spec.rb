@@ -53,3 +53,29 @@ describe 'Current registry formats observed on 2026-10-18' do
     end
   end
 end
+
+require 'whois/parsers/whois.mediaserv.net'
+describe 'JWhois domain and referenced-object scope' do
+  def jwhois(body)
+    Whois::Parsers::WhoisMediaservNet.new(Whois::Record::Part.new(host: 'whois.mediaserv.net', body: body))
+  end
+
+  let(:registered) { "domain: example.mq\nchanged: 2026-01-01 00:00:00.0\nnameserver: ns.example.test\n" }
+  let(:person_missing) { "NO OBJECT FOUND!\nobject: synthetic-contact\ntype: person\n" }
+  let(:domain_missing) { "NO OBJECT FOUND!\nobject: absent-example.mq\ntype: domain\n" }
+
+  it 'keeps a registered domain registered when referenced people are missing' do
+    parser = jwhois(registered + "\n" + person_missing * 4)
+    expect(parser.status).to eq(:registered)
+    expect(parser.available?).to eq(false)
+    expect(parser.nameservers.map(&:name)).to eq(['ns.example.test'])
+  end
+
+  it 'requires an exact domain object for authoritative absence' do
+    expect(jwhois(domain_missing).status).to eq(:available)
+    [person_missing, domain_missing * 2, registered + domain_missing, 'NO OBJECT FOUND!', "domain: incomplete.mq\n"].each do |body|
+      expect(jwhois(body).status).to eq(:unknown)
+      expect(jwhois(body).available?).to eq(false)
+    end
+  end
+end

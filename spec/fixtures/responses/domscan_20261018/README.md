@@ -72,7 +72,15 @@ The registered examples use `example.<suffix>` placeholders; the absent
 examples retain only the response marker needed by the parser. Live response
 originals and real contact details are not redistributed or included.
 
+The `.mq` JWhois regression is an inline synthetic response in the parser spec,
+not a captured fixture file. It checks that missing contact-object blocks do
+not override a registered domain record, and that absence requires an exact
+domain-object response. No contact values were exported. IANA lists
+[`whois.mediaserv.net`](https://www.iana.org/domains/root/db/mq.html) for
+`.mq`.
+
 These fixtures exercise current registration and absence shapes with strict
 domain-identity checks. They do not establish broad or traffic-weighted live
-coverage. Validation of the 0.4.4 changes, including full-suite, package-smoke,
-and supported-Ruby CI checks, is pending.
+coverage. The 0.4.4 full suite passes 7,054 examples with 0 failures on Ruby
+3.2.2 and 3.4.5; package smoke passes on both. The supported-Ruby CI matrix
+remains the release gate.

@@ -9,15 +9,21 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
   absence responses. Added `.vu` handling for registered records and the exact
   GoDaddy `No Data Found` response. Domain identity checks remain strict, and
   mixed or ambiguous replies remain unknown.
+- FIXED: Scope JWhois `NO OBJECT FOUND!` blocks to the named object. Missing
+  contact objects no longer make a domain with registered record data appear
+  available; absence requires one exact domain-object response. Malformed or
+  mixed domain absence remains unknown. Added two regression examples.
 - EVIDENCE: IANA lists `whois.nic.gh`, `whois.nic.do`, and `whois.dnrs.vu`
   for [`.gh`](https://www.iana.org/domains/root/db/gh.html),
   [`.do`](https://www.iana.org/domains/root/db/do.html), and
-  [`.vu`](https://www.iana.org/domains/root/db/vu.html). The added fixtures
-  are minimal synthetic shape controls; live response originals and personal
-  contact details are not included.
-- TESTED: The full suite passes 7,052 examples with 0 failures on Ruby 3.2.2
-  and 3.4.5. Package smoke passes on both versions and loads every packaged
-  parser. The supported-Ruby CI matrix is the release gate.
+  [`.vu`](https://www.iana.org/domains/root/db/vu.html). IANA lists
+  `whois.mediaserv.net` for [`.mq`](https://www.iana.org/domains/root/db/mq.html).
+  The `.gh`, `.do`, and `.vu` fixtures are minimal synthetic shape controls;
+  the `.mq` regression uses an inline synthetic response. Live response
+  originals and personal contact details are not included.
+- TESTED: The full suite passes 7,054 examples with 0 failures on Ruby 3.2.2
+  and 3.4.5. Package smoke passes on both versions. The supported-Ruby CI
+  matrix is the release gate.
 
 #### Release 0.4.3 (2026-10-18)
 
