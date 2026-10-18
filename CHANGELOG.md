@@ -2,6 +2,26 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
+#### Release 0.4.2 (2026-10-18)
+
+- SAFETY: `.ma` accepts the observed `active https://icann.org/epp#active`
+  status as registered only with exactly one valid `.ma` domain name and no
+  contradictory absence marker. Incomplete, multiple-domain, or mixed replies
+  remain unknown.
+- SAFETY: `.sh` accepts the exact `Domain not found.` response as absence while
+  retaining the legacy `NOT FOUND` marker. Partial text, repeated absence
+  markers, record data mixed with absence, and error replies do not become
+  available.
+- EVIDENCE: The `.ma` active-state meaning is documented by
+  [Registre.ma](https://www.registre.ma/language/en/domain-name/e-statuts);
+  IANA lists `whois.registre.ma` for `.ma` and `whois.nic.sh` for `.sh`
+  ([`.ma`](https://www.iana.org/domains/root/db/ma.html),
+  [`.sh`](https://www.iana.org/domains/root/db/sh.html)). Only minimal public
+  technical fields and synthetic ambiguity cases are used in tests; no
+  personal response data is included.
+- TESTED: The full suite passes 7,024 examples with 0 failures on Ruby 3.2.2
+  and 3.4.5. The package smoke check passes on both versions.
+
 #### Release 0.4.1 (2026-10-17)
 
 - SAFETY: `.lu` records are registered only when the response contains a

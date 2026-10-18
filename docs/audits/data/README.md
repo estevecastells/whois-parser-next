@@ -135,3 +135,63 @@ sudo -u deploy env \
 
 The replay ran against the installed parser 0.4.0. It is not a replay of the
 local 0.4.1 changes and does not establish 99% live accuracy.
+
+### Root-zone denominator context
+
+[`domscan-whois-iana-tlds-2026-10-17.txt`](domscan-whois-iana-tlds-2026-10-17.txt)
+is the frozen IANA TLD list retrieved from
+[`data.iana.org/TLD/tlds-alpha-by-domain.txt`](https://data.iana.org/TLD/tlds-alpha-by-domain.txt).
+It identifies version `2026101700`, last updated `2026-10-17 07:07:01 UTC`,
+and has SHA-256
+`992903eab7913a4a4f629e4a03906d174efaf44c43a6374bec3d4e2113f89b8c`.
+Comparing the usage aggregate's lowercase final-label values exactly against
+the snapshot after lowercasing its labels finds 139 of 455 labels absent,
+covering 327 of 24,718 request items (1.32%). This is only a root-zone
+membership comparison: those items are not WHOIS availability results and
+cannot be classified as available. The approved denominator for the 99%
+target is valid delegated registry-domain requests; undelegated requests are
+tracked separately.
+
+A separate on-host normalization of the frozen cohort used IDNA, bulk
+expansion, and the ICANN Public Suffix List to classify 25,576 input items
+across 342 namespaces:
+823 invalid-format items, 327 undelegated requests, 721 non-registry apexes,
+and 23,705 eligible exact registry-domain request items. This broader,
+normalized input differs from the original ASCII usage CSV's 24,718
+syntactically valid-looking endpoint items and does not replace that snapshot.
+The eligible-item count defines the approved denominator; it is not a success
+count or an accuracy result. The 99% target remains unverified.
+
+### Registry-demand CSV builder
+
+The 342-namespace table is
+[`domscan-whois-registry-demand-2026-10-17.csv`](domscan-whois-registry-demand-2026-10-17.csv).
+Its frozen on-host query is
+[`domscan_whois_registry_demand_20261017.sql`](../../../scripts/domscan_whois_registry_demand_20261017.sql);
+the on-host normalizer is
+[`normalize_domscan_registry_demand.mjs`](../../../scripts/normalize_domscan_registry_demand.mjs).
+Normalization used `tldts` 7.4.8 from DomScan's bundled dependency. The
+normalized inputs stay on-host; the checked-in Ruby builder consumes only the
+privacy-safe namespace-aggregate JSONL and writes the CSV:
+
+```sh
+ruby scripts/build_domscan_registry_demand_csv.rb \
+  < /path/to/safe-registry-demand-aggregate.jsonl \
+  > docs/audits/data/domscan-whois-registry-demand-2026-10-17.csv
+```
+
+[`build_domscan_registry_demand_csv.rb`](../../../scripts/build_domscan_registry_demand_csv.rb)
+validates the aggregate fields and namespaces before writing. Do not pass
+private domain-level input to the builder. The CSV's
+`registered_control_available` field is only a historical-positive or public
+override control flag; it is not a parser fixture-pair result or live coverage
+proof. The CSV was regenerated from the safe aggregate and the evidence audit
+passes 5 examples with:
+
+```sh
+bundle exec rspec spec/audits/domscan_whois_20261017_spec.rb
+```
+
+The parser-only full suite passes 7,018 examples with 0 failures. These checks
+validate the frozen evidence and parser suite, not the ongoing broader live
+pair run or the 99% target.

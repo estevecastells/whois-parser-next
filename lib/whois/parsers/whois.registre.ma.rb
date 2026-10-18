@@ -77,7 +77,10 @@ module Whois
       end
 
       def current_record_evidence?
-        domain_status_values == ['clientTransferProhibited https://icann.org/epp#clientTransferProhibited']
+        [
+          ['clientTransferProhibited https://icann.org/epp#clientTransferProhibited'],
+          ['active https://icann.org/epp#active'],
+        ].include?(domain_status_values)
       end
 
       def legacy_record_evidence?

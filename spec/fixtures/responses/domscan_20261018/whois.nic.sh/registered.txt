@@ -1,0 +1,13 @@
+Domain Name: nic.sh
+Registry Domain ID: REDACTED
+Registrar WHOIS Server: whois.identitydigital.services
+Updated Date: 2026-08-11T21:49:58Z
+Creation Date: 2002-07-04T07:42:26Z
+Registry Expiry Date: 2027-05-01T00:00:02Z
+Domain Status: serverDeleteProhibited https://icann.org/epp#serverDeleteProhibited
+Domain Status: serverTransferProhibited https://icann.org/epp#serverTransferProhibited
+Domain Status: serverUpdateProhibited https://icann.org/epp#serverUpdateProhibited
+Name Server: b0.nic.sh
+Name Server: c0.nic.sh
+Name Server: a2.nic.sh
+Name Server: a0.nic.sh
