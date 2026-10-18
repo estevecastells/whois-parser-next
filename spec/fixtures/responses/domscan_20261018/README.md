@@ -26,7 +26,33 @@ Contact details and full registry terms were omitted. The `.sh` response's
 `Registry Domain ID: REDACTED` field was already redacted upstream; no
 synthetic registered identity was added. Synthetic ambiguity and denial
 examples in the parser spec are negative controls, not captured responses.
-The focused parser examples pass 40 cases. The full suite passes 7,024 examples
-with 0 failures on Ruby 3.2.2 and 3.4.5, and the package smoke check passes on
-both versions. These fixtures do not establish broad or traffic-weighted live
-coverage.
+At the 0.4.2 checkpoint, its focused examples passed 40 cases and the full
+suite passed 7,024 examples with 0 failures on Ruby 3.2.2 and 3.4.5; package
+smoke passed on both versions. Those results do not establish broad or
+traffic-weighted live coverage.
+
+## Additional current formats (2026-10-18 UTC)
+
+The `.ki`, `.bi`, and `.ci` subdirectories contain intentionally synthetic
+CoCCA technical-shape controls using `example.<suffix>`. Registry terms
+restrict redistribution of captured registration records, so these files are
+not copies of live responses and do not claim exact record provenance. They
+exercise single-domain identity, current EPP status links, standalone absence
+markers, and ambiguity handling. IANA lists the hosts as
+[`whois.nic.ki`](https://www.iana.org/domains/root/db/ki.html),
+[`whois1.nic.bi`](https://www.iana.org/domains/root/db/bi.html), and
+[`whois.nic.ci`](https://www.iana.org/domains/root/db/ci.html).
+
+The `.ax` files are reduced public-response excerpts: the registered case
+keeps three dotted technical fields for `nic.ax`, and the absent case keeps
+the exact `Domain not found` marker. IANA lists [`whois.ax`](https://www.iana.org/domains/root/db/ax.html).
+The `.ls` files retain only `domain`, `registered`, and `expire` fields for
+`nic.ls`, plus the exact generated-query absence marker; IANA lists
+[`whois.nic.ls`](https://www.iana.org/domains/root/db/ls.html). Personal
+contact information and full response terms are omitted from these reduced
+excerpts.
+
+The 0.4.3 focused examples pass 84 cases. Its full suite passes 7,040 examples
+with 0 failures on Ruby 3.2.2 and 3.4.5, and package smoke passes on both. The
+supported-Ruby CI matrix is pending a 0.4.3 commit. The fixtures do not
+establish broad or traffic-weighted live coverage.

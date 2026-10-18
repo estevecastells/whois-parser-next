@@ -1,0 +1,10 @@
+Domain Name: example.ci
+Domain Status: active https://icann.org/epp#active
+Domain Status: clientRenewProhibited https://icann.org/epp#clientRenewProhibited
+Domain Status: serverRenewProhibited https://icann.org/epp#serverRenewProhibited
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: serverTransferProhibited https://icann.org/epp#serverTransferProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Domain Status: serverUpdateProhibited https://icann.org/epp#serverUpdateProhibited
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Domain Status: serverDeleteProhibited https://icann.org/epp#serverDeleteProhibited

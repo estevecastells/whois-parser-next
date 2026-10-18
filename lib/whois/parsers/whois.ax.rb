@@ -27,7 +27,9 @@ module Whois
       include RegistryResponseSafety
 
       property_supported :status do
-        if available?
+        if contradictory_evidence?
+          :unknown
+        elsif available?
           :available
         elsif registered_evidence?
           :registered
@@ -37,7 +39,7 @@ module Whois
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /^No records matching \S+ found\.\s*$/i ||
+        !contradictory_evidence? && !!(content_for_scanner =~ /^No records matching \S+ found\.\s*$/i ||
            content_for_scanner =~ /^Domain not found\s*$/i)
       end
 
@@ -65,9 +67,21 @@ module Whois
 
       private
 
+      def contradictory_evidence?
+        markers = content_for_scanner.scan(/^(?:No records matching \S+ found\.|Domain not found)[ \t]*$/i)
+        markers.length > 1 || markers.any? && content_for_scanner.match?(/^(?:Domain Name:|domain\.+:|status\.+:|Created:|created\.+:|Name Server \d:)/i)
+      end
+
       def registered_evidence?
-        content_for_scanner.match?(/^Domain Name:\s+\S+/i) &&
-          content_for_scanner.match?(/^(?:Created|Name Server \d):\s+\S+/i)
+        dotted = content_for_scanner.scan(/^domain\.+:[ \t]*(\S+)[ \t]*$/i).flatten
+        if dotted.any?
+          dotted.one? && dotted.first.match?(/\A(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+ax\z/i) &&
+            content_for_scanner.scan(/^status\.+:[ \t]*(.+)$/i).flatten.map(&:strip) == ['Registered'] &&
+            content_for_scanner.match?(/^created\.+:[ \t]*\d{2}\.\d{2}\.\d{4}[ \t]*$/i)
+        else
+          content_for_scanner.match?(/^Domain Name:\s+\S+/i) &&
+            content_for_scanner.match?(/^(?:Created|Name Server \d):\s+\S+/i)
+        end
       end
 
     end

@@ -2,6 +2,26 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
+#### Release 0.4.3 (2026-10-18)
+
+- ADDED: Add the official `.ls` WHOIS parser for the registered `domain`,
+  `registered`, and `expire` fields and the registry's exact generated-name
+  absence response. Mixed and incomplete replies remain unknown.
+- UPDATED: Recognize the current `.ax` dotted-field registered format and
+  exact `Domain not found` absence marker. For `.ki`, `.bi`, and `.ci`, accept
+  current CoCCA EPP status and absence shapes only with a single valid domain
+  identity; contradictory or malformed replies remain unknown.
+- EVIDENCE: IANA lists the WHOIS hosts for [`.ki`](https://www.iana.org/domains/root/db/ki.html),
+  [`.bi`](https://www.iana.org/domains/root/db/bi.html),
+  [`.ci`](https://www.iana.org/domains/root/db/ci.html),
+  [`.ax`](https://www.iana.org/domains/root/db/ax.html), and
+  [`.ls`](https://www.iana.org/domains/root/db/ls.html). CoCCA fixtures are
+  synthetic technical-shape controls because record redistribution is
+  restricted; `.ax` and `.ls` fixtures contain reduced technical excerpts.
+- TESTED: The focused suite passes 84 examples. The full suite passes 7,040
+  examples with 0 failures on Ruby 3.2.2 and 3.4.5; package smoke passes on
+  both. The supported-Ruby CI matrix is pending a 0.4.3 commit.
+
 #### Release 0.4.2 (2026-10-18)
 
 - SAFETY: `.ma` accepts the observed `active https://icann.org/epp#active`

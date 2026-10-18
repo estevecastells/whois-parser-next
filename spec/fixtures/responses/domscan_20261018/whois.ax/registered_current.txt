@@ -1,0 +1,3 @@
+domain...............: nic.ax
+status...............: Registered
+created..............: 05.09.2016

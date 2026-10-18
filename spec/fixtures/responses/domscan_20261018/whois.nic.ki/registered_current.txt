@@ -1,0 +1,3 @@
+Domain Name: example.ki
+Domain Status: active https://icann.org/epp#active
+Domain Status: serverDeleteProhibited https://icann.org/epp#serverDeleteProhibited

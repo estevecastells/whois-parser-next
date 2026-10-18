@@ -9,6 +9,7 @@
 
 require_relative 'base'
 require_relative 'registry_response_safety'
+require_relative 'cocca_epp_status'
 
 
 module Whois
@@ -26,10 +27,14 @@ module Whois
     # and examples.
     #
     class WhoisNicCi < Base
-      include RegistryResponseSafety
+      include CoccaEppStatus
+
+      CURRENT_COCCA_SUFFIX = "ci".freeze
 
       property_supported :status do
-        if available?
+        if (current = current_cocca_status)
+          current
+        elsif available?
           :available
         elsif content_for_scanner.match?(/^Domain:\s*\S+/i) && content_for_scanner.match?(/^Created:\s*\S+/i)
           :registered
@@ -39,7 +44,8 @@ module Whois
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /^Domain \S+ not found\s*$/i)
+        current = current_cocca_status
+        current ? current == :available : !!(content_for_scanner =~ /^Domain \S+ not found\s*$/i)
       end
 
       property_supported :registered? do

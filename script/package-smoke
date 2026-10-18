@@ -21,4 +21,9 @@ GEM_HOME="$gem_home" GEM_PATH="$gem_home" ruby -e '
   spec = Gem.loaded_specs.fetch("whois-parser-next")
   abort "wrong gem loaded: #{spec.name}" unless spec.name == "whois-parser-next"
   abort "missing parser API" unless defined?(Whois::Parser)
+  # Parsers load lazily; requiring only the public entry point cannot detect
+  # a missing parser helper in the packaged file list.
+  parser_files = Dir[File.join(spec.full_gem_path, "lib/whois/parsers/*.rb")]
+  abort "missing packaged parsers" if parser_files.empty?
+  parser_files.each { |path| require path }
 '

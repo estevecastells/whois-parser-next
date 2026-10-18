@@ -301,3 +301,44 @@ package smoke check also passes on both versions. The supported-Ruby CI matrix
 for 0.4.2 is pending. These parser fixtures and samples establish neither
 broad live coverage nor a traffic-weighted accuracy rate; the 99% target
 remains unverified.
+
+### 0.4.2 release and 0.4.3 parser follow-up (2026-10-18 UTC)
+
+Parser 0.4.2 was published from commit `38b5e2a`; its full suite passed 7,024
+examples on Ruby 3.2 and 3.4, its supported-Ruby matrix passed, and package
+smoke passed on Ruby 3.2.2 and 3.4.5. DomScan commit
+`ee6d0a966aa0f621dc6946a67bb9917c5862078d` deployed successfully in workflow
+39170927600; its full suite passed 15,439 tests with 88 skips and the build
+passed. Fresh registered/absent `.ma` and `.sh` pairs passed through the v2
+production path. These checks are bounded public samples, not a measurement of
+traffic-weighted accuracy.
+
+An owned-primary `.shop` check returned HTTP 429, so `.shop` was kept outside
+the successful numerator and all probes mapped to GMO registries stopped.
+The `.shop` slice accounts for 519 of 23,705 eligible requests (2.19%) and is
+excluded from the successful numerator. This is not the total unresolved
+denominator; the later weighted tally is recorded below.
+
+The worktree now has a local 0.4.3 parser candidate for current CoCCA `.ki`,
+`.bi`, and `.ci` status and absence shapes, `.ax` dotted-field records, and the
+official `.ls` WHOIS format. The CoCCA examples are synthetic controls because
+captured record redistribution is restricted; the `.ax` and `.ls` fixtures
+are reduced technical excerpts. The focused suite passes 84 examples. The
+full suite passes 7,040 examples with 0 failures on Ruby 3.2.2 and 3.4.5, and
+package smoke passes on both. The supported-Ruby CI matrix is pending a 0.4.3
+commit.
+
+### Latest request-weighted production pair aggregate (2026-10-18 UTC)
+
+Public registered/absent pair checks now pass for 271 namespaces representing
+22,911 of the 23,705 eligible request items, a request-weighted result of
+96.650495676%. This is below the 99% target. The earlier 519-item `.shop`
+figure is one excluded suffix slice, not the full remainder. Thirteen
+additional zero-demand legacy roots also passed their public pairs; those
+checks are outside the frozen demand denominator and are not added to the
+percentage.
+
+The owned-primary `.shop` check returned HTTP 429, so all probes mapped to GMO
+registries remain stopped. The access-arrangement question is still pending;
+no additional probe is recorded here. The 0.4.3 parser remains a local
+candidate and has not been published or deployed.
