@@ -1,0 +1,7 @@
+Domain Name: example.kn
+Creation Date: 2020-01-01T00:00:00Z
+Domain Status: active https://icann.org/epp#active
+Domain Status: serverRenewProhibited https://icann.org/epp#serverRenewProhibited
+Domain Status: serverTransferProhibited https://icann.org/epp#serverTransferProhibited
+Domain Status: serverUpdateProhibited https://icann.org/epp#serverUpdateProhibited
+Domain Status: serverDeleteProhibited https://icann.org/epp#serverDeleteProhibited

@@ -1,0 +1,4 @@
+Domain Name: example.ws
+Domain ID: SYNTHETIC-GDI
+Creation Date: 2020-01-01T00:00:00Z
+Domain Status: ok

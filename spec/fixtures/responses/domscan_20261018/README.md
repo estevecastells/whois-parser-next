@@ -84,3 +84,44 @@ domain-identity checks. They do not establish broad or traffic-weighted live
 coverage. The 0.4.4 full suite passes 7,054 examples with 0 failures on Ruby
 3.2.2 and 3.4.5; package smoke passes on both. The supported-Ruby CI matrix
 remains the release gate.
+
+## Current CoCCA and registry formats (2026-10-18 UTC)
+
+IANA lists the official WHOIS hosts `whois.registre.bf`, `whois.nic.td`,
+`whois.nic.mr`, `whois.nic.kn`, and `whois.nic.mc` for
+[`.bf`](https://www.iana.org/domains/root/db/bf.html),
+[`.td`](https://www.iana.org/domains/root/db/td.html),
+[`.mr`](https://www.iana.org/domains/root/db/mr.html),
+[`.kn`](https://www.iana.org/domains/root/db/kn.html), and
+[`.mc`](https://www.iana.org/domains/root/db/mc.html). Production-host queries
+to each official host on 2026-10-18 observed registered and absent responses.
+
+The `.bf`, `.td`, and `.mr` fixtures exercise strict current CoCCA handling,
+including one valid domain identity, exact EPP status checks, and each host's
+authoritative absence response. For `.bf`, absence is the exact
+`Domain Status: No Object Found` line; `.td`, `.mr`, and `.kn` use the exact
+`The queried object does not exist: No Object Found` line. The `.kn` examples
+also cover its current format while preserving legacy-format support. The
+`.mc` registered shape requires one valid `Domain`, `Status: ACTIVE`, and a
+parseable `Created` value; its absence marker is
+`>> No data found for domain : <name>`. These files are minimal synthetic
+technical-shape controls, not full responses, and contain no contact details.
+Mixed, malformed, and incomplete replies remain unknown.
+
+## Samoa `.ws` format (2026-10-18 UTC)
+
+IANA lists `whois.website.ws` as the WHOIS host for [`.ws`](https://www.iana.org/domains/root/db/ws.html).
+A bounded local-network query to that host observed the current registered
+format with `Domain Name`, `Creation Date`, and `Domain Status` fields for
+`website.ws`. A separate generated-name query returned the exact absence line
+`The queried object does not exist: ...`. The committed examples are minimal
+synthetic technical-shape controls based on those observations, not copies of
+the full responses; no contact details are included. Production reachability
+was verified only for a registered response through the production proxy; a
+production registered/absent pair remains unverified. The existing
+`Domain Created` format and exact absence marker remain supported, while
+mixed, invalid, or duplicated fields stay unknown.
+
+At the 0.4.5 checkpoint, the full suite passes 7,074 examples with 0 failures
+on Ruby 3.2.2 and 3.4.5. Final package smoke and supported-Ruby CI remain
+release gates.

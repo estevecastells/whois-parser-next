@@ -26,19 +26,25 @@ module Whois
     class WhoisWebsiteWs < Base
       include RegistryResponseSafety
 
+      property_supported :domain do
+        content_for_scanner[/^[ \t]*Domain Name:[ \t]*(\S+)[ \t]*\r?$/i, 1]&.downcase
+      end
+
       property_supported :status do
-        if available?
-          :available
-        elsif content_for_scanner.match?(/^\s+Domain Created:\s+/i)
-          :registered
+        body = content_for_scanner
+        names = body.scan(/^[ \t]*Domain Name:[ \t]*(\S+)[ \t]*\r?$/i).flatten
+        missing = body.scan(/^(?:No match for "([^"\r\n]+)"\.|The queried object does not exist: ([^\r\n]+)\.)[ \t]*\r?$/i).map { |parts| parts.compact.first }
+        dates = body.scan(/^[ \t]*(?:Creation Date|Domain Created):[ \t]*([^\r\n]+)$/i).flatten
+        if missing.any?
+          missing.one? && names.empty? && dates.empty? && valid_ws_domain?(missing.first) ? :available : :unknown
         else
-          :unknown
+          times = dates.map { |date| begin parse_time(date.strip); rescue ArgumentError; nil; end }
+          names.one? && valid_ws_domain?(names.first) && times.any? && times.none?(&:nil?) && times.uniq.one? ? :registered : :unknown
         end
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /^No match for "\S+"\.$/ ||
-           content_for_scanner =~ /^The queried object does not exist: \S+\.$/)
+        status == :available
       end
 
       property_supported :registered? do
@@ -47,9 +53,8 @@ module Whois
 
 
       property_supported :created_on do
-        if content_for_scanner =~ /\s+Domain Created:\s+(.*)\n/
-          parse_time(::Regexp.last_match(1))
-        end
+        value = content_for_scanner[/^[ \t]*(?:Creation Date|Domain Created):[ \t]*([^\r\n]+)$/i, 1]
+        parse_time(value.strip) if value
       end
 
       property_supported :updated_on do
@@ -71,6 +76,12 @@ module Whois
             Parser::Nameserver.new(name: name.strip.downcase)
           end
         end
+      end
+
+      private
+
+      def valid_ws_domain?(name)
+        name.match?(/\A(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+ws\z/i)
       end
 
     end

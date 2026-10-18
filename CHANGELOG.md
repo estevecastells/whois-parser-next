@@ -2,6 +2,38 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
+#### Release 0.4.5 (2026-10-18)
+
+- ADDED: Added current CoCCA response parsing for `.bf`, `.td`, and `.mr`,
+  requiring one valid domain identity and an exact `active` or `ok` EPP
+  registration state. `.bf` accepts `Domain Status: No Object Found`; `.td`,
+  `.mr`, and `.kn` require the exact absence line
+  `The queried object does not exist: No Object Found`. `.kn` also recognizes
+  its current CoCCA response while retaining the legacy format. Mixed or
+  incomplete replies remain unknown.
+- ADDED: Added strict `.mc` parsing: registration requires one valid domain,
+  `Status: ACTIVE`, and a parseable `Created` value; absence requires the exact
+  `>> No data found for domain : <name>` line. Malformed or mixed replies
+  remain unknown.
+- SAFETY: `.ws` recognizes the current `Domain Name` and `Creation Date` format
+  while preserving the legacy `Domain Created` format and exact absence
+  response. Invalid, inconsistent, or duplicate fields remain unknown.
+- EVIDENCE: IANA lists the official hosts `whois.registre.bf`, `whois.nic.td`,
+  `whois.nic.mr`, `whois.nic.kn`, `whois.nic.mc`, and `whois.website.ws` for
+  [`.bf`](https://www.iana.org/domains/root/db/bf.html),
+  [`.td`](https://www.iana.org/domains/root/db/td.html),
+  [`.mr`](https://www.iana.org/domains/root/db/mr.html),
+  [`.kn`](https://www.iana.org/domains/root/db/kn.html),
+  [`.mc`](https://www.iana.org/domains/root/db/mc.html), and
+  [`.ws`](https://www.iana.org/domains/root/db/ws.html). Production-host queries
+  on 2026-10-18 observed registered and absent pairs for `.bf`, `.td`, `.mr`,
+  `.kn`, and `.mc`. Local-network queries observed both `.ws` states; the
+  production-proxy query confirmed a registered response only, so a production
+  registered/absent pair remains unverified. Committed examples are minimal
+  synthetic technical-shape controls without contact details.
+- TESTED: The full suite passes 7,074 examples with 0 failures on Ruby 3.2.2
+  and 3.4.5. Final package smoke and supported-Ruby CI remain release gates.
+
 #### Release 0.4.4 (2026-10-18)
 
 - ADDED: Added parsers for the current `.gh` and `.do` CoCCA WHOIS response

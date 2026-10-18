@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-%w[whois.nic.ki whois1.nic.bi whois.nic.ci whois.ax whois.nic.ls whois.nic.gh whois.nic.do whois.dnrs.vu].each do |host|
+%w[whois.nic.ki whois1.nic.bi whois.nic.ci whois.ax whois.nic.ls whois.nic.gh whois.nic.do whois.dnrs.vu whois.website.ws whois.registre.bf whois.nic.td whois.nic.kn whois.nic.mr whois.nic.mc].each do |host|
   require "whois/parsers/#{host}"
 end
 
@@ -13,7 +13,7 @@ describe 'Current registry formats observed on 2026-10-18' do
     File.read(fixture('responses', 'domscan_20261018', host, "#{name}_current.txt"))
   end
 
-  %w[whois.nic.ki whois1.nic.bi whois.nic.ci whois.ax whois.nic.ls whois.nic.gh whois.nic.do whois.dnrs.vu].each do |host|
+  %w[whois.nic.ki whois1.nic.bi whois.nic.ci whois.ax whois.nic.ls whois.nic.gh whois.nic.do whois.dnrs.vu whois.website.ws whois.registre.bf whois.nic.td whois.nic.kn whois.nic.mr whois.nic.mc].each do |host|
     context host do
       it 'recognizes the current registered and authoritative absent shapes' do
         [[response(host, 'registered'), :registered], [response(host, 'available'), :available]].each do |body, state|
@@ -41,6 +41,32 @@ describe 'Current registry formats observed on 2026-10-18' do
         expect { parse(host, "Query rate limit exceeded\n" + registered).status }.to raise_error(Whois::ResponseIsThrottled)
         expect { parse(host, '').status }.to raise_error(Whois::ResponseIsUnavailable)
       end
+    end
+  end
+
+  it 'keeps malformed Monaco records and incomplete absence markers unknown' do
+    body = response('whois.nic.mc', 'registered')
+    [body.sub('EXAMPLE.MC', 'broken..mc'), body.sub(/Created[^\n]+/, 'Created : invalid'), body + "Status : ACTIVE\n", '>> No data found', '>> No data found for domain : broken..mc'].each do |bad|
+      parser = parse('whois.nic.mc', bad)
+      expect(parser.status).to eq(:unknown)
+      expect(parser.registered?).to eq(false)
+      expect(parser.available?).to eq(false)
+    end
+  end
+
+  it 'requires one Samoa domain and one consistent valid creation date' do
+    body = response('whois.website.ws', 'registered')
+    [
+      body + "Domain Name: duplicate.ws\n",
+      body.sub(/Creation Date:[^\n]+/, 'Creation Date: invalid'),
+      body + "Creation Date: 2021-01-01T00:00:00Z\n",
+      "Domain Name: incomplete.ws\n",
+      'The queried object does not exist: broken..ws.',
+    ].each do |bad|
+      parser = parse('whois.website.ws', bad)
+      expect(parser.status).to eq(:unknown)
+      expect(parser.registered?).to eq(false)
+      expect(parser.available?).to eq(false)
     end
   end
 

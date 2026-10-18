@@ -1,0 +1,4 @@
+Domain             : EXAMPLE.MC
+Status             : ACTIVE
+Created            : 2020-01-01T00:00:00Z
+Expires on         : 2027-01-01

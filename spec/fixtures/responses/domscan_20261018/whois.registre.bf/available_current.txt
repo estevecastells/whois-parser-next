@@ -1,0 +1,2 @@
+Domain Name: absent-example.bf
+Domain Status: No Object Found
