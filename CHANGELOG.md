@@ -2,6 +2,21 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
+#### Release 0.4.1 (2026-10-17)
+
+- SAFETY: `.lu` records are registered only when the response contains a
+  domain name and an exact `domaintype: ACTIVE` field. The exact existing
+  absence marker is accepted only without a record; mixed, incomplete, or
+  ambiguous replies remain unknown.
+- SAFETY: `.lu` query-rate limits, including the registry's repeated-percent
+  `%% Maximum query rate reached` response, raise a throttled-response error
+  even when the reply also contains a domain record or absence marker.
+- TESTED: The parser suite passes 7,016 examples with 0 failures and the
+  package smoke check passes on Ruby 3.2 and 3.4.5.
+- EVIDENCE: The [2026-10-17 DomScan audit](docs/audits/domscan-whois-usage-2026-10-17.md)
+  documents the fixed false-availability path and explains why its fixture
+  overlap and bounded replay do not establish 99% live accuracy.
+
 #### Release 0.4.0 (2026-09-29)
 
 - ADDED: Expanded and tightened first-class parsing for current official WHOIS

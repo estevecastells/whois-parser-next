@@ -11,7 +11,7 @@ module Whois
         content_for_scanner.match?(
           /^(?:[ \t]*(?:%|#)[ \t]*)?(?:whois\s+)?query\s+(?:rate\s+)?limit\s+exceeded\b/i
         ) || content_for_scanner.match?(
-          /^(?:[ \t]*(?:%|#)[ \t]*)?maximum\s+query\s+rate\s+reached\b/i
+          /^(?:[ \t]*(?:%|#)+[ \t]*)?maximum\s+query\s+rate\s+reached\b/i
         ) || content_for_scanner.match?(
           /^(?:[ \t]*(?:%|#)[ \t]*)?excessive\s+querying\b/i
         ) || content_for_scanner.match?(

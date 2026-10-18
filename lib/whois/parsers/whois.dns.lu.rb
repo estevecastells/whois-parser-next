@@ -27,17 +27,19 @@ module Whois
       include RegistryResponseSafety
 
       property_supported :status do
-        if content_for_scanner.match?(/domaintype:\s+active\s*$/i)
+        if response_unavailable? || response_throttled? || (lu_record? && lu_absence?)
+          :unknown
+        elsif lu_record? && content_for_scanner.match?(/^domaintype:[ \t]+active[ \t]*$/i)
           :registered
-        elsif available?
+        elsif lu_absence? && !lu_record?
           :available
         else
-          Whois::Parser.bug!(ParserError, "Unable to parse .lu response status.")
+          :unknown
         end
       end
 
       property_supported :available? do
-        !!(content_for_scanner =~ /% No such domain/)
+        status == :available
       end
 
       property_supported :registered? do
@@ -91,6 +93,14 @@ module Whois
 
 
       private
+
+      def lu_record?
+        content_for_scanner.match?(/^domainname:[ \t]+\S+[ \t]*$/i)
+      end
+
+      def lu_absence?
+        content_for_scanner.match?(/^%[ \t]+No such domain(?:[ \t]*[.:].*)?[ \t]*$/i)
+      end
 
       def build_contact(element, type)
         return unless (name = value_for_key(format("%s-name", element)))

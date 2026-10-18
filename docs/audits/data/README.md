@@ -90,3 +90,48 @@ The manifest and gate describe the installed upstream `whois` route map in
 this parser worktree. A separate DomScan route patch is locally verified, but
 these files do not verify its integration here or claim that a gem release,
 dependency pin, or production deployment has occurred.
+
+## DomScan WHOIS usage snapshot (2026-10-17)
+
+The privacy-safe, final-label usage aggregate, recorded-source split, and
+on-host parser replay are stored in `domscan-whois-usage-2026-10-17.csv`,
+`domscan-whois-sources-2026-10-17.csv`, and
+`domscan-whois-replay-2026-10-17.csv`. Their SHA-256 digests are
+`bbfc25a4d2c2a76871cba6a80604625f35ab119ce74855d941c081adc927c4`,
+`1cfbfec7858c40188c287cbf4a222dc51b2cadacb9d5346f5d17953a86649e5f`, and
+`a22267b3da6dba0816ec8615d5e309907d13fe34a06e8eac70ececfeefdb60cc`,
+respectively. They summarize a frozen window from
+`2026-09-18T02:30:00Z` inclusive to `2026-10-18T02:30:00Z` exclusive. The
+usage CSV contains 24,718 domain-shaped request items across 455 final-label
+buckets; it is not a unique-domain or eligible-domain count. The source split
+independently groups single-domain HTTP 200 rows by the API's recorded source,
+without applying the usage query's domain-shape filter. It is not an
+authoritative-success count. The replay compares the API's stored outcome
+with the installed parser 0.4.0 on bounded response previews. Some previews
+are truncated. See the
+[`2026-10-17 audit`](../domscan-whois-usage-2026-10-17.md) for methodology and
+limits.
+
+The frozen aggregate SQL files are
+[`domscan_whois_usage_20261017.sql`](../../../scripts/domscan_whois_usage_20261017.sql),
+[`domscan_whois_sources_20261017.sql`](../../../scripts/domscan_whois_sources_20261017.sql),
+and [`domscan_whois_summary_20261017.sql`](../../../scripts/domscan_whois_summary_20261017.sql).
+They query the same window while the source logs are retained.
+[`replay_domscan_whois_on_host.rb`](../../../scripts/replay_domscan_whois_on_host.rb)
+reads raw previews on the relay host, parses them in memory, and prints only
+aggregate classes. Do not export or save raw response text. To replay from a
+checkout readable by the `deploy` account, use the relay's installed bundle
+and write only the aggregate CSV:
+
+```sh
+cd /path/to/whois-parser-next
+sudo -u deploy env \
+  BUNDLE_GEMFILE=/opt/whois-proxy/Gemfile \
+  BUNDLE_PATH=/opt/whois-proxy/vendor/bundle \
+  BUNDLE_FROZEN=true \
+  /usr/bin/ruby -rbundler/setup scripts/replay_domscan_whois_on_host.rb \
+  > /tmp/domscan-whois-replay-2026-10-17.csv
+```
+
+The replay ran against the installed parser 0.4.0. It is not a replay of the
+local 0.4.1 changes and does not establish 99% live accuracy.
