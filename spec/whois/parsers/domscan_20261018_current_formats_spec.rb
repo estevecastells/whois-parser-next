@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-%w[whois.nic.ki whois1.nic.bi whois.nic.ci whois.ax whois.nic.ls].each do |host|
+%w[whois.nic.ki whois1.nic.bi whois.nic.ci whois.ax whois.nic.ls whois.nic.gh whois.nic.do whois.dnrs.vu].each do |host|
   require "whois/parsers/#{host}"
 end
 
@@ -13,7 +13,7 @@ describe 'Current registry formats observed on 2026-10-18' do
     File.read(fixture('responses', 'domscan_20261018', host, "#{name}_current.txt"))
   end
 
-  %w[whois.nic.ki whois1.nic.bi whois.nic.ci whois.ax whois.nic.ls].each do |host|
+  %w[whois.nic.ki whois1.nic.bi whois.nic.ci whois.ax whois.nic.ls whois.nic.gh whois.nic.do whois.dnrs.vu].each do |host|
     context host do
       it 'recognizes the current registered and authoritative absent shapes' do
         [[response(host, 'registered'), :registered], [response(host, 'available'), :available]].each do |body, state|

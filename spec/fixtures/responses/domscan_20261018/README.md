@@ -59,3 +59,20 @@ loads every packaged parser. The 633-file gem includes the CoCCA helper and
 3.2, 3.3, 3.4, and 4.0.7 for implementation commit
 `7b32576500609aecd8f69b9ae7941bdd41213647` (run 39172234679). The fixtures do
 not establish broad or traffic-weighted live coverage.
+
+## Additional current hosts (2026-10-18 UTC)
+
+The `.gh` and `.do` directories contain minimal synthetic CoCCA response-shape
+controls based on current registered and absent queries to the public hosts
+listed by IANA: [`whois.nic.gh`](https://www.iana.org/domains/root/db/gh.html)
+and [`whois.nic.do`](https://www.iana.org/domains/root/db/do.html). The `.vu`
+directory contains matching synthetic shape controls for the GoDaddy WHOIS
+host `whois.dnrs.vu`, listed by [IANA](https://www.iana.org/domains/root/db/vu.html).
+The registered examples use `example.<suffix>` placeholders; the absent
+examples retain only the response marker needed by the parser. Live response
+originals and real contact details are not redistributed or included.
+
+These fixtures exercise current registration and absence shapes with strict
+domain-identity checks. They do not establish broad or traffic-weighted live
+coverage. Validation of the 0.4.4 changes, including full-suite, package-smoke,
+and supported-Ruby CI checks, is pending.

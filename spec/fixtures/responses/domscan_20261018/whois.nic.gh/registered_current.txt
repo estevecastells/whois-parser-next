@@ -1,0 +1,3 @@
+Domain Name: example.gh
+Creation Date: 2020-01-01T00:00:00Z
+Domain Status: ok https://icann.org/epp#ok

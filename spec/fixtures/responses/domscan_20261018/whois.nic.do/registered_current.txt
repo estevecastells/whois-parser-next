@@ -1,0 +1,3 @@
+Domain Name: example.do
+Creation Date: 2020-01-01T00:00:00Z
+Domain Status: active https://icann.org/epp#active

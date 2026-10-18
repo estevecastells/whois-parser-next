@@ -1,0 +1,3 @@
+Domain Name: example.vu
+Creation Date: 2020-01-01T00:00:00Z
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
