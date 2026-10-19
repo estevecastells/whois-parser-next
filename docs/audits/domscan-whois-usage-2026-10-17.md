@@ -143,6 +143,15 @@ override was restored to 500 and that pool size was confirmed loaded. The
 `.ws` API deadline is 10 seconds, up from 2.5 seconds, to allow for registry
 latency; intermittent connection failures remain unknown.
 
+The final documentation-only DomScan follow-up, commit
+`0e149f455f79a0fcca4b66c8a37b9def7b11feab`, deployed successfully
+(workflow 39183869443); the active blue build and relay health report that same
+SHA, with parser 0.4.5 and the pool override still at 500. Its runtime files
+match the `ba9196ef9e6c04d7a8110938ff0141e8f4482498` build that produced the
+paired observations above. Post-deploy smoke checks returned 200/OK for nine
+GETs and passed all four bulk registered/absent checks for `.bf` WHOIS and
+`.com` RDAP; these confirm rollout health and do not change the paired tally.
+
 ## Parser release and application evidence
 
 Parser 0.4.5 is published from commit
