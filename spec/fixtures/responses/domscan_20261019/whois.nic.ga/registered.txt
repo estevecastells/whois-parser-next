@@ -1,0 +1,12 @@
+Domain ID:                     DOM123-GA
+Nom de domaine:                example.ga
+Date de création:              2020-01-02T00:00:00Z
+Dernière modification:         2026-01-02T00:03:22.825065Z
+Date d'expiration:             2027-01-02T00:00:00Z
+Registrar:                     Example Registry
+Statut:                        actif
+
+Serveur de noms:               ns1.example.test
+Serveur de noms:               ns2.example.test
+
+DNSSEC:                        unsigned

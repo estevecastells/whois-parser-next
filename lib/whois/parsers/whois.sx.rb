@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 require 'whois/scanners/whois.sx.rb'
 
 
@@ -20,6 +21,7 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisSx < Base
+      include RegistryResponseSafety
       include Scanners::Scannable
 
       self.scanner = Scanners::WhoisSx
@@ -31,7 +33,7 @@ module Whois
 
 
       property_supported :domain do
-        node("Domain Name", &:downcase)
+        (node("Domain Name") || node("Not found"))&.downcase
       end
 
       property_supported :domain_id do
@@ -40,6 +42,9 @@ module Whois
 
 
       property_supported :status do
+        current = current_registry_status
+        return current if current
+
         case (s = node("Domain Status", &:downcase))
         when "available"
           :available
@@ -102,6 +107,34 @@ module Whois
         end
       end
 
+
+      # Keep the historical scanner for old fixtures, while recognizing the
+      # current EPP record and exact missing reply before scanning legacy text.
+      def current_registry_status
+        names = content_for_scanner.scan(/^Domain Name:[ \t]*(.+)$/i).flatten.map(&:strip)
+        absent = content_for_scanner.scan(/^Not found:[ \t]*(\S+)[ \t]*$/i).flatten
+        return nil if absent.empty? && !content_for_scanner.match?(/^Registry Domain ID:/i)
+
+        valid = ->(name) { name.match?(/\A[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.sx\z/i) }
+        if absent.size == 1 && names.empty? && valid.call(absent.first) &&
+            !content_for_scanner.match?(/^(?:Creation Date|Registry Domain ID|Domain Status):/i)
+          return :available
+        end
+        return :unknown unless absent.empty? && names.size == 1 && valid.call(names.first)
+
+        statuses = content_for_scanner.scan(/^Domain Status:[ \t]*(\S+)(?:[^\n]*)$/i).flatten
+        dates = content_for_scanner.scan(/^Creation Date:[ \t]*(.+)$/i).flatten.map(&:strip)
+        return :unknown unless dates.size == 1 && dates.first.match?(/\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\z/)
+        Date.iso8601(dates.first[0, 10])
+        Time.iso8601(dates.first)
+        if statuses.any? && statuses.all? { |value| value.match?(/\A(?:ok|active|(?:client|server)(?:Delete|Transfer|Update|Renew)Prohibited)\z/) }
+          :registered
+        else
+          :unknown
+        end
+      rescue ArgumentError
+        :unknown
+      end
 
       private
 

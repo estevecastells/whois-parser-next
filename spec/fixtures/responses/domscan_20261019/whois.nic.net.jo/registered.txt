@@ -1,0 +1,6 @@
+Domain Name: example.jo
+Creation Date: 2020-01-02T00:00:00Z
+Registrar: Example Registry
+Domain Status: Active
+Name Server: ns1.example.test
+Name Server: ns2.example.test

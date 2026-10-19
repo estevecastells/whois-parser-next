@@ -11,6 +11,7 @@ module Whois
           :scan_keyvalue,
           :skip_lastupdate,
           :scan_disclaimer,
+          :skip_comment,
       ]
 
 
@@ -23,6 +24,10 @@ module Whois
 
       tokenizer :skip_lastupdate do
         @input.skip(/>>>(.+?)<<<\n/)
+      end
+
+      tokenizer :skip_comment do
+        @input.skip(/^%[^\n]*\n/)
       end
 
       tokenizer :scan_disclaimer do

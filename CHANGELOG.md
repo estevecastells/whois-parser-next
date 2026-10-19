@@ -2,6 +2,30 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
+#### Release 0.4.6 (2026-10-19)
+
+- ADDED: Added `.ga` parsing for ANINF's current French WHOIS response, requiring
+  one valid domain, `Statut: actif`, and a parseable creation date; absence
+  requires the exact `%% NOT FOUND` marker. Added `.jo` parsing for a single
+  valid domain with a creation date and `Domain Status: Active`; absence
+  requires the exact quoted-name `No match for domain` response and matching
+  echoed domain.
+- UPDATED: `.sx` recognizes the current CIRA EPP statuses
+  `clientDeleteProhibited` and `clientTransferProhibited`, plus the exact
+  `Not found: <name>` absence response, while retaining its legacy format.
+  Duplicate, contradictory, malformed, or incomplete evidence remains
+  unknown; explicit denials and throttling remain blocked.
+- EVIDENCE: Bounded production-host and managed-proxy checks on 2026-10-19 UTC
+  observed registered and absent replies for all three hosts. IANA lists
+  `whois.nic.net.jo` for [`.jo`](https://www.iana.org/domains/root/db/jo.html)
+  and `whois.sx` for [`.sx`](https://www.iana.org/domains/root/db/sx.html).
+  IANA has no WHOIS listing for `.ga`; ANINF's current [official
+  webWHOIS](https://whois.nic.ga/) and [registration
+  policy](https://www.mon.ga/policy/registry_policies.pdf) establish its provenance.
+  The `.ga` and `.sx` source terms restrict circulation or use of WHOIS data,
+  so the repository fixtures are synthetic technical-shape controls, not
+  copies of the captured replies. See the fixture README for details.
+
 #### Release 0.4.5 (2026-10-18)
 
 - ADDED: Added current CoCCA response parsing for `.bf`, `.td`, and `.mr`,
