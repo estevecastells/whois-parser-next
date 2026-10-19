@@ -1,8 +1,11 @@
 # Guatemala registry web WHOIS evidence (2026-10-19)
 
-**Production validation pending.** This report documents the public registry
-source and the observed response shapes. It does not establish that an
-application deployment or application-facing route has been validated.
+**Production validation passed (2026-10-19 UTC).** The application-facing
+route was verified on active production build
+`cdc6fc3a59ec0a12d2f6c8e0ac6ebf226d5c4705` with parser 0.4.7; deployment
+workflow [39193322142](https://github.com/estevecastells/domscan/actions/runs/39193322142)
+completed successfully. The public web WHOIS controls and relay classifications
+are summarized below.
 
 ## Source and provenance
 
@@ -55,5 +58,11 @@ with generated example names; no captured registry response, registrant
 contact, or date is included in the repository.
 
 The observed source latency informed a bounded route budget; it is not a
-reliability guarantee. Application-level production validation remains
-pending.
+reliability guarantee. On the active production build, registered and absent
+v1/v2 controls for both `.gt` and `.com.gt` returned HTTP 200 from the official
+WHOIS source and were classified correctly. All eight checks completed between
+03:18:08 and 03:18:49 UTC on 2026-10-19. This validates paired capability for
+these controls, not continuous availability or historical accuracy. The
+[remaining-extension audit](domscan-whois-remaining-extensions-2026-10-19.md)
+records the aggregate coverage result and the other namespaces still outside
+the paired numerator.

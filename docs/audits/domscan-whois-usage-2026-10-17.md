@@ -117,40 +117,39 @@ below. Snapshot integrity is checked by
 
 ## Current outcome (2026-10-19 UTC)
 
-The final paired-production tally covers 23,472 of 23,705 eligible request
-items (99.0171%) using the pinned registry-demand CSV weights. Passing
-registered/absent pairs were verified for 296 of the 342 usage namespaces;
-the other 233 weighted items across 46 namespaces remain outside the passing
-numerator. All 342 usage namespaces and all 13 zero-demand legacy roots were
-attempted; the 13 legacy pairs passed outside the denominator. This is a
-weighted paired-namespace capability result for the audited sample, not a
-claim about historical request accuracy or an uptime SLA.
+The final paired-production tally covers 23,479 of 23,705 eligible request
+items (99.0466%) using the pinned registry-demand CSV weights. Passing
+registered/absent pairs were verified for 302 of the 342 usage namespaces;
+the other 226 weighted items across 40 namespaces remain outside the passing
+numerator. The 13 zero-demand legacy pairs also passed outside the denominator,
+for 315 paired namespaces across 282 distinct root TLDs. All 342 usage
+namespaces and all 13 zero-demand roots were attempted. This is paired-source
+capability evidence for the audited sample, not a claim about historical
+request accuracy or an uptime SLA.
 
-DomScan commit `ba9196ef9e6c04d7a8110938ff0141e8f4482498` deployed
-successfully (workflow 39181327545), with parser 0.4.5 verified. The `.ws`
-registered and paced generated-absence checks both returned HTTP 200 from
-WHOIS and were classified as registered/available-false and
-unregistered/available-true, respectively. Intermittent `.ws` connection
-failures remain unknown outcomes; the passing pair demonstrates that both
-checks can succeed, not that the route is continuously reliable. The other
-verified production pairs and their frozen request weights are in the
-[production-validation CSV](data/domscan-whois-production-validation-2026-10-18.csv).
+DomScan build `cdc6fc3a59ec0a12d2f6c8e0ac6ebf226d5c4705` is active on blue
+with parser 0.4.7; [workflow 39193322142](https://github.com/estevecastells/domscan/actions/runs/39193322142)
+completed successfully. On this build, both v1/v2 registered/absent control
+pairs passed for `.ga`, `.jo`, `.sx`, `.gt`, and `.com.gt`; all 20 checks
+returned HTTP 200 from WHOIS. The `.gt` and `.com.gt` checks ran between
+03:18:08 and 03:18:49 UTC. Their dated namespace outcomes and pinned weights
+are in the [2026-10-19 production-validation CSV](data/domscan-whois-production-validation-2026-10-19.csv)
+and [follow-up report](domscan-whois-remaining-extensions-2026-10-19.md).
 
-The exact deployed DomScan runtime passed 15,507 tests with 88 skipped and no
-failures, and its build passed. The `html-redos` performance test now runs in a
-fresh worker; its existing 500 ms budget is unchanged. The stale proxy-pool
-override was restored to 500 and that pool size was confirmed loaded. The
-`.ws` API deadline is 10 seconds, up from 2.5 seconds, to allow for registry
-latency; intermittent connection failures remain unknown.
+The `.mw` registered/absent pair from build
+`740c1e8db6952a9537d2dd842e0b5cebf660e7c8` remains counted. On the current
+build the registered check passed, but the generated absent check returned
+unknown from source `unknown` after 2.84 seconds; intermittent `.mw` results
+remain unknown. Intermittent `.ws` connection failures also remain unknown.
+These cases do not erase prior paired capability or establish stable routes.
 
-The final documentation-only DomScan follow-up, commit
-`0e149f455f79a0fcca4b66c8a37b9def7b11feab`, deployed successfully
-(workflow 39183869443); the active blue build and relay health report that same
-SHA, with parser 0.4.5 and the pool override still at 500. Its runtime files
-match the `ba9196ef9e6c04d7a8110938ff0141e8f4482498` build that produced the
-paired observations above. Post-deploy smoke checks returned 200/OK for nine
-GETs and passed all four bulk registered/absent checks for `.bf` WHOIS and
-`.com` RDAP; these confirm rollout health and do not change the paired tally.
+The current runtime passed 15,519 tests with 88 existing skips and no failures,
+and the build passed. Separate safety and smoke controls confirmed the `.il`
+disclaimer-only response remains unknown, an `.org.il` WHOIS registered control
+passes, and `example.com` registered RDAP returns HTTP 200. These controls are
+not additional coverage pairs. The frozen 30-day usage window, baseline CSV,
+and 23,705-item eligible denominator remain unchanged; 327 undelegated requests
+remain outside that denominator.
 
 ## Parser release and application evidence
 

@@ -238,3 +238,37 @@ passing numerator. The [production validation spec](../../../spec/audits/domscan
 checks the output and these exclusion rules. See the [audit's current outcome](../domscan-whois-usage-2026-10-17.md#current-outcome-2026-10-19-utc)
 for the latest weighted result; the frozen denominator and window remain as
 documented above.
+
+### Dated production pair-validation follow-up (2026-10-19)
+
+The follow-up snapshot in
+[`domscan-whois-production-validation-2026-10-19.jsonl`](domscan-whois-production-validation-2026-10-19.jsonl)
+and its generated
+[`CSV`](domscan-whois-production-validation-2026-10-19.csv) preserve the
+dated namespace observations. The `.ga`, `.jo`, `.sx`, `.gt`, and `.com.gt`
+v1/v2 registered/absent checks use production build
+`cdc6fc3a59ec0a12d2f6c8e0ac6ebf226d5c4705`; all returned HTTP 200 from WHOIS.
+The `.mw` pair remains from build `740c1e8db6952a9537d2dd842e0b5cebf660e7c8`;
+on the current build its registered control passed but the absence result was
+unknown, so intermittent `.mw` outcomes remain unknown. The new
+[follow-up audit spec](../../../spec/audits/domscan_whois_validation_20261019_spec.rb)
+rebuilds the CSV from the JSONL, verifies the 355-row observation set, and
+checks the paired counts and frozen weights without changing the 2026-10-18
+baseline snapshot.
+
+The follow-up validates paired WHOIS/RDAP capability for 302 of 342
+usage namespaces, representing 23,479 of 23,705 eligible weighted requests
+(99.0466%). Thirteen zero-demand legacy namespaces also have verified pairs,
+for 315 paired namespaces across 282 distinct root TLDs. The other 40 usage
+namespaces, weighted at 226 request items, remain outside the paired numerator.
+Intermittent `.mw` label timeouts and `.ws` connection failures remain unknown;
+a passing pair is evidence for the checked examples, not a continuous-uptime
+or historical-accuracy claim.
+
+These results are follow-up checks against the frozen 30-day usage cohort from
+`2026-09-18T02:30:00Z` inclusive to `2026-10-18T02:30:00Z` exclusive; they do
+not extend that window. The approved denominator remains 23,705 eligible exact
+registry-domain requests. The 327 requests whose final labels were
+undelegated remain excluded from that denominator; they are not WHOIS
+availability results. Keep the pinned baseline CSV and the earlier snapshot
+unchanged.
