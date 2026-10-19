@@ -18,7 +18,7 @@ raise 'Missing or duplicate namespace observations' unless rows.map { |row| row[
 rows.each do |row|
   raise 'Unexpected observation fields' unless row.keys.sort == %w[checks checked_on evidence_set namespace production_build requests].sort
   raise 'Unpinned demand weight' unless row['requests'] == weights.fetch(row['namespace'])
-  raise 'Invalid observation date' unless row['checked_on'] == '2026-10-18'
+  raise 'Invalid observation date' unless %w[2026-10-18 2026-10-19].include?(row['checked_on'])
   raise 'Invalid production build' unless row['production_build'].nil? || row['production_build'].match?(/\A[0-9a-f]{40}\z/)
   raise 'Invalid evidence label' unless row['evidence_set'].match?(/\A[a-z0-9_]+\z/)
   raise 'Invalid checks' unless row['checks'].is_a?(Array) && row['checks'].length <= 2

@@ -111,82 +111,80 @@ The [on-host replay script](../../scripts/replay_domscan_whois_on_host.rb)
 streams response text on the relay host and emits only aggregated classes; it
 must not be run by exporting raw WHOIS previews. At the original 0.4.1 audit
 checkpoint, the full suite passed 7,016 examples with 0 failures and package
-smoke passed on Ruby 3.2 and 3.4.5; the later 0.4.3 validation is summarized
+smoke passed on Ruby 3.2 and 3.4.5; the current 0.4.5 validation is summarized
 below. Snapshot integrity is checked by
 `spec/audits/domscan_whois_20261017_spec.rb`.
 
-## Current outcome (2026-10-18 UTC)
+## Current outcome (2026-10-19 UTC)
 
-The pre-managed-proxy production baseline has passing registered/absent pairs
-for 271 namespaces. Using the pinned registry-demand CSV weights, those pairs
-represent 22,912 of 23,705 eligible request items, or 96.6547%. This is below
-the 99% target and is not the final post-change result. The earlier 22,911
-numerator undercounted `.org.au` by one item: the pinned CSV assigns that
-suffix a weight of three, while the earlier control tally counted two.
+The final paired-production tally covers 23,472 of 23,705 eligible request
+items (99.0171%) using the pinned registry-demand CSV weights. Passing
+registered/absent pairs were verified for 296 of the 342 usage namespaces;
+the other 233 weighted items across 46 namespaces remain outside the passing
+numerator. All 342 usage namespaces and all 13 zero-demand legacy roots were
+attempted; the 13 legacy pairs passed outside the denominator. This is a
+weighted paired-namespace capability result for the audited sample, not a
+claim about historical request accuracy or an uptime SLA.
 
-Thirteen additional public registered/absent pairs passed for zero-demand
-legacy roots. They are outside the frozen demand denominator and are not
-included in the percentage. The `.shop` slice has 519 eligible request items
-(2.19% of the denominator) and remains outside the passing numerator; it is
-only part of the 793-item baseline remainder.
+DomScan commit `ba9196ef9e6c04d7a8110938ff0141e8f4482498` deployed
+successfully (workflow 39181327545), with parser 0.4.5 verified. The `.ws`
+registered and paced generated-absence checks both returned HTTP 200 from
+WHOIS and were classified as registered/available-false and
+unregistered/available-true, respectively. Intermittent `.ws` connection
+failures remain unknown outcomes; the passing pair demonstrates that both
+checks can succeed, not that the route is continuously reliable. The other
+verified production pairs and their frozen request weights are in the
+[production-validation CSV](data/domscan-whois-production-validation-2026-10-18.csv).
 
-The owned-primary `.shop` check returned HTTP 429, after which direct probes
-to GMO-mapped hosts stopped. GMO has since approved managed-proxy usage. The
-planned retry is one attempt through that proxy, with no
-alternate host or egress change if denied. Its result, the final achieved
-count, and the final deployed DomScan SHA await live verification. No 99%
-result is claimed.
+The exact deployed DomScan runtime passed 15,507 tests with 88 skipped and no
+failures, and its build passed. The `html-redos` performance test now runs in a
+fresh worker; its existing 500 ms budget is unchanged. The stale proxy-pool
+override was restored to 500 and that pool size was confirmed loaded. The
+`.ws` API deadline is 10 seconds, up from 2.5 seconds, to allow for registry
+latency; intermittent connection failures remain unknown.
 
 ## Parser release and application evidence
 
-Parser 0.4.3 is published from commit
-[`e7b4e639452c815d1ea590371b154c6bcb24da5f`](https://github.com/estevecastells/whois-parser-next/commit/e7b4e639452c815d1ea590371b154c6bcb24da5f),
-tagged `v0.4.3`. The [trusted release workflow](https://github.com/estevecastells/whois-parser-next/actions/runs/39172562630)
-and the [final-commit Ruby matrix](https://github.com/estevecastells/whois-parser-next/actions/runs/39172449347)
+Parser 0.4.5 is published from commit
+[`e6305ab16f33dfa06ee1dc37c2d74818f6185cef`](https://github.com/estevecastells/whois-parser-next/commit/e6305ab16f33dfa06ee1dc37c2d74818f6185cef),
+tagged `v0.4.5`. The [trusted release workflow](https://github.com/estevecastells/whois-parser-next/actions/runs/39178046817)
+and [supported-Ruby matrix](https://github.com/estevecastells/whois-parser-next/actions/runs/39177870994)
 passed. RubyGems reports SHA-256
-`db33c01e68f0be490ad3501b6d1034e0a5c1dee751aed67c332f1a707fad63be` for the
-[published gem](https://rubygems.org/gems/whois-parser-next/versions/0.4.3).
-The 119,808-byte package contains 633 files and no native extensions. The
-full parser suite passed 7,040 examples on Ruby 3.2.2 and 3.4.5; package
-smoke passed on both. In an isolated empty gem home, all 576 packaged parser
-files loaded and five new registered/absent fixture pairs passed.
+`31e38bf6dda36c421b637a2d197e614631cc7430dfded00a3e40b5090b09209e` for the
+[published gem](https://rubygems.org/gems/whois-parser-next/versions/0.4.5),
+which is 122,368 bytes. The full suite passed 7,074 examples with 0 failures
+on Ruby 3.2.2 and 3.4.5; package smoke passed on both. The verified package
+contains 583 parser files and was checked with six external
+registered/absent fixture pairs. These checks validate the parser package,
+not downstream live coverage.
+After the audit date-safety example was added, the final parser repository
+suite passed 7,075 examples with 0 failures; the published 0.4.5 package
+validation remains the 7,074-example check above.
 
-Version 0.4.3 covers the `.ma` and `.sh` response variants, current synthetic
-CoCCA status controls for `.ki`, `.bi`, and `.ci`, the `.ax` dotted-field
-format, and the `.ls` WHOIS shape. These parser tests do not by themselves
-prove the downstream request-weighted result above.
-
-The last confirmed DomScan deployment before the managed-proxy update was
-commit `ee6d0a966aa0f621dc6946a67bb9917c5862078d` (workflow 39170927600); its
-full suite passed 15,439 tests with 88 skips and its build passed. Fresh
-registered/absent `.ma` and `.sh` pairs passed through the v2 production
-path. The final deployment SHA for the managed-proxy change remains pending
-live verification.
+Version 0.4.5 adds current response handling for `.bf`, `.td`, `.kn`, `.mr`,
+`.mc`, and `.ws`. The deployed DomScan pair checks are reported above.
 
 ## Denominator and evidence
 
 The original ASCII suffix aggregate contains 24,718 syntactically
-valid-looking WHOIS endpoint items across 455 final-label buckets. It is not
+valid-looking WHOIS endpoint items across 455 final-label buckets; it is not
 the eligible-domain denominator. On-host normalization classified 25,576
 items: 823 invalid-format, 327 undelegated, 721 non-registry apex, and 23,705
-eligible exact registry-domain requests. An exact comparison with the frozen
-IANA root-zone list found 139 absent final labels covering 327 items; these
-are not available-domain results. The frozen
+eligible exact registry-domain requests. Comparison with the frozen IANA
+root-zone list found 139 absent final labels covering 327 items; these are
+not availability results. The frozen
 [IANA list](data/domscan-whois-iana-tlds-2026-10-17.txt), version `2026101700`,
 has SHA-256 `992903eab7913a4a4f629e4a03906d174efaf44c43a6374bec3d4e2113f89b8c`.
 
-The pinned denominator and builder are documented in the [data README](data/README.md)
+The approved denominator and method are documented in the [data README](data/README.md)
 and [registry-demand CSV](data/domscan-whois-registry-demand-2026-10-17.csv);
 the [CSV builder](../../scripts/build_domscan_registry_demand_csv.rb) consumes
-only privacy-safe aggregate JSONL. Original suffix, source, and bounded
-replay evidence remains in the [usage CSV](data/domscan-whois-usage-2026-10-17.csv),
-[source CSV](data/domscan-whois-sources-2026-10-17.csv),
-[replay CSV](data/domscan-whois-replay-2026-10-17.csv), and their frozen
-[usage query](../../scripts/domscan_whois_usage_20261017.sql),
-[source query](../../scripts/domscan_whois_sources_20261017.sql), and
-[request summary query](../../scripts/domscan_whois_summary_20261017.sql).
-The [on-host replay script](../../scripts/replay_domscan_whois_on_host.rb)
-prints aggregate classes only; it must not be run by exporting raw previews.
-API source labels and the 0.4.0 preview replay are historical context, not
-current live-accuracy measurements. Raw WHOIS text and customer domains are
-not included.
+only privacy-safe aggregate JSONL. Original suffix, source, and replay records
+remain in the [usage CSV](data/domscan-whois-usage-2026-10-17.csv),
+[source CSV](data/domscan-whois-sources-2026-10-17.csv), and
+[replay CSV](data/domscan-whois-replay-2026-10-17.csv), with their frozen
+queries and [on-host replay script](../../scripts/replay_domscan_whois_on_host.rb).
+The replay script emits aggregate classes only and must not be run by
+exporting raw previews. API labels and the 0.4.0 preview replay are historical
+context, not current live-accuracy measurements. No raw WHOIS text or
+customer domains are included.

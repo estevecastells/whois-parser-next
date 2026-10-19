@@ -160,7 +160,8 @@ and 23,705 eligible exact registry-domain request items. This broader,
 normalized input differs from the original ASCII usage CSV's 24,718
 syntactically valid-looking endpoint items and does not replace that snapshot.
 The eligible-item count defines the approved denominator; it is not a success
-count or an accuracy result. The 99% target remains unverified.
+count or an accuracy result. See the [audit's current outcome](../domscan-whois-usage-2026-10-17.md#current-outcome-2026-10-19-utc)
+for the latest weighted pair status.
 
 ### Registry-demand CSV builder
 
@@ -192,6 +193,48 @@ passes 5 examples with:
 bundle exec rspec spec/audits/domscan_whois_20261017_spec.rb
 ```
 
-The parser-only full suite passes 7,018 examples with 0 failures. These checks
-validate the frozen evidence and parser suite, not the ongoing broader live
-pair run or the 99% target.
+### Dated production pair-validation evidence (2026-10-18–19)
+
+The canonical production-validation snapshot contains 355 namespace
+observations: 342 usage namespaces from the frozen demand table and 13
+zero-demand legacy roots. These pair checks were recorded on 2026-10-18 and
+2026-10-19 UTC. Those observation dates do not extend or replace the frozen
+usage window or the 23,705-item eligible denominator.
+
+The final tally passes 296 of 342 usage namespaces, weighted as 23,472 of
+23,705 eligible requests (99.0171%). Thirteen zero-demand legacy pairs also
+passed outside the denominator. All 342 usage namespaces and 13 legacy roots
+were attempted. Treat this as paired-source capability evidence for the
+audited sample, not a historical accuracy or uptime measure; intermittent
+`.ws` connection failures remain unknown. The audit's
+[current outcome](../domscan-whois-usage-2026-10-17.md#current-outcome-2026-10-19-utc)
+contains the interpretation and production build details.
+
+The privacy-safe source JSONL is
+[`domscan-whois-production-validation-2026-10-18.jsonl`](domscan-whois-production-validation-2026-10-18.jsonl).
+Its top-level fields are limited to `namespace`, `requests` (pinned weight),
+`checked_on`, `production_build`, `evidence_set`, and `checks`. Each check may
+contain only `expected_registered`, `http`, `registered`, `available`, and
+`source`; outcome fields may be booleans or null. It contains no customer
+domain names or raw WHOIS responses. The generated
+[`production-validation CSV`](domscan-whois-production-validation-2026-10-18.csv)
+is reproducible from that JSONL with
+[`build_domscan_whois_validation_csv.rb`](../../../scripts/build_domscan_whois_validation_csv.rb):
+
+```sh
+ruby scripts/build_domscan_whois_validation_csv.rb \
+  < docs/audits/data/domscan-whois-production-validation-2026-10-18.jsonl \
+  > docs/audits/data/domscan-whois-production-validation-2026-10-18.csv
+```
+
+A namespace contributes to a passing pair only after review against the
+registry's official WHOIS or RDAP service, with both `source` labels recorded
+as `whois` or `rdap` and both checks returning HTTP 200. The registered
+example must be classified as registered and not available; the absence
+example must be classified as unregistered with availability consistent with
+registry policy. Cache or DNS-only results, unknown sources, denials, timeouts,
+contradictory or malformed results, and unpaired checks are excluded from the
+passing numerator. The [production validation spec](../../../spec/audits/domscan_whois_validation_20261018_spec.rb)
+checks the output and these exclusion rules. See the [audit's current outcome](../domscan-whois-usage-2026-10-17.md#current-outcome-2026-10-19-utc)
+for the latest weighted result; the frozen denominator and window remain as
+documented above.

@@ -23,8 +23,23 @@ describe 'DomScan 2026-10-18 production capability evidence' do
     usage = rows.select { |row| row['scope'] == 'usage' }
     expect(usage.length).to eq(342)
     expect(usage.sum { |row| Integer(row['requests']) }).to eq(23_705)
+    verified = usage.select { |row| row['pair_verified'] == 'true' }
+    expect(verified.length).to eq(296)
+    expect(verified.sum { |row| Integer(row['requests']) }).to eq(23_472)
     expect(rows.count { |row| row['scope'] == 'zero_demand_legacy' }).to eq(13)
     expect(usage.find { |row| row['namespace'] == 'org.au' }['requests']).to eq('3')
+  end
+
+  it 'keeps the actual date of next-day validation and rejects dates outside this audit' do
+    rows = Marshal.load(Marshal.dump(observations))
+    rows.first['checked_on'] = '2026-10-19'
+    output, error, status = generate(rows.map { |row| JSON.generate(row) }.join("\n"))
+    expect(status.success?).to eq(true), error
+    expect(CSV.parse(output, headers: true).find { |row| row['namespace'] == rows.first['namespace'] }['checked_on']).to eq('2026-10-19')
+    rows.first['checked_on'] = '2026-10-20'
+    output, _error, status = generate(rows.map { |row| JSON.generate(row) }.join("\n"))
+    expect(status.success?).to eq(false)
+    expect(output).to eq('')
   end
 
   it 'rejects duplicate namespaces, modified weights, and unexpected private fields' do
@@ -55,6 +70,17 @@ describe 'DomScan 2026-10-18 production capability evidence' do
     ['cache', 'unknown'].each do |source|
       rows = Marshal.load(Marshal.dump(observations))
       rows.find { |item| item['namespace'] == 'com' }['checks'].each { |check| check['source'] = source }
+      output, error, status = generate(rows.map { |item| JSON.generate(item) }.join("\n"))
+      expect(status.success?).to eq(true), error
+      expect(CSV.parse(output, headers: true).find { |item| item['namespace'] == 'com' }['pair_verified']).to eq('false')
+    end
+    [
+      ->(row) { row['checks'][0]['available'] = true },
+      ->(row) { row['checks'][1]['registered'] = true },
+      ->(row) { row['checks'].pop }
+    ].each do |mutate|
+      rows = Marshal.load(Marshal.dump(observations))
+      mutate.call(rows.find { |item| item['namespace'] == 'com' })
       output, error, status = generate(rows.map { |item| JSON.generate(item) }.join("\n"))
       expect(status.success?).to eq(true), error
       expect(CSV.parse(output, headers: true).find { |item| item['namespace'] == 'com' }['pair_verified']).to eq('false')
