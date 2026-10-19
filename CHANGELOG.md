@@ -15,6 +15,14 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
   `Not found: <name>` absence response, while retaining its legacy format.
   Duplicate, contradictory, malformed, or incomplete evidence remains
   unknown; explicit denials and throttling remain blocked.
+- SAFETY: `.il` no longer treats a missing status as absence. Production
+  registered and absent queries returned the same 790-byte disclaimer-only
+  reply without an absence marker. Absence now requires the exact
+  `% No data was found to match the request criteria.` marker; registration
+  requires one valid domain and one `Transfer Locked` or `Transfer Allowed`
+  status. Empty, denied, throttled, duplicate, mixed, or incomplete replies
+  remain unknown. This corrects false absence; `.il` coverage remains
+  unverified.
 - EVIDENCE: Bounded production-host and managed-proxy checks on 2026-10-19 UTC
   observed registered and absent replies for all three hosts. IANA lists
   `whois.nic.net.jo` for [`.jo`](https://www.iana.org/domains/root/db/jo.html)

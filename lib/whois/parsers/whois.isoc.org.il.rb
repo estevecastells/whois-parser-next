@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -25,19 +26,20 @@ module Whois
     # and examples.
     #
     class WhoisIsocOrgIl < Base
+      include RegistryResponseSafety
 
       property_supported :status do
-        if content_for_scanner =~ /status:\s+(.*?)\n/
-          case ::Regexp.last_match(1).downcase
-          when "transfer locked"
-            :registered
-          when "transfer allowed"
-            :registered
-          else
-            Whois::Parser.bug!(ParserError, "Unknown status `#{::Regexp.last_match(1)}'.")
-          end
-        else
+        names = content_for_scanner.scan(/^domain:[ \t]*(.+)$/i).flatten.map(&:strip)
+        states = content_for_scanner.scan(/^status:[ \t]*(.+)$/i).flatten.map { |value| value.strip.downcase }
+        missing = content_for_scanner.scan(/^% No data was found to match the request criteria\.[ \t]*$/).size
+        if missing == 1 && names.empty? && states.empty?
           :available
+        elsif missing.zero? && names.size == 1 && states.size == 1 &&
+              names.first.match?(/\A(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+il\z/i) &&
+              ['transfer locked', 'transfer allowed'].include?(states.first)
+          :registered
+        else
+          :unknown
         end
       end
 
@@ -46,7 +48,7 @@ module Whois
       end
 
       property_supported :registered? do
-        !available?
+        status == :registered
       end
 
 

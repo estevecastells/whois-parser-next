@@ -61,3 +61,32 @@ describe 'Registry responses observed on 2026-10-19' do
     end
   end
 end
+
+require 'whois/parsers/whois.isoc.org.il'
+
+describe 'ISOC-IL incomplete reply safety' do
+  def il(body)
+    Whois::Parsers::WhoisIsocOrgIl.new(Whois::Record::Part.new(body: body, host: 'whois.isoc.org.il'))
+  end
+
+  it 'requires an explicit absence marker instead of treating disclaimer-only replies as available' do
+    ['% The data in the WHOIS database is provided for information purposes.\n', "domain: example.il\n", "status: Transfer Locked\n"].each do |body|
+      expect(il(body).status).to eq(:unknown)
+      expect(il(body).registered?).to eq(false)
+      expect(il(body).available?).to eq(false)
+    end
+    expect(il("% No data was found to match the request criteria.\n").status).to eq(:available)
+  end
+
+  it 'keeps contradictory or duplicate absence replies unknown' do
+    absent = "% No data was found to match the request criteria.\n"
+    [absent * 2, "domain: example.co.il\nstatus: Transfer Locked\n" + absent].each do |body|
+      expect(il(body).status).to eq(:unknown)
+    end
+  end
+
+  it 'rejects denied and throttled replies' do
+    expect { il("Access denied\n").status }.to raise_error(Whois::ResponseIsUnavailable)
+    expect { il("Query rate limit exceeded\n").status }.to raise_error(Whois::ResponseIsThrottled)
+  end
+end
