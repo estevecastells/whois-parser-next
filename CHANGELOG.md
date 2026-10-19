@@ -2,6 +2,26 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
+#### Release 0.4.7 (2026-10-19)
+
+- ADDED: Added strict parsing for the official `.gt` and `.com.gt` web WHOIS
+  response. Registration requires one result heading with a single valid domain
+  and `ACTIVO`; absence requires one `alert alert-danger` result with the same
+  domain and the registry's exact `no está registrado` marker. Duplicate,
+  contradictory, malformed, mismatched, incomplete, denied, throttled, or
+  challenge responses remain non-positive. The parser ignores scripts, styles,
+  comments, and unrelated page content; contacts and dates are not parsed.
+- EVIDENCE: The official UVG registry lookup is
+  [`whois.php?dn=...`](https://www.gt/sitio/whois.php?dn={domain}). Bounded
+  2026-10-19 observations returned registered results for `google.gt` and
+  `google.com.gt`, and exact absence results for generated eight-letter names
+  under both suffixes. The registry's
+  [policy](https://www.gt/sitio/registration_policy.php?lang=en) limits lookup
+  to individual names rather than lists of registered names. Regression
+  examples use only minimal synthetic HTML. This is a web WHOIS source; no
+  TCP/43 or RDAP service is claimed. See the
+  [dated evidence report](docs/audits/guatemala-web-whois-2026-10-19.md).
+
 #### Release 0.4.6 (2026-10-19)
 
 - ADDED: Added `.ga` parsing for ANINF's current French WHOIS response, requiring
