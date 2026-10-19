@@ -47,3 +47,8 @@ full procedures; this guide records the working invariants.
   checked-in builder and run its audit spec when changing evidence; do not
   hand-edit a generated CSV. Keep `README.md` and `CHANGELOG.md` claims limited
   to verified outcomes.
+
+## Tests before pushing
+
+- The full test suite runs locally before every push: `bundle exec rspec`. It must pass; never push a failing or skipped suite, and never use `--no-verify`.
+- GitHub Actions does not run tests in this repository; it only deploys (where a deploy workflow exists).
