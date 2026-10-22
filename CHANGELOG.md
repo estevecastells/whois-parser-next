@@ -2,6 +2,21 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
+#### Unreleased
+
+- ADDED: Added `registrant_contacts` to the `whois.trabis.gov.tr` (`.tr`)
+  parser. The `** Registrant:` block yields the name, and the email when one is
+  published. Address, city, country, phone and fax are read only from the fully
+  published eight-line layout, because hidden fields ("Hidden upon user
+  request") shorten the block. Fully hidden blocks, no-match responses and
+  throttled responses yield no contact.
+- EVIDENCE: Bounded 2026-10-22 observations of `whois.trabis.gov.tr` returned a
+  fully published registrant block, a block with only the name visible
+  (`google.com.tr`), a fully hidden block, and the `No match found` response.
+  The fully published and fully hidden fixtures are redacted: the registrant
+  name, address and email, the domain name and the name servers are replaced
+  with placeholders while the line layout and whitespace are preserved.
+
 #### Release 0.4.7 (2026-10-19)
 
 - ADDED: Added strict parsing for the official `.gt` and `.com.gt` web WHOIS
