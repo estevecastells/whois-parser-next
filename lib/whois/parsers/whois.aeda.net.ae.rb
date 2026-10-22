@@ -8,6 +8,7 @@
 
 
 require_relative 'base'
+require_relative 'registry_response_safety'
 
 
 module Whois
@@ -23,6 +24,14 @@ module Whois
     #   The Example parser for the list of all available methods.
     #
     class WhoisAedaNetAe < Base
+      include RegistryResponseSafety
+
+      # The registry answers rate-limited clients with a single "BLACKLISTED:"
+      # line. That reply carries no domain data, so it must not be read as
+      # either registered or available.
+      def response_throttled?
+        super || content_for_scanner.match?(/^BLACKLISTED:/i)
+      end
 
       property_supported :status do
         if content_for_scanner =~ /Status:\s+(.+?)\n/

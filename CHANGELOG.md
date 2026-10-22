@@ -2,6 +2,23 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
+#### Unreleased
+
+- FIXED: The `whois.aeda.net.ae` (`.ae`) parser no longer reports the
+  registry's rate-limit reply ("BLACKLISTED: You have exceeded the query limit
+  ...") as registered. `registered?` was the negation of `available?`, so any
+  reply other than an explicit absence marker counted as a registration. The
+  parser now includes `RegistryResponseSafety` and treats the `BLACKLISTED:`
+  reply as throttled, so status, availability and registration raise
+  `Whois::ResponseIsThrottled`. Empty and access-denied replies now raise
+  `Whois::ResponseIsUnavailable` instead of counting as registered.
+- EVIDENCE: On 2026-10-22, after a bounded series of lookups, `whois.aeda.net.ae`
+  answered every query from the client network, including `google.ae` and
+  generated unregistered names, with the single `BLACKLISTED:` line in the new
+  `response_blacklisted.txt` fixture (unmodified). Earlier the same day,
+  registered names and generated unregistered names returned the regular
+  registered and `No Data Found` responses.
+
 #### Release 0.4.7 (2026-10-19)
 
 - ADDED: Added strict parsing for the official `.gt` and `.com.gt` web WHOIS
