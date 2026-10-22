@@ -1,0 +1,40 @@
+** Domain Name: example.com.tr
+Domain Status: Active
+Frozen Status: -
+Transfer Status: The domain is LOCKED to transfer.
+
+** Registrant:
+Örnek Teknoloji ve Danışmanlık Ltd. Şti.
+Ornek Mahallesi
+   Ornek Sokak No: 1
+   İstanbul,
+     Türkiye
+info@example.com.tr
+Hidden upon user request
++ 
+
+
+** Registrar:
+NIC Handle		: adh83
+Organization Name	: ATAK DOMAİN BİLGİ TEKNOLOJİLERİ ANONİM ŞİRKETİ
+Address			: İstasyon Mahallesi, Efe Sadık Caddesi,
+			  No: 4, İç Kapı No: 2, Kartepe
+			  41000 Kocaeli Türkiye
+Phone			: 90-262-3259222-
+Fax			: 90-262-3249426- 
+
+
+** Domain Servers:
+ns1.example.net
+ns2.example.net
+
+
+** Additional Info:
+Created on..............: 2025-Dec-21.
+Expires on..............: 2026-Dec-20.
+
+
+** Whois Server:
+Last Update Time: 2026-10-22T23:01:44+03:00
+
+
