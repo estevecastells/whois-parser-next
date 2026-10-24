@@ -1,0 +1,22 @@
+Welcome to Qatar Domains Registry WHOIS Lookup
+Enter the domain name below to view its WHOIS record.
+Please do NOT include “www” in your query.  To access the WHOIS details, please complete the verification step below.
+Type the word you see into the verification box to proceed.
+Domain Name: ooredoo.com.qa
+Registrar: Ooredoo QSC
+Domain Status: ok http://www.icann.org/epp#OK
+Registrant Name: DNS Administrator - Qtel Internet Services
+Tech Name: DNS Administrator - Qtel Internet Services
+Name Server: dns2.qatar.net.qa
+Name Server: dns1.qatar.net.qa
+Name Server: dns3.qatar.net.qa
+URL of the ICANN Whois Inaccuracy Complaint Form: https://www.icann.org/wicf/
+>>> Last update of WHOIS database: 2026-10-24T23:40:07Z <<<
+
+For more information on Whois status codes, please visit https://icann.org/epp
+
+© Qatar Domains Registry – All Rights Reserved
+This WHOIS service is provided for informational purposes only.
+Automated data mining, spam, or unauthorized use is strictly prohibited.
+Query Limit: 100 per hour and 500 per day per IP.
+Exceeding the limit will result in a 24-hour block.

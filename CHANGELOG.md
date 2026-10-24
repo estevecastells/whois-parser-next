@@ -18,6 +18,26 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
   contact lines in the new `current_contacts_registered.txt` fixture
   (unmodified, CRLF preserved; it holds organisation and role data only, no
   personal data).
+- FIXED: The `whois.registry.qa` (`.qa`, `.com.qa` and the other `.qa`
+  second-level zones) parser raised `Whois::ParserError` on every current
+  response. The registry now opens each reply with the instructions of its web
+  lookup form and closes it with a copyright, terms of use and query limit
+  notice; the parser skips both. Current records also renamed their lines:
+  `Registrar` replaces `Registrar ID` and `Registrar Name`, `Domain Status`
+  (an EPP code followed by its ICANN URL) replaces `Status`, and
+  `Registrant Name` and `Tech Name` replace the `<Role> Contact ID/Name/Email`
+  lines. The parser reads both layouts: `status` returns the EPP codes,
+  `registered?` no longer requires the legacy `Status` line, and the registrar
+  and contacts carry a name only, because current records publish no
+  registrar ID, contact ID or email.
+- EVIDENCE: On 2026-10-24 single lookups on `whois.registry.qa` (TCP/43)
+  returned the registered `google.qa` and `ooredoo.com.qa` responses and the
+  `No Data Found` responses for one generated unregistered name in each zone,
+  stored unmodified (CRLF preserved) as the new `current_status_registered.txt`,
+  `current_com_qa_status_registered.txt`, `current_status_available.txt` and
+  `current_com_qa_status_available.txt` fixtures. The registered fixtures hold
+  role and organisation names only, no personal data. The 2026-09-19 probes
+  that received empty responses no longer reproduce.
 
 #### Release 0.4.8 (2026-10-24)
 
