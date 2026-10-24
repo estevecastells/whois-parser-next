@@ -2,7 +2,7 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
-#### Unreleased
+#### Release 0.4.8 (2026-10-24)
 
 - ADDED: Added `registrant_contacts` to the `whois.trabis.gov.tr` (`.tr`)
   parser. The `** Registrant:` block yields the name, and the email when one is
