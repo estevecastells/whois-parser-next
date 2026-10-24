@@ -2,6 +2,23 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
+#### Unreleased
+
+- ADDED: Added `registrar`, `registrant_contacts` and `technical_contacts` to
+  the `whois.aeda.net.ae` (`.ae`) parser. The registrar comes from the
+  `Registrar ID` and `Registrar Name` lines. Each contact comes from the
+  `<Role> Contact ID`, `Name` and `Organisation` lines. The registry publishes
+  no contact email over port 43; the `Contact Email` line of the legacy layout
+  only pointed to the web WHOIS, so it is not read. `admin_contacts` is not
+  supported because responses carry no admin contact. No-data responses yield
+  no registrar or contact, and blacklisted responses raise
+  `Whois::ResponseIsThrottled`.
+- EVIDENCE: On 2026-10-24 a single lookup of `google.ae` on
+  `whois.aeda.net.ae` (TCP/43) returned the registrar, registrant and technical
+  contact lines in the new `current_contacts_registered.txt` fixture
+  (unmodified, CRLF preserved; it holds organisation and role data only, no
+  personal data).
+
 #### Release 0.4.8 (2026-10-24)
 
 - ADDED: Added `registrant_contacts` to the `whois.trabis.gov.tr` (`.tr`)
