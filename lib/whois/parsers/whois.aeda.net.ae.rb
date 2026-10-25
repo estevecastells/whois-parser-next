@@ -62,10 +62,48 @@ module Whois
       property_not_supported :expires_on
 
 
+      property_supported :registrar do
+        id   = field("Registrar ID")
+        name = field("Registrar Name")
+        Parser::Registrar.new(id: id, name: name) if id || name
+      end
+
+
+      property_supported :registrant_contacts do
+        build_contact("Registrant", Parser::Contact::TYPE_REGISTRANT)
+      end
+
+      property_not_supported :admin_contacts
+
+      property_supported :technical_contacts do
+        build_contact("Tech", Parser::Contact::TYPE_TECHNICAL)
+      end
+
+
       property_supported :nameservers do
         content_for_scanner.scan(/Name Server:\s+(.+)\n/).flatten.map do |name|
           Parser::Nameserver.new(:name => name)
         end
+      end
+
+
+      private
+
+      def field(label)
+        content_for_scanner[/^#{label}:[ \t]+(.+)$/, 1]&.strip.presence
+      end
+
+      # A contact is the "<Role> Contact ID/Name/Organisation" lines. The
+      # registry publishes no contact email over port 43: the "Contact Email"
+      # line of the legacy layout only pointed to the web WHOIS, so it is not
+      # read.
+      def build_contact(role, type)
+        id           = field("#{role} Contact ID")
+        name         = field("#{role} Contact Name")
+        organization = field("#{role} Contact Organisation")
+        return [] unless id || name || organization
+
+        [Parser::Contact.new(type: type, id: id, name: name, organization: organization)]
       end
 
     end

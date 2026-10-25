@@ -1,0 +1,24 @@
+Welcome to Qatar Domains Registry WHOIS Lookup
+Enter the domain name below to view its WHOIS record.
+Please do NOT include “www” in your query.  To access the WHOIS details, please complete the verification step below.
+Type the word you see into the verification box to proceed.
+Domain Name: google.qa
+Registrar: RoutEdge
+Domain Status: clientDeleteProhibited http://www.icann.org/epp#clientDeleteProhibited
+Domain Status: clientUpdateProhibited http://www.icann.org/epp#clientUpdateProhibited
+Registrant Name: Domain Administrator
+Tech Name: Domain Administrator
+Name Server: ns1.google.com
+Name Server: ns2.google.com
+Name Server: ns3.google.com
+Name Server: ns4.google.com
+URL of the ICANN Whois Inaccuracy Complaint Form: https://www.icann.org/wicf/
+>>> Last update of WHOIS database: 2026-10-24T23:40:03Z <<<
+
+For more information on Whois status codes, please visit https://icann.org/epp
+
+© Qatar Domains Registry – All Rights Reserved
+This WHOIS service is provided for informational purposes only.
+Automated data mining, spam, or unauthorized use is strictly prohibited.
+Query Limit: 100 per hour and 500 per day per IP.
+Exceeding the limit will result in a 24-hour block.
