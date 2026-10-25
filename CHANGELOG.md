@@ -2,7 +2,7 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
-#### Unreleased
+#### Release 0.4.9 (2026-10-25)
 
 - ADDED: Added `registrar`, `registrant_contacts` and `technical_contacts` to
   the `whois.aeda.net.ae` (`.ae`) parser. The registrar comes from the
