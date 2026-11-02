@@ -2,6 +2,24 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
+#### Unreleased
+
+- SAFETY: A response no longer keeps a scanner looping forever. A reply cut
+  off right after a disclaimer or notice header, with no final newline (for
+  example a Verisign body of just `TERMS OF USE:`, or the CIRA, `.ie`, ATI,
+  SX, PIR and configured Afilias disclaimers), made the tokenizer report
+  success without consuming input, so parsing never finished. The scanner now
+  raises `Whois::ParserError` when tokens stop consuming input, while still
+  allowing the short in-place state changes some scanners use to close a
+  section.
+- SAFETY: The `whois.iana.org` scanner matches repeated field keys literally.
+  A key taken from the response was used as a regular expression, so a key
+  such as `()|^` matched without consuming input and looped forever. Contact
+  handles in the `.fr`-family, `.br` and `.ua` parsers are also matched
+  literally instead of as patterns.
+- TESTED: `spec/whois/scanners/progress_spec.rb` covers each truncated
+  prefix and the regex-shaped IANA keys under a deadline.
+
 #### Release 0.4.9 (2026-10-25)
 
 - ADDED: Added `registrar`, `registrant_contacts` and `technical_contacts` to

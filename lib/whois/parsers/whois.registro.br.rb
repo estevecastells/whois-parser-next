@@ -96,7 +96,7 @@ module Whois
         return unless content_for_scanner =~ /#{element}:\s+(.+)\n/
 
         id = ::Regexp.last_match(1)
-        content_for_scanner.scan(/nic-hdl-br:\s+#{id}\n((.+\n)+)\n/).any? ||
+        content_for_scanner.scan(/nic-hdl-br:\s+#{Regexp.escape(id)}\n((.+\n)+)\n/).any? ||
             Whois.bug!(ParserError, "Unable to parse contact block for nic-hdl-br: #{id}")
         values = build_hash(::Regexp.last_match(1).scan(/(.+?):\s+(.+?)\n/))
 

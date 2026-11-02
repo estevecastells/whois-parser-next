@@ -6,6 +6,9 @@ module Whois
       class_attribute :tokenizers
       self.tokenizers = []
 
+      # Consecutive tokens allowed to succeed without consuming input.
+      MAX_IDLE_TOKENS = 100
+
       def self.tokenizer(name, &block)
         define_method(name, &block)
       end
@@ -26,7 +29,21 @@ module Whois
         @ast = {}
 
         @input = StringScanner.new(content)
-        tokenize until @input.eos?
+        idle = 0
+        until @input.eos?
+          position = @input.pos
+          tokenize
+          if @input.pos == position
+            # Some tokenizers succeed once without consuming input to change
+            # state (e.g. close a section) for the next one. One that keeps
+            # succeeding in place loops forever, e.g. a disclaimer header matched
+            # by lookahead in a reply truncated before its final newline.
+            idle += 1
+            unexpected_token if idle > MAX_IDLE_TOKENS
+          else
+            idle = 0
+          end
+        end
 
         @ast
       end

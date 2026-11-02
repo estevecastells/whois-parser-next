@@ -65,7 +65,7 @@ module Whois
           return if contact_ids.empty?
 
           contact_ids.map do |contact_id|
-            textblock = content.slice(/contact-id:\s+#{contact_id}\n((?:.+\n)+)\n/, 1)
+            textblock = content.slice(/contact-id:\s+#{Regexp.escape(contact_id)}\n((?:.+\n)+)\n/, 1)
 
             address = textblock.scan(/address:\s+(.+)\n/).flatten
             address = address.reject { |a| a == "n/a" }
@@ -137,7 +137,7 @@ module Whois
           return if contact_ids.empty?
 
           contact_ids.map do |contact_id|
-            textblock = content.slice(/nic-handle:\s+#{contact_id}\n((?:.+\n)+)\n/, 1)
+            textblock = content.slice(/nic-handle:\s+#{Regexp.escape(contact_id)}\n((?:.+\n)+)\n/, 1)
 
             address = textblock.scan(/address:\s+(.+)\n/).flatten
             zip = nil

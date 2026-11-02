@@ -79,7 +79,9 @@ module Whois
       end
 
       def parse_section_pair_newlinevalue(key)
-        if @input.scan(/^#{key}:\s*(.+)\n/)
+        # The key comes from the response: match it literally. As a pattern, a
+        # key such as "()|^" matches without consuming input and loops forever.
+        if @input.scan(/^#{Regexp.escape(key)}:\s*(.+)\n/)
           @input[1].strip
         end
       end
