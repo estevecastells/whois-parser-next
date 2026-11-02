@@ -2,7 +2,7 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
-#### Unreleased
+#### Release 0.4.10 (2026-11-02)
 
 - SAFETY: A response no longer keeps a scanner looping forever. A reply cut
   off right after a disclaimer or notice header, with no final newline (for
